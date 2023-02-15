@@ -1,0 +1,247 @@
+---
+sidebar: sidebar 
+permalink: task-backup-cloud-native-sap-hana-data.html 
+keywords: cloud native, application data, back up, policy, pre-canned policies, scheduled backups, on-demand backups, cloud manager, BlueXP, add hosts, create policy, SAP HANA Database 
+summary: Crear backups programados o bajo demanda de la base de datos SAP HANA. 
+---
+= Realice backup de la base de datos SAP HANA nativa del cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Antes de crear un backup de la base de datos SAP HANA, debe añadir los hosts de la base de datos SAP HANA y asignar una política predefinida o la que ha creado.
+
+
+
+== Añada hosts de base de datos SAP HANA
+
+Debe añadir manualmente hosts de base de datos SAP HANA para asignar políticas y crear backups. No se admite la detección automática del host de la base de datos SAP HANA.
+
+*Lo que necesitará*
+
+* Debe haber agregado el entorno de trabajo y creado el conector.
+* Asegúrese de que el conector tiene conectividad con el entorno de trabajo
+* Asegúrese de que el usuario de BlueXP tiene la función “Administrador de cuentas”.
+* Debe haber implementado el plugin de SnapCenter para SAP HANA. link:task-deploy-snapcenter-plugin-for-sap-hana.html["Leer más"]
+* Al añadir los hosts de la base de datos SAP HANA, debe añadir las claves de almacenamiento de usuario HDB. La clave de almacenamiento de usuario seguro HDB se utiliza para almacenar la información de conexión de los hosts de la base de datos SAP HANA de forma segura en el cliente, y el cliente HDBSQL utiliza la clave de almacenamiento de usuario segura para conectarse con el host de la base de datos SAP HANA.
+* Para la replicación de sistemas HANA (HSR), para proteger los sistemas HANA, debe registrar manualmente los sistemas HANA primarios y secundarios.
+
+
+* Pasos*
+
+. En la interfaz de usuario de *BlueXP*, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en *detectar aplicaciones*.
+. Seleccione *Cloud Native* > *SAP HANA* y haga clic en *Siguiente*.
+. En la página *aplicaciones*, haga clic en *Agregar sistema*.
+. En la página *Detalles del sistema*, realice las siguientes acciones:
++
+.. Seleccione el Tipo de sistema como contenedor de base de datos multi-tenant o contenedor único.
+.. Introduzca el nombre del sistema SAP HANA.
+.. Especifique el SID del sistema SAP HANA.
+.. (Opcional) especifique el usuario de sistema operativo de HDBSQL.
+.. Seleccione el host del plugin. (Opcional) Si el host no está agregado o si desea agregar varios hosts, haga clic en *Agregar host del plugin*.
+.. Si el sistema HANA está configurado con la replicación del sistema HANA, habilite *sistema de replicación del sistema HANA (HSR)*.
+.. Haga clic en el cuadro de texto *HDB Secure User Store Keys* para agregar los detalles de las claves de almacenamiento de usuario.
++
+Especifique el nombre de la clave, los detalles del sistema, el nombre de usuario y la contraseña y haga clic en *Agregar clave*.
+
++
+Puede eliminar o modificar las claves de almacenamiento de usuario.
+
+
+
+. Haga clic en *Siguiente*.
+. En la página *Storage Footprint*, haga clic en *Add Storage* y realice lo siguiente:
++
+.. Seleccione el entorno de trabajo y especifique la cuenta de NetApp.
++
+Vaya a la página *Canvas* para añadir un nuevo entorno de trabajo
+
+.. Seleccione los volúmenes requeridos.
+.. Haga clic en *Agregar almacenamiento*.
+
+
+. Revise todos los detalles y haga clic en *Agregar sistema*.
+
+
+
+NOTE: El filtro para ver un host específico no funciona. Cuando se especifica un nombre de host en el filtro, se muestran todos los hosts
+
+Puede modificar y quitar los sistemas SAP HANA mediante la API DE REST. Antes de quitar el sistema HANA, debe eliminar todos los backups asociados y quitar la protección.
+
+
+
+== Añada volúmenes no Data
+
+Después de añadir el contenedor de base de datos multitenant o el sistema SAP HANA de un solo tipo de contenedor, puede añadir los volúmenes que no son de datos del sistema HANA.
+
+* Pasos*
+
+. En la interfaz de usuario de *BlueXP*, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en *detectar aplicaciones*.
+. Seleccione *Cloud Native* > *SAP HANA* y haga clic en *Siguiente*.
+. En la página *aplicaciones*, haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde al sistema para el que desea agregar los volúmenes no Data y seleccione *gestionar sistema* > *volumen no Data*.
+
+
+
+
+== Añada volúmenes no Data globales
+
+Después de añadir el contenedor de base de datos multitenant o el sistema SAP HANA de un solo contenedor, puede añadir los volúmenes globales de Non-Data del sistema HANA.
+
+* Pasos*
+
+. En la interfaz de usuario de *BlueXP*, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en *detectar aplicaciones*.
+. Seleccione *Cloud Native* > *SAP HANA* y haga clic en *Siguiente*.
+. En la página *aplicaciones*, haga clic en *Agregar sistema*.
+. En la página *Detalles del sistema*, realice las siguientes acciones:
++
+.. En el menú desplegable Tipo de sistema, seleccione *volumen no Data global*.
+.. Introduzca el nombre del sistema SAP HANA.
+.. Especifique el SIDS asociado del sistema SAP HANA.
+.. Seleccione el host del plugin
++
+(Opcional) para agregar varios hosts, haga clic en *Agregar host Plug-in* y especifique el nombre de host y el puerto y haga clic en *Agregar host*.
+
+.. Haga clic en *Siguiente*.
+.. Revise todos los detalles y haga clic en *Agregar sistema*.
+
+
+
+
+
+
+== Scripts previos y posteriores
+
+Es posible proporcionar scripts previos, posteriores y de salida mientras se crea una política. Estas secuencias de comandos se ejecutan en el host HANA mientras se crean backups.
+
+El formato admitido para scripts es .sh, script python, script perl, etc.
+
+El script previo y el script posterior deben ser registrados por el administrador del host en `/opt/NetApp/snapcenter/scc/etc/allowed_commands.config file`
+
+`[root@scspa2622265001 etc]# cat allowed_commands.config
+command: mount
+command: umount
+command: /mnt/scripts/pre_script.sh
+command: /mnt/scripts/post_script.sh`
+
+
+
+== Variables ambientales
+
+Para el flujo de trabajo de restauración, las siguientes variables de entorno están disponibles como parte del script previo y posterior.
+
+|===
+| Variable ambiental | Descripción 
+
+
+ a| 
+SID
+ a| 
+El identificador del sistema de la base de datos HANA elegido para restaurar
+
+
+
+ a| 
+Nombre de copia de seguridad
+ a| 
+Nombre de backup elegido para la operación de restauración
+
+
+
+ a| 
+UserStoreKeyNames
+ a| 
+Se ha configurado la clave de almacenamiento de usuario para la base de datos HANA
+
+
+
+ a| 
+OSDBUser
+ a| 
+Se configuró OSDBUser para la base de datos HANA
+
+
+
+ a| 
+PolicyName
+ a| 
+Solo para copia de seguridad programada
+
+
+
+ a| 
+schedule_type
+ a| 
+Solo para copia de seguridad programada
+
+|===
+
+
+== Cree una política para proteger la base de datos SAP HANA
+
+Puede crear directivas si no desea utilizar o editar las directivas preparadas previamente.
+
+. En la página *aplicaciones*, en la lista desplegable Configuración, seleccione *políticas*.
+. Haga clic en *Crear directiva*.
+. Escriba el nombre de una política.
+. (Opcional) edite el formato del nombre de la copia Snapshot.
+. Seleccione el tipo de política.
+. Especifique los detalles de programación y retención.
+. (Opcional) especifique los scripts.
+. Haga clic en *Crear*.
+
+
+
+
+== Cree un backup de la base de datos SAP HANA
+
+Puede asignar una directiva predefinida o crear una directiva y, a continuación, asignarla a la base de datos. Una vez asignada la política, los backups se crean según la programación definida en la política.
+
+*Acerca de esta tarea*
+
+Para la replicación de sistemas HANA (HSR), el trabajo de backup programado solo se activará para el sistema HANA principal y si el sistema conmuta por error al sistema HANA secundario, las programaciones existentes activarán un backup en el sistema HANA principal actual. Si no se asigna la política a ambos sistemas HANA, después de la conmutación al respaldo, se producirá un error en las programaciones.
+
+Si se asignan diferentes políticas a los sistemas HSR, se activa el backup programado para ambos sistemas y no se puede realizar el backup para el sistema HANA secundario.
+
+* Pasos*
+
+. En la página aplicaciones, si la base de datos no está protegida mediante ninguna directiva, haga clic en *asignar directiva*.
++
+Si la base de datos se protege mediante una o más políticas, puede asignar más políticas haciendo clic en image:icon-action.png["para seleccionar la acción"] > *asignar directiva*.
+
+. Seleccione la directiva y haga clic en *asignar*.
++
+Los backups se crearán según el programa que se defina en la política.
+
++
+
+NOTE: La cuenta de servicio (_SnapCenter-account-<account_id>_) se utiliza para ejecutar las operaciones de backup programadas.
+
+
+
+
+
+== Cree un backup bajo demanda de la base de datos SAP HANA
+
+Después de asignar la política, puede crear un backup bajo demanda de la aplicación.
+
+* Pasos*
+
+. En la página *aplicaciones*, haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la aplicación y haga clic en *On-Demand Backup*.
+. Seleccione el tipo de backup bajo demanda.
+. Para copias de seguridad basadas en directivas, seleccione la directiva, el nivel de retención y, a continuación, haga clic en *Crear copia de seguridad*.
+. Por una vez, seleccione Snapshot copy based o File based realice los siguientes pasos:
++
+.. Seleccione el valor de retención y especifique el nombre del backup.
+.. (Opcional) especifique los scripts y la ruta de acceso de los scripts.
+.. Haga clic en *Crear copia de seguridad*.
+
+
+

@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: task-backup-app-data-to-azure.html 
+keywords: backing up, back up, backup, backup application data, Microsoft Azure, Azure, Cloud Backup, cloud backup service, Oracle database, Microsoft SQL Server database, SAP HANA database 
+summary: Realice unos pasos para realizar backup de datos de aplicaciones desde ONTAP en Azure. 
+---
+= Realice backups de los datos de las aplicaciones en las instalaciones en Microsoft Azure
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Puede realizar backups de los datos de aplicaciones de ONTAP en Microsoft Azure mediante la integración de Cloud Backup para aplicaciones con BlueXP y SnapCenter en las instalaciones.
+
+Puede proteger una o más aplicaciones simultáneamente al cloud mediante una única política.
+
+
+IMPORTANT: Sólo puede proteger una aplicación a la vez si utiliza la GUI de BlueXP. Sin embargo, si utiliza API DE REST, puede proteger varias aplicaciones en simultáneo.
+
+* Pasos*
+
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la aplicación y haga clic en *Activar copia de seguridad*.
+. En la página asignar directiva, seleccione la directiva y haga clic en *Siguiente*.
+. Agregue el entorno de trabajo.
++
+Configure el clúster de ONTAP que aloja la SVM en la que se ejecuta la aplicación. Tras agregar el entorno de trabajo para una de las aplicaciones, se puede reutilizar para todas las demás aplicaciones que residen en el mismo clúster de ONTAP.
+
++
+.. Seleccione la SVM y haga clic en *Agregar entorno de trabajo*.
+.. En el asistente Agregar entorno de trabajo:
++
+... Especifique la dirección IP del clúster de ONTAP.
+... Especifique las credenciales de administración.
++
+Cloud Backup para aplicaciones solo admite administradores de clústeres.
+
+
+
+.. Haga clic en *Agregar entorno de trabajo*.
+
+
+. Seleccione *Microsoft Azure* como proveedor de cloud.
++
+.. Especifique el ID de suscripción de Azure.
+.. Seleccione la región en la que desea crear los backups.
+.. Cree un grupo de recursos nuevo o utilice un grupo de recursos existente.
+.. Especifique el espacio de IP.
+.. Seleccione el nivel de archivado.
++
+Se recomienda configurar el nivel de archivado porque se trata de una actividad única y no se le permitirá configurarla más adelante.
+
+
+
+. Revise los detalles y haga clic en *Activar copia de seguridad*.
+

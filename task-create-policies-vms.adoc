@@ -1,0 +1,78 @@
+---
+sidebar: sidebar 
+permalink: task-create-policies-vms.html 
+keywords: create policy, protection policies, predefined policies, custom policies 
+summary: Cree una política para realizar backups de equipos virtuales 
+---
+= Cree una política para realizar backups de equipos virtuales
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Puede crear una directiva o utilizar una de las siguientes directivas predefinidas que están disponibles en BlueXP.
+
+|===
+| Nombre de la directiva | Etiqueta | Valor de retención 
+
+
+ a| 
+1 año diario LTR
+ a| 
+Todos los días
+ a| 
+366
+
+
+
+ a| 
+5 años diarios
+ a| 
+Todos los días
+ a| 
+1830
+
+
+
+ a| 
+7 años de SERVICIO semanal
+ a| 
+Semanal
+ a| 
+370
+
+
+
+ a| 
+10 años cada mes LTR
+ a| 
+Mensual
+ a| 
+120
+
+|===
+Debe crear políticas si no desea editar las políticas predefinidas.
+
+.Pasos
+. En la página Virtual Machines, en la lista desplegable Settings, seleccione *Policies*.
+. Haga clic en *Crear directiva*.
+. En la sección Policy Details, especifique el nombre de la política.
+. En la sección Retention, seleccione uno de los tipos de retención y especifique la cantidad de backups que desea retener.
+. Seleccione Primary o Secondary como origen de almacenamiento de backup.
+. (Opcional) Si desea mover backups del almacén de objetos al almacenamiento de archivado después de un determinado número de días para la optimización de costes, seleccione la casilla de verificación *Tier backups to Archival* e introduzca el número de días después de los cuales se debe archivar la copia de seguridad.
++
+Es posible mover backups de un almacén de objetos a un almacenamiento de archivado solo si utiliza ONTAP 9.10.1 o una versión posterior, y Amazon Web Services o Azure como proveedor de cloud. Debe configurar el nivel de acceso de archivado para cada proveedor de cloud.
+
+. Haga clic en *Crear*.
++
+Puede editar, copiar y eliminar las políticas personalizadas.
+
++
+
+NOTE: No puede editar ni eliminar una política que está asociada a una máquina virtual.
+
+

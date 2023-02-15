@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: task-backup-vm-data-to-gcp.html 
+keywords: back up, backup, backup virtual machine data, gcp, google cloud platform, cloud backup, backup datastores 
+summary: Realice backups de sus almacenes de datos desde ONTAP en las instalaciones a Google Cloud Platform. 
+---
+= Realizar backups de almacenes de datos en Google Cloud Platform
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Puede realizar backups de uno o más almacenes de datos en Google Cloud Platform al integrar el plugin de SnapCenter para VMware vSphere con BlueXP. Esto ayudará a los administradores de VM a realizar backups y archivar datos de forma rápida y sencilla para lograr la eficiencia del almacenamiento, así como a acelerar la transición al cloud.
+
+
+NOTE: Asegúrese de haber cumplido con todos los link:concept-protect-vm-data.html#Requirements["requisitos"] antes de realizar backups de almacenes de datos en el cloud.
+
+.Pasos
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *Máquinas virtuales*.
+. Haga clic en image:icon-action.png["acción"] Corresponde al almacén de datos del que desea realizar la copia de seguridad y haga clic en *Activar copia de seguridad*.
+. En la página asignar directiva, seleccione la directiva y haga clic en *Siguiente*.
+. Agregue el entorno de trabajo.
++
+Configure los clústeres de ONTAP que desea que BlueXP detecte para realizar backups de los almacenes de datos. Después de añadir el entorno de trabajo para uno de los almacenes de datos, se puede reutilizar para todos los demás almacenes de datos que residen en el mismo clúster de ONTAP.
+
++
+.. Haga clic en *Agregar entorno de trabajo* correspondiente a la SVM.
+.. En el asistente Agregar entorno de trabajo:
++
+... Especifique la dirección IP del clúster de ONTAP.
+... Especifique las credenciales del usuario del clúster de ONTAP.
+
+
+.. Haga clic en *Agregar entorno de trabajo*.
+
+
+. Seleccione *Google Cloud Platform* para configurarlo como proveedor de la nube.
++
+.. Seleccione Google Cloud Project en el que desea que se cree el bucket de Google Cloud Storage para los backups.
+.. En el campo Google Cloud Access Key, especifique la clave.
+.. En el campo Google Cloud Secret Key, especifique la contraseña.
+.. Seleccione la región en la que desea crear los backups.
+.. Especifique el espacio de IP.
+
+
+. Revise los detalles y haga clic en *Activar copia de seguridad*.
+

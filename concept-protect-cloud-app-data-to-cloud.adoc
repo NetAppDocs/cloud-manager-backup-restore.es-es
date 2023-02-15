@@ -1,0 +1,187 @@
+---
+sidebar: sidebar 
+permalink: concept-protect-cloud-app-data-to-cloud.html 
+keywords: backing up, back up, backup, backup application data, Amazon EC2, Amazon Web services, Amazon FSx, Cloud Backup, Oracle database, requirements, prerequisites, Cloud Volumes ONTAP, Cloud Manager, BlueXP 
+summary: BlueXP ofrece backup y restauración eficientes y coherentes con las aplicaciones y basadas en normativas de las bases de datos de Oracle® que residen en Amazon FSX para ONTAP o Cloud Volumes ONTAP de NetApp. 
+---
+= Proteja los datos de aplicaciones nativas del cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Cloud Backup para aplicaciones es un servicio basado en SaaS que proporciona funcionalidades de protección de datos para aplicaciones que se ejecutan en el almacenamiento en cloud de NetApp. Cloud Backup para aplicaciones habilitado en BlueXP (anteriormente Cloud Manager) ofrece protección eficiente, coherente con las aplicaciones y basada en políticas de las siguientes aplicaciones:
+
+* Bases de datos de Oracle que residen en Amazon FSX para ONTAP y Cloud Volumes ONTAP de NetApp
+* Sistemas SAP HANA que residen en Azure NetApp Files (ANF).
+
+
+
+
+== Arquitectura
+
+La arquitectura Cloud Backup para aplicaciones incluye los siguientes componentes.
+
+* Cloud Backup para aplicaciones es un conjunto de servicios de protección de datos alojados en NetApp como servicio SaaS y se basa en la plataforma SaaS de BlueXP.
++
+Organiza los flujos de trabajo de protección de datos para aplicaciones que residen en el almacenamiento en cloud de NetApp.
+
+* Se puede acceder a la interfaz de usuario de Cloud Backup para aplicaciones desde la interfaz de usuario de BlueXP.
++
+La interfaz de usuario de Cloud Backup para aplicaciones ofrece funcionalidades de protección de datos para aplicaciones.
+
+* BlueXP Connector es un componente que se ejecuta en la red en nube del usuario e interactúa con los sistemas de almacenamiento y los complementos específicos de aplicaciones.
+* El plugin específico de la aplicación es un componente que se ejecuta en cada host de la aplicación e interactúa con las bases de datos que se ejecutan en el host mientras se ejecutan operaciones de protección de datos.
+
+
+La siguiente imagen muestra cada componente y las conexiones que necesita preparar entre ellos:
+
+image:diagram_nativecloud_backup_app.png["Un diagrama que muestra cómo deben prepararse cada componente y las conexiones."]
+
+Para cualquier solicitud iniciada por el usuario, la interfaz de usuario de Cloud Backup para aplicaciones se comunica con el SaaS BlueXP, que al validar los procesos de solicitud son los mismos. Si se solicita que se ejecute un flujo de trabajo como un backup, una restauración o un clon, el servicio SaaS inicia el flujo de trabajo y, cuando sea necesario, reenvía la llamada al conector BlueXP. A continuación, el conector se comunica con el sistema de almacenamiento y el complemento específico de la aplicación como parte de la ejecución de las tareas del flujo de trabajo.
+
+El conector puede ponerse en marcha en el mismo VPC o vnet que las de las aplicaciones, o en uno diferente. Si el conector y las aplicaciones están en una red diferente, debe establecer una conectividad de red entre ellos.
+
+
+NOTE: Un único conector BlueXP puede comunicarse con varios sistemas de almacenamiento y múltiples complementos de aplicaciones. Necesitará un único conector para gestionar sus aplicaciones siempre que haya conectividad entre el conector y los hosts de aplicaciones.
+
+
+IMPORTANT: La infraestructura de Cloud Backup para aplicaciones SaaS es resiliente a fallos de zonas de disponibilidad dentro de una región. Soporta fallos regionales al conmutar por error a una región nueva y esta conmutación por error implica un tiempo de inactividad de unas 2 horas.
+
+
+
+== Proteja la base de datos de Oracle
+
+
+
+=== Configuraciones admitidas
+
+* Sistema operativo:
++
+** RHEL 7.5 o posterior y 8.x
+** OL 7.5 o posterior y 8.x.
+
+
+* Sistema de almacenamiento:
++
+** Amazon FSX para ONTAP
+** Cloud Volumes ONTAP
+
+
+* Distribución de almacenamiento:
++
+** NFS v3 y v4.1 (incluido dNFS)
+** ISCSI con ASM (ASMFD, ASMLib y ASMUdev)
+
+
+* Distribución de bases de datos: Oracle Standard y Oracle Enterprise Standalone (CDB heredado y multitenant y PDB)
+* Versiones de base de datos: 12cR2, 18c, 19c y 21c
+
+
+
+
+=== Funciones
+
+* Añada el host y ponga en marcha el plugin
++
+Es posible poner en marcha el plugin de forma manual, mediante script o de forma automática.
+
+* Detección automática de las bases de datos Oracle
+* Realizar backups de bases de datos de Oracle
++
+** Backup completo (datos + control + archivos de registro de archivo)
+** Backup bajo demanda
+** Backup programado basado en las políticas definidas por el sistema o personalizadas
++
+Puede especificar diferentes frecuencias de programación, como por ejemplo, cada hora, día, semana o mes en la política.
+
+
+
+* Retención de backups según la política
+* Restaurar una base de datos de Oracle completa (archivos de datos + archivo de control) desde la copia de seguridad especificada
+* Restaurar únicamente los archivos de datos y los archivos de control desde el backup especificado
+* Recuperación de la base de datos de Oracle con Until SCN, Until Time, todos los registros disponibles y las opciones de recuperación no
+* Clonado de bases de datos de Oracle en hosts de origen o destino alternativo
++
+** Clon básico con un solo clic
+** Clonado avanzado usando el archivo de especificación del clon personalizado
+** El nombre de las entidades clonadas puede generarse automáticamente o ser idéntico al origen
+** Ver la jerarquía de clones
+** Eliminación de bases de datos clonadas
+
+
+* Supervisar backups, restauraciones, clones y otros trabajos
+* Mostrar el resumen de protección en el tablero de a bordo
+* Enviar alertas por correo electrónico
+
+
+
+
+=== Limitaciones
+
+* No es compatible con Oracle 11g
+* No admite las operaciones de montaje, catálogo y verificación en backups
+* No es compatible con Oracle en RAC y Data Guard
+* Para alta disponibilidad de Cloud Volumes ONTAP, solo se utiliza una de las IP de interfaz de red. Si la conectividad de la IP se desactiva o si no puede acceder a la IP, se produce un error en las operaciones.
+* Las direcciones IP de la interfaz de red de Amazon FSX para ONTAP de NetApp o Cloud Volumes ONTAP deben ser únicas en la cuenta y región de BlueXP.
+
+
+
+
+== Proteja la base de datos SAP HANA
+
+
+
+=== Configuraciones admitidas
+
+* Sistema operativo:
++
+** RHEL 7.5 o posterior, plataformas 8.x certificadas por SAP HANA
+** SLES 12 SP5 o posteriores y 15 plataformas SPX certificadas por SAP HANA
+
+
+* Sistema de almacenamiento: Azure NetApp Files (ANF)
+* Disposiciones de almacenamiento: Para datos y registros, Azure solo admite NFSv4.1.
+* Diseños de base de datos:
++
+** Contenedor único versión 1.0SPS12
+** Contenedor de bases de datos multitenant (MDC) SAP HANA 2.0SPS4, 2.0SPS5, 2.0SPS6 con uno o varios inquilinos
+** Sistema host único SAP HANA, varios sistemas host SAP HANA (sin un host en espera), replicación de sistemas HANA
+
+
+* Plugin de SAP HANA en el host de la base de datos
+
+
+
+
+=== Funciones
+
+* Añada manualmente sistemas SAP HANA
+* Realizar un backup de las bases de datos SAP HANA
++
+** Backup bajo demanda (basado en ficheros y en copias Snapshot)
+** Backup programado basado en las políticas definidas por el sistema o personalizadas
++
+Puede especificar diferentes frecuencias de programación, como por ejemplo, cada hora, día, semana o mes en la política.
+
+** Detección de la replicación de sistemas HANA (HSR)
+
+
+* Retención de backups según la política
+* Restaure toda la base de datos SAP HANA desde el backup especificado
+* Realizar backups y restaurar volúmenes no Data de HANA y volúmenes no Data globales
+* Compatibilidad con scripts previos y posteriores mediante variables del entorno para las operaciones de backup y restauración
+* Creación de un plan de acción para situaciones de error mediante la opción pre-exit
+
+
+
+
+=== Limitaciones
+
+* Para la configuración de HSR, solo se admite HSR de 2 nodos (1 principal y 1 secundario)
+* La retención no se activará si el script posterior falla durante la operación de restauración
+

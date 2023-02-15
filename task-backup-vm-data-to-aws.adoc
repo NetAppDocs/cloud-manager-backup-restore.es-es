@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: task-backup-vm-data-to-aws.html 
+keywords: back up, backup, backup virtual machine data, aws, Amazon Web Services, cloud backup, backup datastores 
+summary: Realice backup de sus almacenes de datos desde ONTAP en las instalaciones a AWS. 
+---
+= Backup de almacenes de datos en Amazon Web Services
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Puede realizar el backup de uno o más almacenes de datos en Amazon Web Services mediante la integración del plugin de SnapCenter para VMware vSphere con BlueXP. Esto ayudará a los administradores de VM a realizar backups y archivar datos de forma rápida y sencilla para lograr la eficiencia del almacenamiento, así como a acelerar la transición al cloud.
+
+Si el almacén de datos está asociado con una política de archivado, se ofrecerá una opción para seleccionar el nivel de archivado. Los niveles de archivado admitidos son Glacier y Glacier Deep.
+
+
+NOTE: Asegúrese de haber cumplido con todos los link:concept-protect-vm-data.html#Requirements["requisitos"] antes de realizar backups de almacenes de datos en el cloud.
+
+.Pasos
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *Máquinas virtuales*.
+. Haga clic en image:icon-action.png["acción"] Corresponde al almacén de datos del que desea realizar la copia de seguridad y haga clic en *Activar copia de seguridad*.
+. En la página asignar directiva, seleccione la directiva y haga clic en *Siguiente*.
+. Agregue el entorno de trabajo.
++
+Configure los clústeres de ONTAP que desea que BlueXP detecte para realizar backups de los almacenes de datos. Después de añadir el entorno de trabajo para uno de los almacenes de datos, se puede reutilizar para todos los demás almacenes de datos que residen en el mismo clúster de ONTAP.
+
++
+.. Haga clic en *Agregar entorno de trabajo* correspondiente a la SVM.
+.. En el asistente Agregar entorno de trabajo:
++
+... Especifique la dirección IP del clúster de ONTAP.
+... Especifique las credenciales del usuario del clúster de ONTAP.
+
+
+.. Haga clic en *Agregar entorno de trabajo*.
+
+
+. Seleccione *Amazon Web Services* para configurarlo como proveedor de la nube.
++
+.. Especifique la cuenta de AWS.
+.. En el campo AWS Access Key, especifique la clave para el cifrado de datos.
+.. En el campo AWS Secret Key, especifique la contraseña para el cifrado de datos.
+.. Seleccione la región en la que desea crear los backups.
+.. Especifique las direcciones IP de los clústeres de ONTAP que se añadieron como entornos de trabajo.
+.. Seleccione el nivel de archivado.
++
+Se recomienda configurar el nivel de archivado porque se trata de una actividad única y no se le permitirá configurarla más adelante.
+
+
+
+. Revise los detalles y haga clic en *Activar copia de seguridad*.
+

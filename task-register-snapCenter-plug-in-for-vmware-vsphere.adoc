@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: task-register-snapCenter-plug-in-for-vmware-vsphere.html 
+keywords: register, registration, SnapCenter Plug-in for VMware vSphere 
+summary: Registre el plugin de SnapCenter para VMware vSphere en BlueXP. 
+---
+= Registre el plugin de SnapCenter para VMware vSphere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Debe registrar el plugin de SnapCenter para VMware vSphere en BlueXP para que los almacenes de datos y las máquinas virtuales aparezcan en BlueXP. Solo un usuario con acceso administrativo puede registrar el plugin de SnapCenter para VMware vSphere.
+
+
+NOTE: Puede registrar varios plugins de SnapCenter para VMware vSphere. Sin embargo, una vez registrado, no puede quitar el plugin de SnapCenter para VMware vSphere.
+
+.Pasos
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *Máquinas virtuales*.
+. En el menú desplegable *Configuración*, haga clic en *SnapCenter Plug-in for VMware vSphere*.
+. Haga clic en *Registrar el plugin de SnapCenter para VMware vSphere*.
+. Especifique los siguientes detalles:
++
+.. En el campo SnapCenter Plug-in for VMware vSphere, especifique el FQDN o la dirección IP del plugin de SnapCenter para VMware vSphere.
+.. En el campo Port, especifique el número de puerto en el que se ejecuta el plugin de SnapCenter para VMware vSphere.
++
+Debe asegurarse de que el puerto esté abierto para que se produzca la comunicación entre el plugin de SnapCenter para VMware vSphere y Cloud Backup para máquinas virtuales.
+
+.. En el campo Username and Password, especifique las credenciales del usuario con la función de administrador.
+
+
+. Haga clic en *Registrar*.
+
+
+*Después de terminar*
+
+Haga clic en *copia de seguridad y recuperación* > *Máquinas virtuales* para ver todos los almacenes de datos y las máquinas virtuales que son elegibles para la protección mediante el complemento de SnapCenter registrado para VMware vSphere.

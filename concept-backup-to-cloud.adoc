@@ -1,0 +1,97 @@
+---
+sidebar: sidebar 
+permalink: concept-backup-to-cloud.html 
+keywords: backing up, restoring, back up, backup, restore, cloud volumes ontap, aws, azure, s3, blob, google cloud, storagegrid, back up volumes, cloud backup, restore volumes, billing, cost, on-premises ontap, onprem, kubernetes, applications 
+summary: Cloud Backup es un servicio para entornos de trabajo de BlueXP que proporciona funcionalidades de backup y restauración de datos de protección y archivado a largo plazo de sus datos. Los backups se generan y almacenan automáticamente en un almacén de objetos en su cuenta de cloud público o privado. 
+---
+= Más información acerca de Cloud Backup
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Cloud Backup es un servicio para entornos de trabajo BlueXP (anteriormente Cloud Manager) que proporciona funcionalidades de backup y restauración para la protección y archivado a largo plazo de sus datos. Los backups se generan y almacenan automáticamente en un almacén de objetos en su cuenta de cloud público o privado.
+
+Cuando sea necesario, puede restaurar un _volume_ completo desde una copia de seguridad al mismo entorno de trabajo o diferente. Al realizar una copia de seguridad de los datos de ONTAP, también puede optar por restaurar o uno o varios _Files_ de una copia de seguridad en el mismo entorno de trabajo o en un entorno de trabajo diferente.
+
+https://bluexp.netapp.com/cloud-backup["Más información acerca de Cloud Backup"^].
+
+El backup y la restauración se pueden utilizar para:
+
+* Realice backups y restauraciones de ONTAP Volumes desde sistemas Cloud Volumes ONTAP y ONTAP en las instalaciones. link:concept-ontap-backup-to-cloud.html["Consulte las características detalladas aquí"].
+* Backup y restauración de volúmenes persistentes de Kubernetes. link:concept-kubernetes-backup-to-cloud.html["Consulte las características detalladas aquí"].
+* Realice backups de las snapshots consistentes con la aplicación desde la ONTAP local al cloud con Cloud Backup para aplicaciones. link:concept-protect-app-data-to-cloud.html["Consulte las características detalladas aquí"].
+* Realice backups de almacenes de datos en el cloud y restaure máquinas virtuales a la instancia de vCenter en las instalaciones mediante Cloud Backup para VMware. link:concept-protect-vm-data.html["Consulte las características detalladas aquí"].
+
+
+https://www.youtube.com/watch?v=DF0knrH2a80["Vea una demostración rápida"^]
+
+
+TIP: Cuando BlueXP Connector se pone en marcha en una región gubernamental de la nube, o en un sitio sin acceso a Internet (un sitio oscuro), Cloud Backup solo admite las operaciones de backup y restauración desde sistemas ONTAP. Cuando se utilizan estos métodos de implementación alternativos, Cloud Backup no admite las operaciones de backup y restauración de clústeres, aplicaciones o máquinas virtuales de Kubernetes.
+
+
+
+== Cómo funciona Cloud Backup
+
+Cuando habilita Cloud Backup en un sistema Cloud Volumes ONTAP o ONTAP en las instalaciones, el servicio realiza un backup completo de los datos. Las snapshots de volúmenes no están incluidas en la imagen de backup. Tras el primer backup, todos los backups adicionales son incrementales, lo que significa que solo se realiza un backup de los bloques modificados y los nuevos bloques. De este modo se minimiza el tráfico de red.
+
+En la mayoría de los casos utilizará la interfaz de usuario de BlueXP para todas las operaciones de copia de seguridad. Sin embargo, a partir de ONTAP 9.9.1, se pueden iniciar operaciones de backup de volúmenes de los clústeres ONTAP en las instalaciones mediante ONTAP System Manager. https://docs.netapp.com/us-en/ontap/task_cloud_backup_data_using_cbs.html["Vea cómo usar System Manager para realizar un backup de los volúmenes en el cloud mediante Cloud Backup."^]
+
+La siguiente imagen muestra la relación entre cada componente:
+
+image:diagram_cloud_backup_general.png["Un diagrama muestra cómo Cloud Backup se comunica con los volúmenes en los sistemas de origen y el almacenamiento de objetos de destino donde se encuentran los archivos de backup."]
+
+
+
+=== La ubicación de los backups
+
+Las copias de seguridad se almacenan en un almacén de objetos que BlueXP crea en su cuenta de cloud. Hay un almacén de objetos por clúster/entorno de trabajo y BlueXP denomina al almacén de objetos de la siguiente forma: "netapp-backup-clusterUUID". Asegúrese de no eliminar este almacén de objetos.
+
+ifdef::aws[]
+
+* En AWS, BlueXP habilita la https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html["Función de acceso público en bloque de Amazon S3"^] En el bloque de S3.
+
+
+endif::aws[]
+
+ifdef::azure[]
+
+* En Azure, BlueXP usa un grupo de recursos nuevo o existente con una cuenta de almacenamiento para el contenedor Blob. BlueXP https://docs.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-prevent["bloquea el acceso público a los datos blob"] de forma predeterminada.
+
+
+endif::azure[]
+
+ifdef::gcp[]
+
+* En GCP, BlueXP utiliza un proyecto nuevo o existente con una cuenta de almacenamiento para el bloque de almacenamiento de Google Cloud.
+
+
+endif::gcp[]
+
+* En StorageGRID, BlueXP utiliza una cuenta de almacenamiento existente para el bloque de almacenamiento de objetos.
+
+
+
+
+=== Los backups se realizan a medianoche
+
+* Los backups cada hora comienzan 5 minutos a partir de la hora, cada hora.
+* Los backups diarios comienzan justo después de la medianoche cada día.
+* Los respaldos semanales comienzan justo después de la medianoche los domingos por la mañana.
+* Los backups mensuales comienzan justo después de la medianoche del primer día de cada mes.
+* Los backups anuales comienzan justo después de la medianoche del primer día del año.
+
+
+La hora de inicio se basa en la zona horaria establecida en cada sistema ONTAP de origen. No se pueden programar operaciones de copia de seguridad a una hora especificada por el usuario desde la interfaz de usuario. Para obtener más información, comuníquese con el ingeniero de sistemas.
+
+
+
+=== Las copias de backup están asociadas con su cuenta de NetApp
+
+Las copias de backup se asocian con https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-netapp-accounts.html["Cuenta de NetApp"^] En el que reside el conector.
+
+Si tiene varios conectores en la misma cuenta de NetApp, cada conector mostrará la misma lista de backups. Que incluye las copias de seguridad asociadas con Cloud Volumes ONTAP y las instancias de ONTAP en las instalaciones de otros conectores.

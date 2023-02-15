@@ -1,0 +1,111 @@
+---
+sidebar: sidebar 
+permalink: task-restore-cloud-native-sap-hana-data.html 
+keywords: cloud native, application data, restore, data files, SAP HANA, database, recovery, Cloud Manager, BlueXP 
+summary: Restaure los archivos de datos y, a continuación, recupere la base de datos. 
+---
+= Restaure la base de datos SAP HANA nativa del cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+En caso de pérdida de datos, es posible restaurar los datos y los archivos que no son de datos, para luego recuperar la base de datos.
+
+
+
+== Scripts previos y posteriores
+
+Es posible proporcionar scripts previos, posteriores y de salida mientras se crea una política. Estos scripts se ejecutan en el host HANA mientras se realiza la operación de restauración.
+
+El formato admitido para scripts es .sh, script python, script perl, etc.
+
+El script previo y el script posterior deben ser registrados por el administrador del host en `/opt/NetApp/snapcenter/scc/etc/allowed_commands.config file``
+
+`[root@scspa2622265001 etc]# cat allowed_commands.config
+command: mount
+command: umount
+command: /mnt/scripts/pre_script.sh
+command: /mnt/scripts/post_script.sh`
+
+
+
+== Variables ambientales
+
+Para el flujo de trabajo de restauración, las siguientes variables de entorno están disponibles como parte del script previo y posterior.
+
+|===
+| Variable ambiental | Descripción 
+
+
+ a| 
+SID
+ a| 
+El identificador del sistema de la base de datos HANA elegido para restaurar
+
+
+
+ a| 
+Nombre de copia de seguridad
+ a| 
+Nombre de backup elegido para la operación de restauración
+
+
+
+ a| 
+UserStoreKeyNames
+ a| 
+Se ha configurado la clave de almacenamiento de usuario para la base de datos HANA
+
+
+
+ a| 
+OSDBUser
+ a| 
+Se configuró OSDBUser para la base de datos HANA
+
+|===
+
+
+== Restaure la base de datos SAP HANA nativa del cloud
+
+*Lo que necesita*
+
+. El sistema SAP HANA debe estar en estado detenido.
+. Puede proporcionar un script previo para detener el sistema SAP HANA.
+
+
+* Pasos*
+
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la base de datos que desea restaurar y haga clic en *Ver detalles*.
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la copia de seguridad de datos que desea utilizar para restaurar y haga clic en *Restaurar*.
+. En la página *Restore System*, introduzca los scripts.
+. Haga clic en *Restaurar*.
+
+
+*Después de terminar*
+
+* Una vez realizada la restauración, recupere manualmente el sistema SAP HANA o proporcione un script posterior, que realiza la recuperación del sistema SAP HANA.
+
+
+
+
+== Restaurar volumen no almacenado en datos
+
+. En la página *aplicaciones*, seleccione volumen sin datos en el cuadro desplegable.
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la copia de seguridad que desea restaurar y haga clic en *Restaurar*.
+
+
+
+
+== Restaurar volumen no Data global
+
+* Pasos*
+
+. En la página *aplicaciones*, haga clic en el volumen global que no es de datos que desea restaurar.
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde al volumen Global no Data que desea restaurar y haga clic en *Restaurar*.
+

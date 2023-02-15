@@ -1,0 +1,448 @@
+---
+sidebar: sidebar 
+permalink: task-manage-backups-ontap.html 
+keywords: cloud backup, cloud backup service, backup schedule, change schedule, change backup schedule, modify schedule, modify backup schedule, retention, backup retention, delete, delete backups, deleting, deleting backups, disable, disable backups, turn off backups, disable cloud backup, turn off cloud backup 
+summary: Puede gestionar backups para sus sistemas Cloud Volumes ONTAP y ONTAP en las instalaciones cambiando la programación de backups, creando nuevas políticas de backup, habilitando/deshabilitando backups de volúmenes, haciendo una pausa en los backups, eliminando backups, etc. 
+---
+= Administrar backups para sus sistemas ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Puede gestionar backups para sus sistemas Cloud Volumes ONTAP y ONTAP en las instalaciones cambiando la programación de backups, creando nuevas políticas de backup, habilitando/deshabilitando backups de volúmenes, haciendo una pausa en los backups, eliminando backups, etc.
+
+
+CAUTION: No gestione ni modifique los archivos de backup directamente desde su entorno de proveedor de cloud. Esto puede dañar los archivos y dar como resultado una configuración no compatible.
+
+
+
+== Ver los volúmenes de los que se está realizando backup
+
+Es posible ver una lista de todos los volúmenes de los que se está haciendo backup en la consola de backup.
+
+.Pasos
+. En el menú BlueXP, seleccione *Protección > copia de seguridad y recuperación*.
+. Haga clic en la ficha *Volumes* para ver la lista de volúmenes de los que se ha realizado una copia de seguridad para sistemas Cloud Volumes ONTAP y ONTAP locales.
++
+image:screenshot_backup_dashboard.png["Una captura de pantalla que muestra todos los entornos y volúmenes de trabajo que tienen archivos de copia de seguridad."]
+
+
+
+Si está buscando volúmenes específicos en ciertos entornos de trabajo, puede refinar la lista según el entorno y el volumen de trabajo, o puede utilizar el filtro de búsqueda.
+
+
+
+== Habilitar y deshabilitar backups de volúmenes
+
+Puede activar los backups de cualquier volumen nuevo si no se están realizando backups en ese momento. También es posible activar backups para cualquier volumen que haya desactivado previamente.
+
+Es posible desactivar los backups para volúmenes de forma que no se generen backups adicionales. Esto también deshabilita la capacidad para restaurar datos de volúmenes desde un archivo de backup. Esto permite básicamente poner en pausa toda la actividad de backup y restauración durante un periodo de tiempo. Cualquier backup existente no se eliminará, por lo que su proveedor de cloud seguirá cargando en los costes de almacenamiento de objetos de la capacidad que sus backups utilizan, a menos que usted <<Eliminación de todos los archivos de backup de un volumen,eliminar los backups>>.
+
+.Pasos
+. En la ficha *Volumes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo y seleccione *gestionar volúmenes*.
++
+image:screenshot_backup_manage_volumes.png["Captura de pantalla que muestra el botón gestionar volúmenes de la página Configuración de copia de seguridad."]
+
+. Seleccione la casilla de verificación para un volumen o volúmenes que desee cambiar y, a continuación, haga clic en *Activar* o *Desactivar* dependiendo de si desea iniciar o detener copias de seguridad para el volumen.
++
+image:screenshot_backup_manage_volumes_page.png["En la página gestionar volúmenes, donde puede seleccionar o anular la selección de volúmenes."]
+
+. Haga clic en *Guardar* para confirmar los cambios.
+
+
+
+
+== Editar una política de backup existente
+
+Puede cambiar los atributos de una política de backup que se aplique actualmente a los volúmenes en un entorno de trabajo. Los cambios que se aplican en la política de backup afectan a todos los volúmenes existentes que usan la política.
+
+[NOTE]
+====
+* Si ha activado _DataLock y Protección de ransomware_ en la directiva inicial al activar Cloud Backup para este clúster, las directivas que edite deben configurarse con la misma configuración DataLock (Gobierno o cumplimiento). Y si no ha activado _DataLock y la protección de ransomware_ al activar Cloud Backup, no puede habilitar DataLock ahora.
+* Al crear backups en AWS, si eligió _S3 Glacier_ o _S3 Glacier Deep Archive_ en la primera política de backup al activar Cloud Backup, ese nivel será el único nivel de archivado disponible al editar las políticas de backup. Si no ha seleccionado ningún nivel de archivado en su primera política de copia de seguridad, _S3 Glacier_ será la única opción de archivado al editar una directiva.
+
+
+====
+.Pasos
+. En la ficha *Volumes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad de la ficha volúmenes."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo en el que desea cambiar la configuración de la directiva y seleccione *Administrar directivas*.
++
+image:screenshot_backup_modify_policy.png["Captura de pantalla que muestra la opción Administrar políticas de la página Configuración de copia de seguridad."]
+
+. En la página _Manage Policies_, haga clic en *Edit* para la política de copia de seguridad que desea cambiar en ese entorno de trabajo.
++
+Nota en la que puede hacer clic image:button_down_caret.png[""] para ver todos los detalles de la política.
+
++
+image:screenshot_backup_manage_policy_page_edit.png["Captura de pantalla que muestra el botón Editar directiva de la página Administrar directivas."]
+
+. En la página _Edit Policy_, haga clic en image:button_down_caret.png[""] Para ampliar la sección _Labels & Retention_ para cambiar la programación y/o la retención de copia de seguridad, y haga clic en *Guardar*.
++
+image:screenshot_backup_edit_policy.png["Captura de pantalla que muestra la configuración de la política de copia de seguridad en la que puede modificar la programación de copia de seguridad y la configuración de retención de copia de seguridad."]
+
++
+Si el clúster ejecuta ONTAP 9.10.1 o más, también tendrá la opción de habilitar o deshabilitar la clasificación por niveles de los backups en el almacenamiento de archivado después de un cierto número de días.
+
++
+ifdef::aws[]
+
+
+
+link:reference-aws-backup-tiers.html["Obtenga más información sobre el uso del almacenamiento de archivado de AWS"].
+
+endif::aws[]
+
+ifdef::azure[]
+
+link:reference-azure-backup-tiers.html["Obtenga más información sobre el uso del almacenamiento de archivado de Azure"].
+
+endif::azure[]
+
+ifdef::gcp[]
+
+link:reference-google-backup-tiers.html["Obtenga más información sobre el uso del almacenamiento de archivado de Google"]. (Requiere ONTAP 9.12.1).
+
+endif::gcp[]
+
++image:screenshot_backup_modify_policy_page2.png["Una captura de pantalla que muestra la configuración de almacenamiento por niveles en archivado para Cloud Backup."]
+
++ tenga en cuenta que todos los archivos de backup organizados en niveles para el almacenamiento de archivado se dejan en ese nivel si se detienen los backups por niveles en el archivado; no se vuelven a transferir automáticamente al nivel estándar. Solo los nuevos backups de volúmenes permanecerán en el nivel estándar.
+
+
+
+== Adición de una nueva política de backup
+
+Al habilitar Cloud Backup para un entorno de trabajo, se realizan backups de todos los volúmenes que seleccione inicialmente con la política de backup predeterminada que haya definido. Si desea asignar diferentes políticas de backup a ciertos volúmenes que tienen diferentes objetivos de punto de recuperación (RPO), puede crear políticas adicionales para ese clúster y asignar dichas políticas a otros volúmenes.
+
+Si desea aplicar una nueva política de backup a ciertos volúmenes en un entorno de trabajo, primero debe añadir la política de backup al entorno de trabajo. Ahora puede <<Cambiar la política asignada a los volúmenes existentes,aplique la política a los volúmenes en ese entorno de trabajo>>.
+
+[NOTE]
+====
+* Si ha activado _DataLock y Protección de ransomware_ en la directiva inicial al activar Cloud Backup para este clúster, cualquier política adicional que cree debe configurarse con la misma configuración DataLock (Gobierno o cumplimiento). Y si no ha activado _DataLock y la protección de ransomware_ al activar Cloud Backup, no puede crear nuevas políticas que utilicen DataLock.
+* Al crear backups en AWS, si eligió _S3 Glacier_ o _S3 Glacier Deep Archive_ en la primera política de backup al activar Cloud Backup, ese nivel será el único nivel de archivado disponible para las futuras políticas de backup para ese clúster. Si ha seleccionado ningún nivel de archivado en su primera política de copia de seguridad, _S3 Glacier_ será la única opción de archivado para futuras políticas.
+
+
+====
+.Pasos
+. En la ficha *Volumes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad de la ficha volúmenes."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo en el que desea agregar la nueva directiva y seleccione *Administrar directivas*.
++
+image:screenshot_backup_modify_policy.png["Captura de pantalla que muestra la opción Administrar políticas de la página Configuración de copia de seguridad."]
+
+. En la página _Manage Policies_, haga clic en *Add New Policy*.
++
+image:screenshot_backup_manage_policy_page_add.png["Captura de pantalla que muestra el botón Agregar nueva directiva de la página Administrar directivas."]
+
+. En la página _Add New Policy_, haga clic en image:button_down_caret.png[""] Para ampliar la sección _Labels & Retention_ para definir la programación y la retención de copias de seguridad, y haga clic en *Guardar*.
++
+image:screenshot_backup_add_new_policy.png["Captura de pantalla que muestra la configuración de la política de copia de seguridad en la que puede agregar la programación de copia de seguridad y la configuración de retención de copia de seguridad."]
+
++
+Si el clúster ejecuta ONTAP 9.10.1 o más, también tendrá la opción de habilitar o deshabilitar la clasificación por niveles de los backups en el almacenamiento de archivado después de un cierto número de días.
+
++
+ifdef::aws[]
+
+
+
+link:reference-aws-backup-tiers.html["Obtenga más información sobre el uso del almacenamiento de archivado de AWS"].
+
+endif::aws[]
+
+ifdef::azure[]
+
+link:reference-azure-backup-tiers.html["Obtenga más información sobre el uso del almacenamiento de archivado de Azure"].
+
+endif::azure[]
+
+ifdef::gcp[]
+
+link:reference-google-backup-tiers.html["Obtenga más información sobre el uso del almacenamiento de archivado de Google"]. (Requiere ONTAP 9.12.1).
+
+endif::gcp[]
+
++image:screenshot_backup_modify_policy_page2.png["Una captura de pantalla que muestra la configuración de almacenamiento por niveles en archivado para Cloud Backup."]
+
+
+
+== Cambiar la política asignada a los volúmenes existentes
+
+Es posible cambiar la política de backup asignada a los volúmenes existentes si se desea cambiar la frecuencia de los backups o si desea cambiar el valor de retención.
+
+Tenga en cuenta que la política que desea aplicar a los volúmenes ya debe existir. <<Adición de una nueva política de backup,Descubra cómo añadir una nueva normativa de backup para un entorno de trabajo>>.
+
+.Pasos
+. En la ficha *Volumes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo en el que existen los volúmenes, seleccione *gestionar volúmenes*.
++
+image:screenshot_backup_manage_volumes.png["Captura de pantalla que muestra el botón gestionar volúmenes de la página Configuración de copia de seguridad."]
+
+. Seleccione la casilla de verificación para un volumen o volúmenes para los que desea cambiar la directiva y, a continuación, haga clic en *Política de cambio*.
++
+image:screenshot_backup_manage_volumes_page_change.png["En la página gestionar volúmenes, donde puede seleccionar o anular la selección de volúmenes."]
+
+. En la página _Change Policy_, seleccione la directiva que desea aplicar a los volúmenes y haga clic en *Change Policy*.
++
+image:screenshot_backup_change_policy.png["Una captura de pantalla que muestra cómo seleccionar una nueva política para aplicarla a los volúmenes seleccionados."]
+
++
+
+NOTE: Si ha activado _DataLock y Protección de ransomware_ en la directiva inicial al activar Cloud Backup para este clúster, solo verá otras directivas que se hayan configurado con DataLock. Y si no ha activado _DataLock y Protección de ransomware_ al activar Cloud Backup, solo verá otras directivas que no tengan DataLock configurado.
+
+. Haga clic en *Guardar* para confirmar los cambios.
+
+
+
+
+== Creación de un backup de volumen manual en cualquier momento
+
+Es posible crear un backup bajo demanda en cualquier momento para capturar el estado actual del volumen. Esto puede resultar útil si se han realizado cambios muy importantes en un volumen y no desea esperar a que se realice la siguiente copia de seguridad programada para proteger esos datos, o si actualmente el volumen no se está haciendo copia de seguridad y se desea capturar su estado actual.
+
+El nombre de backup incluye la Marca de hora para poder identificar el backup bajo demanda desde otros backups programados.
+
+Si ha activado _DataLock y la protección de ransomware_ al activar Cloud Backup para este clúster, la copia de seguridad bajo demanda también se configurará con DataLock y el período de retención será de 30 días. Los análisis de ransomware no se admiten para backups ad hoc. link:concept-cloud-backup-policies.html#datalock-and-ransomware-protection["Más información sobre la protección de DataLock y Ransomware"^].
+
+Es preciso tener en cuenta que al crear un backup ad hoc, se crea una Snapshot en el volumen de origen. Dado que esta instantánea no forma parte de una programación normal de instantánea, no se girará. Puede eliminar manualmente esta snapshot del volumen de origen una vez completado el backup. De este modo, se podrán liberar los bloques relacionados con esta snapshot. El nombre de la snapshot comenzará con `cbs-snapshot-adhoc-`. https://docs.netapp.com/us-en/ontap/san-admin/delete-all-existing-snapshot-copies-volume-task.html["Consulte cómo eliminar una snapshot con la CLI de ONTAP"^].
+
+
+NOTE: No se admite el backup de volúmenes bajo demanda en los volúmenes de protección de datos.
+
+.Pasos
+. En la ficha *Volumes*, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el volumen y seleccione *copia de seguridad ahora*.
++
+image:screenshot_backup_now_button.png["Captura de pantalla que muestra el botón copia de seguridad ahora que está disponible después de seleccionar un volumen."]
+
+
+
+La columna Backup Status de ese volumen muestra "in progress" hasta que se crea el backup.
+
+
+
+== Ver la lista de backups de cada volumen
+
+Es posible ver la lista de todos los archivos de backup que existen para cada volumen. Esta página muestra detalles sobre el volumen de origen, la ubicación de destino y los detalles de backup, como el último backup realizado, la política actual de backup, el tamaño del archivo de backup y mucho más.
+
+.Pasos
+. En la ficha *Volumes*, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el volumen de origen y seleccione *Detalles y lista de copia de seguridad*.
++
+image:screenshot_backup_view_backups_button.png["Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."]
+
++
+Se muestra la lista de todos los archivos de backup junto con detalles sobre el volumen de origen, la ubicación de destino y los detalles de la copia de seguridad.
+
++
+image:screenshot_backup_view_backups.png["Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."]
+
+
+
+
+
+== Ejecuta un análisis de ransomware en un backup de volumen
+
+El software de protección ransomware de NetApp analiza sus archivos de backup para buscar pruebas de un ataque de ransomware cuando se crea un archivo de backup y cuando se restauran los datos de un archivo de backup. También puede ejecutar un análisis de protección contra ransomware bajo demanda en cualquier momento para verificar la facilidad de uso de un archivo de backup específico. Esto puede resultar útil si tuvo un problema de ransomware en un volumen en particular y desea verificar que los backups de ese volumen no se vean afectados.
+
+Esta función solo está disponible si el backup de volumen se creó a partir de un sistema con ONTAP 9.11.1 o posterior y si se habilitó _DataLock y Protección de ransomware_ en la política de backup.
+
+.Pasos
+. En la ficha *Volumes*, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el volumen de origen y seleccione *Detalles y lista de copia de seguridad*.
++
+image:screenshot_backup_view_backups_button.png["Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."]
+
++
+Se muestra la lista de todos los archivos de copia de seguridad.
+
+. Haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el archivo de copia de seguridad de volumen que desea analizar y haga clic en *Análisis de ransomware*.
++
+image:screenshot_scan_one_backup.png["Una captura de pantalla que muestra cómo ejecutar un escaneado de ransomware en un único archivo de copia de seguridad."]
+
++
+La columna Análisis de ransomware mostrará que la exploración está en curso.
+
+
+
+
+
+== Eliminar backups
+
+Cloud Backup le permite eliminar un único archivo de backup, eliminar todos los backups del volumen o eliminar todos los backups de todos los volúmenes en un entorno de trabajo. Es posible eliminar todos los backups si ya no se necesitan los backups o si se eliminó el volumen de origen y se desean quitar todos los backups.
+
+Tenga en cuenta que no puede eliminar los archivos de copia de seguridad bloqueados mediante la protección DataLock y Ransomware. La opción "Eliminar" no estará disponible en la interfaz de usuario si ha seleccionado uno o más archivos de backup bloqueados.
+
+
+CAUTION: Si piensa eliminar un entorno de trabajo o clúster que tiene copias de seguridad, debe eliminar las copias de seguridad *antes de* eliminando el sistema. Cloud Backup no elimina automáticamente las copias de seguridad cuando se elimina un sistema y no hay compatibilidad actual en la interfaz de usuario para eliminar las copias de seguridad después de que el sistema se haya eliminado. Seguirá cobrándose los costes de almacenamiento de objetos por los backups restantes.
+
+
+
+=== Eliminar todos los archivos de copia de seguridad de un entorno de trabajo
+
+La eliminación de todos los backups de un entorno de trabajo no deshabilita los futuros backups de los volúmenes en este entorno de trabajo. Si desea detener la creación de backups de todos los volúmenes en un entorno de trabajo, puede desactivar los backups <<Desactivación de Cloud Backup en un entorno de trabajo,como se describe aquí>>.
+
+.Pasos
+. En la ficha *Volumes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. Haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo en el que desea eliminar todas las copias de seguridad y seleccione *Eliminar todas las copias de seguridad*.
++
+image:screenshot_delete_all_backups.png["Una captura de pantalla de selección del botón Delete All backups para eliminar todas las copias de seguridad de un entorno de trabajo."]
+
+. En el cuadro de diálogo de confirmación, introduzca el nombre del entorno de trabajo y haga clic en *Eliminar*.
+
+
+
+
+=== Eliminación de todos los archivos de backup de un volumen
+
+La eliminación de todos los backups de un volumen también deshabilita los futuros backups para ese volumen.
+
+Puede hacerlo <<Habilitar y deshabilitar backups de volúmenes,reinicie haciendo backups para el volumen>> En cualquier momento desde la página Manage backups.
+
+.Pasos
+. En la ficha *Volumes*, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el volumen de origen y seleccione *Detalles y lista de copia de seguridad*.
++
+image:screenshot_backup_view_backups_button.png["Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."]
+
++
+Se muestra la lista de todos los archivos de copia de seguridad.
+
++
+image:screenshot_backup_view_backups.png["Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."]
+
+. Haga clic en *acciones* > *Eliminar todas las copias de seguridad*.
++
+image:screenshot_delete_we_backups.png["Una captura de pantalla que muestra cómo eliminar todos los archivos de copia de seguridad de un volumen."]
+
+. En el cuadro de diálogo de confirmación, introduzca el nombre del volumen y haga clic en *Eliminar*.
+
+
+
+
+=== Eliminar un único archivo de backup para un volumen
+
+Puede eliminar un único archivo de copia de seguridad. Esta función solo está disponible si el backup de volumen se creó a partir de un sistema con ONTAP 9.8 o posterior.
+
+.Pasos
+. En la ficha *Volumes*, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el volumen de origen y seleccione *Detalles y lista de copia de seguridad*.
++
+image:screenshot_backup_view_backups_button.png["Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."]
+
++
+Se muestra la lista de todos los archivos de copia de seguridad.
+
++
+image:screenshot_backup_view_backups.png["Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."]
+
+. Haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el archivo de copia de seguridad de volumen que desea eliminar y haga clic en *Eliminar*.
++
+image:screenshot_delete_one_backup.png["Una captura de pantalla que muestra cómo eliminar un único archivo de copia de seguridad."]
+
+. En el cuadro de diálogo de confirmación, haga clic en *Eliminar*.
+
+
+
+
+== Eliminación de relaciones de backup de volumen
+
+Eliminar la relación de backup de un volumen ofrece un mecanismo de archivado si desea detener la creación de nuevos archivos de backup y eliminar el volumen de origen, pero conservar todos los archivos de backup existentes. Esto le permite restaurar el volumen desde el archivo de backup en el futuro, si es necesario, a la vez que se borra espacio del sistema de almacenamiento de origen.
+
+No es necesario eliminar el volumen de origen. Es posible eliminar la relación de backup de un volumen y conservar el volumen de origen. En este caso, es posible "activar" el backup en el volumen más adelante. En este caso se sigue utilizando la copia de backup base original: No se crea ni exporta una nueva copia de backup de referencia al cloud. Tenga en cuenta que si se reactivará una relación de backup, se asignará el volumen la política de backup predeterminada.
+
+Esta función solo está disponible si el sistema ejecuta ONTAP 9.12.1 o posterior.
+
+No se puede eliminar el volumen de origen de la interfaz de usuario de Cloud Backup. Sin embargo, puede abrir la página Detalles de volumen en el lienzo y. https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-manage-volumes.html#manage-volumes["elimine el volumen desde allí"].
+
+
+NOTE: No se pueden eliminar archivos de backup de volúmenes individuales una vez que se ha eliminado la relación. Sin embargo, usted puede link:task-manage-backups-ontap.html#deleting-all-backup-files-for-a-volume["elimine todos los backups del volumen"] si desea quitar todos los archivos de backup.
+
+.Pasos
+. En la ficha *Volumes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo y seleccione *gestionar volúmenes*.
++
+image:screenshot_backup_manage_volumes.png["Captura de pantalla que muestra el botón gestionar volúmenes de la página Configuración de copia de seguridad."]
+
+. Seleccione la casilla de verificación de un volumen o volúmenes que desee eliminar la relación de copia de seguridad y, a continuación, haga clic en *Eliminar relación*.
++
+image:screenshot_delete_relationship.png["Una captura de pantalla que muestra cómo eliminar la relación de backup de varios volúmenes."]
+
+. Haga clic en *Guardar* para confirmar los cambios.
+
+
+Tenga en cuenta que también puede eliminar la relación de backup para un único volumen de la página Volumes.
+
+image:screenshot_delete_relationship_single.png["Una captura de pantalla que muestra cómo eliminar la relación de backup de un único volumen."]
+
+Cuando vea la lista de copias de seguridad para cada volumen, verá el "Estado de la relación" que aparece como *relación eliminada*.
+
+image:screenshot_backup_view_no_relationship.png["Una captura de pantalla que muestra el estado de la relación eliminada después de eliminar una relación de backup de volumen."]
+
+
+
+== Desactivación de Cloud Backup en un entorno de trabajo
+
+Al desactivar Cloud Backup en un entorno en funcionamiento se deshabilitan los backups de cada volumen del sistema, y también se deshabilita la capacidad de restaurar un volumen. No se eliminarán los backups existentes. Esto no anula el registro del servicio de backup de este entorno de trabajo y básicamente le permite pausar toda la actividad de backup y restauración durante un periodo de tiempo.
+
+Tenga en cuenta que su proveedor de cloud seguirá facturando los costes del almacenamiento de objetos por la capacidad que utilicen sus backups a menos que usted <<Eliminar todos los archivos de copia de seguridad de un entorno de trabajo,eliminar los backups>>.
+
+.Pasos
+. En la ficha *Volumes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo en el que desea desactivar las copias de seguridad y seleccione *Desactivar copia de seguridad*.
++
+image:screenshot_disable_backups.png["Captura de pantalla del botón Desactivar copia de seguridad para un entorno de trabajo."]
+
+. En el cuadro de diálogo de confirmación, haga clic en *Desactivar*.
+
+
+
+NOTE: Aparece un botón *Activar copia de seguridad* para ese entorno de trabajo mientras la copia de seguridad está desactivada. Haga clic en este botón para volver a habilitar la funcionalidad de backup para ese entorno de trabajo.
+
+
+
+== Cancelación del registro de Cloud Backup para un entorno de trabajo
+
+Es posible cancelar el registro de Cloud Backup para un entorno de trabajo si ya no desea usar la funcionalidad de backup y quiere dejar de estar cargado por backups en ese entorno de trabajo. Normalmente, esta función se utiliza cuando se planea eliminar un entorno de trabajo y se desea cancelar el servicio de backup.
+
+También puede usar esta función si desea cambiar el almacén de objetos de destino donde se almacenan los backups del clúster. Después de cancelar el registro de Cloud Backup para el entorno laboral, puede habilitar Cloud Backup para ese clúster mediante la nueva información del proveedor de cloud.
+
+Para poder cancelar el registro de Cloud Backup, debe realizar los siguientes pasos en el siguiente orden:
+
+* Desactivar Cloud Backup en el entorno de trabajo
+* Eliminar todos los backups de ese entorno de trabajo
+
+
+La opción cancelar el registro no estará disponible hasta que se completen estas dos acciones.
+
+.Pasos
+. En la ficha *Volumes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo en el que desea cancelar el registro del servicio de copia de seguridad y seleccionar *Unregister*.
++
+image:screenshot_backup_unregister.png["Captura de pantalla del botón Unregister backup para un entorno de trabajo."]
+
+. En el cuadro de diálogo de confirmación, haga clic en *Unregister*.
+

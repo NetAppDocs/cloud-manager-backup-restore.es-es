@@ -1,0 +1,82 @@
+---
+sidebar: sidebar 
+permalink: task-manage-vm-data-in-cloud.html 
+keywords: manage backups, virtual machines, view datastores, view virtual machines, edit 
+summary: Es posible ver los almacenes de datos y las máquinas virtuales, y editar las instancias del plugin de SnapCenter para VMware vSphere. 
+---
+= Gestione la protección de máquinas virtuales
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Es posible ver políticas, almacenes de datos y máquinas virtuales antes de realizar un backup y restaurar datos. En función del cambio en la base de datos, las políticas o los grupos de recursos, puede actualizar las actualizaciones desde la interfaz de usuario de BlueXP.
+
+
+
+== Ver políticas
+
+Puede ver todas las directivas predefinidas predeterminadas. Para cada una de estas políticas, cuando se muestran los detalles, se muestran todas las políticas de Backup en la nube para máquinas virtuales asociadas y todas las máquinas virtuales asociadas.
+
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *Máquinas virtuales*.
+. En el menú desplegable *Configuración*, haga clic en *Directivas*.
+. Haga clic en *Ver detalles* correspondiente a la directiva cuyos detalles desea ver.
+
+
+Se muestran las políticas de Cloud Backup para máquinas virtuales y todas las máquinas virtuales.
+
+
+
+== Ver los almacenes de datos y las máquinas virtuales
+
+Se muestran los almacenes de datos y las máquinas virtuales que están protegidas con el plugin de SnapCenter para VMware vSphere registrado.
+
+.Pasos
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *Máquinas virtuales* > *Configuración* > *complemento SnapCenter para VMware vSphere*.
+. Haga clic en el plugin de SnapCenter para VMware vSphere para el que desea ver los almacenes de datos y las máquinas virtuales.
+
+
+
+
+== Edite la instancia del plugin de SnapCenter para VMware vSphere
+
+Puede editar los detalles del plugin de SnapCenter para VMware vSphere en BlueXP.
+
+.Pasos
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *Máquinas virtuales* > *Configuración* > *complemento SnapCenter para VMware vSphere*.
+. Haga clic en y seleccione *Editar*
+. Modifique los detalles como corresponda
+. Haga clic en *Guardar*.
+
+
+
+
+== Actualice el estado de protección
+
+Cuando se añaden volúmenes nuevos a la base de datos, o si se produce un cambio en la política o el grupo de recursos, debe actualizar la protección.
+
+. Haga clic en *copia de seguridad y recuperación* > *Máquinas virtuales*.
+. En el menú desplegable *Configuración*, haga clic en *SnapCenter Plug-in for VMware vSphere*.
+. Haga clic en image:icon-action.png["acción"] Corresponde al plugin de SnapCenter para VMware vSphere que aloja la máquina virtual y haga clic en *Refresh*.
++
+Se detectan los nuevos cambios.
+
+. Haga clic en image:icon-action.png["acción"] Correspondiente al almacén de datos y haga clic en *Actualizar protección* para activar la protección en la nube para los cambios.
+
+
+
+
+== Supervisar trabajos
+
+Se crean trabajos para todas las operaciones de backup en el cloud. Puede supervisar todos los trabajos y todas las subtareas que se realizan como parte de cada tarea.
+
+. Haga clic en *copia de seguridad y recuperación* > *Supervisión de trabajos*.
++
+Al iniciar una operación, aparece una ventana que indica que el trabajo se ha iniciado. Puede hacer clic en el enlace para supervisar el trabajo.
+
+. Haga clic en la tarea principal para ver las subtareas y el estado de cada una de estas subtareas.
+

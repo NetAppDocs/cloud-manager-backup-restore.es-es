@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: reference-configure-fsx-for-ontap.html 
+keywords: Cloud Manager, FSx for ONTAP, working environment, Connector, BlueXP 
+summary: Cree el entorno de trabajo FSX para ONTAP y el conector 
+---
+= Configure FSX para ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Debe crear el entorno de trabajo FSX para ONTAP y el conector.
+
+
+
+== Crear un entorno de trabajo FSX para ONTAP
+
+Debe crear los entornos de trabajo de Amazon FSX para ONTAP donde se alojan las bases de datos. Para obtener más información, consulte link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/start/task-getting-started-fsx.html["Comience a utilizar Amazon FSX para ONTAP"] y.. link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/use/task-creating-fsx-working-environment.html["Crear y gestionar un entorno de trabajo de Amazon FSX para ONTAP"].
+
+Puede crear FSX de NetApp con BlueXP o AWS. Si ha creado utilizando AWS, debe descubrir el FSX para sistemas ONTAP en BlueXP.
+
+
+
+== Cree un conector
+
+Un administrador de cuentas tiene que poner en marcha un conector en AWS que permita a BlueXP gestionar recursos y procesos dentro de su entorno de cloud público.
+
+Para obtener más información, consulte link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-creating-connectors-aws.html["Creación de un conector en AWS desde BlueXP"].
+
+* Debe utilizar el mismo conector para administrar tanto el entorno de trabajo FSX como las bases de datos Oracle.
+* Si tiene el entorno de trabajo FSX y las bases de datos de Oracle en el mismo VPC, puede implementar el conector en el mismo VPC.
+* Si tiene el entorno de trabajo FSX y las bases de datos Oracle en distintos equipos virtuales:
++
+** Si tiene cargas de trabajo NAS (NFS) configuradas en FSX, puede crear el conector en cualquiera de los VPC.
+** Si solo tiene configuradas las cargas de trabajo SAN y no tiene previsto utilizar ninguna carga de trabajo NAS (NFS), debe crear el conector en el VPC donde se crea el sistema FSX.
++
+
+NOTE: Para usar las cargas de trabajo NAS (NFS), debe tener una pasarela de tránsito entre el VPC de la base de datos de Oracle y FSX VPC. A la dirección IP de NFS, que es una dirección IP flotante, se puede acceder desde otro VPC, solo mediante una puerta de enlace de tránsito. No podemos acceder a las direcciones IP flotantes mediante la asociación de las VPC.
+
+
+
+
+
+Después de crear el conector, haga clic en *almacenamiento* > *Canvas* > *Mis entornos de trabajo* > *Agregar entorno de trabajo* y siga las indicaciones para agregar el entorno de trabajo. Asegúrese de que existe conectividad entre el conector y los hosts de la base de datos Oracle y el entorno de trabajo FSX. El conector debe poder conectarse a la dirección IP de administración del clúster del entorno de trabajo FSX.
+
+
+IMPORTANT: Después de crear el conector, haga clic en *conector > gestionar conectores*; seleccione el nombre del conector y copie el ID del conector.

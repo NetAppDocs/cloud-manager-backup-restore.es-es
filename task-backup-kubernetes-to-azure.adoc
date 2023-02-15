@@ -1,0 +1,180 @@
+---
+sidebar: sidebar 
+permalink: task-backup-kubernetes-to-azure.html 
+keywords: backing up, back up, backup, back up kubernetes volumes, persistent volumes, PV, persistence volume claim, PVC, azure, azure blob, back up volumes, cloud backup, aks, kubernetes 
+summary: Complete unos pasos para empezar a realizar backups de datos desde sus volúmenes persistentes en clústeres de Kubernetes de AKS al almacenamiento de Azure Blob. 
+---
+= Realizar backups de datos de volúmenes persistentes de Kubernetes en un almacenamiento de Azure Blob
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Complete unos pasos para empezar a realizar backups de datos desde sus volúmenes persistentes en clústeres de Kubernetes de AKS al almacenamiento de Azure Blob.
+
+
+
+== Inicio rápido
+
+Empiece rápidamente siguiendo estos pasos o desplácese hacia abajo hasta las secciones restantes para obtener todos los detalles.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Uno"] Revise los requisitos previos
+[role="quick-margin-list"]
+* Ha descubierto el clúster de Kubernetes como entorno de trabajo de BlueXP.
++
+** Trident debe instalarse en el clúster y la versión de Trident debe ser 21.1 o superior.
+** Todas las RVP que se utilizarán para crear volúmenes persistentes en los que se desea realizar un backup deben tener "snapshotPolicy" configurado en "default".
+** El clúster debe usar Cloud Volumes ONTAP en Azure para su almacenamiento back-end.
+** El sistema Cloud Volumes ONTAP debe ejecutar ONTAP 9.7P5 o posterior.
+
+
+* Dispone de una suscripción de proveedor de cloud válida para el espacio de almacenamiento en el que se ubicará los backups.
+* Se ha suscrito a https://azuremarketplace.microsoft.com/en-us/marketplace/apps/netapp.cloud-manager?tab=Overview["Oferta de backup de BlueXP Marketplace"^], o usted ha comprado link:task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license["y activado"^] Una licencia BYOL de Cloud Backup de NetApp.
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Dos"] Habilite Cloud Backup en su clúster de Kubernetes existente
+[role="quick-margin-para"]
+Seleccione el entorno de trabajo y haga clic en *Activar* junto al servicio copia de seguridad y recuperación en el panel derecho y, a continuación, siga el asistente de configuración.
+
+[role="quick-margin-para"]
+image:screenshot_backup_cvo_enable.png["Una captura de pantalla que muestra el botón Habilitar copia de seguridad en la nube que está disponible después de seleccionar un entorno de trabajo."]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Tres"] Defina la política de backup
+[role="quick-margin-para"]
+La política predeterminada realiza backups de volúmenes todos los días y conserva las 30 copias de backup más recientes de cada volumen. Cambie a backups por hora, por día, por semana o por mes, o seleccione una de las políticas definidas por el sistema que proporcionan más opciones. También es posible cambiar la cantidad de copias de backup que se desean retener.
+
+[role="quick-margin-para"]
+image:screenshot_backup_policy_k8s_azure.png["Una captura de pantalla que muestra la configuración de Cloud Backup, en la que puede elegir la programación de copia de seguridad y el período de retención."]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Cuatro"] Seleccione los volúmenes de los que desea realizar el backup
+[role="quick-margin-para"]
+Identificar los volúmenes de los que se desea realizar backup en la página Select Volumes. Los archivos de backup se almacenan en un contenedor de Blob utilizando la misma suscripción y región de Azure que el sistema Cloud Volumes ONTAP.
+
+
+
+== Requisitos
+
+Lea los siguientes requisitos para asegurarse de que tiene una configuración compatible antes de empezar a realizar backups de volúmenes persistentes de Kubernetes en un almacenamiento BLOB.
+
+La siguiente imagen muestra cada componente y las conexiones que necesita preparar entre ellos:
+
+image:diagram_cloud_backup_k8s_cvo_azure.png["Un diagrama muestra cómo Cloud Backup se comunica con los volúmenes en los sistemas de origen y el almacenamiento de destino donde se encuentran los archivos de backup."]
+
+Tenga en cuenta que el extremo privado es opcional.
+
+Requisitos del clúster de Kubernetes::
++
+--
+* Ha descubierto el clúster de Kubernetes como entorno de trabajo de BlueXP. https://docs.netapp.com/us-en/cloud-manager-kubernetes/task/task-kubernetes-discover-azure.html["Descubra el clúster de Kubernetes"^].
+* Trident debe instalarse en el clúster y la versión de Trident debe ser un mínimo de 21.1. Consulte https://docs.netapp.com/us-en/cloud-manager-kubernetes/task/task-k8s-manage-trident.html["cómo instalar Trident"^] o. https://docs.netapp.com/us-en/trident/trident-managing-k8s/upgrade-trident.html["cómo actualizar la versión de Trident"^].
+* El clúster debe usar Cloud Volumes ONTAP en Azure para su almacenamiento back-end.
+* El sistema Cloud Volumes ONTAP debe estar en la misma región de Azure que el clúster de Kubernetes, y debe ejecutar ONTAP 9.7P5 o posterior (se recomienda ONTAP 9.8P11 y versiones posteriores).
++
+Tenga en cuenta que los clústeres de Kubernetes en las ubicaciones locales no son compatibles. Solo son compatibles los clústeres de Kubernetes en las implementaciones de cloud que usan sistemas Cloud Volumes ONTAP.
+
+* Todos los objetos de solicitud de volumen persistente que se usarán para crear los volúmenes persistentes que se desean incluir en el backup deben tener "snapshotPolicy" establecido en "default".
++
+Puede hacer esto para EVs individuales añadiendo `snapshotPolicy` en anotaciones:
+
++
+[source, json]
+----
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: full
+  annotations:
+    trident.netapp.io/snapshotPolicy: "default"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Mi
+  storageClassName: silver
+----
++
+Puede hacerlo con todas las RVP asociadas con un almacenamiento back-end determinado agregando el `snapshotPolicy` en valores predeterminados en la `backend.json` archivo:
+
++
+[source, json]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-ontap-nas-advanced
+spec:
+  version: 1
+  storageDriverName: ontap-nas
+  managementLIF: 10.0.0.1
+  dataLIF: 10.0.0.2
+  backendName: tbc-ontap-nas-advanced
+  svm: trident_svm
+  credentials:
+    name: backend-tbc-ontap-nas-advanced-secret
+  limitAggregateUsage: 80%
+  limitVolumeSize: 50Gi
+  nfsMountOptions: nfsvers=4
+  defaults:
+    spaceReserve: volume
+    exportPolicy: myk8scluster
+    snapshotPolicy: default
+    snapshotReserve: '10'
+  deletionPolicy: retain
+----
+
+
+--
+Requisitos de licencia:: Para las licencias de Cloud Backup PAYGO, es necesario suscribirse a través de Azure Marketplace antes de habilitar Cloud Backup. La facturación de Cloud Backup se realiza mediante esta suscripción. https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-deploying-otc-azure.html["Puede suscribirse desde la página Detalles  Credentials del asistente de entorno de trabajo"^].
++
+--
+Para las licencias BYOL de Cloud Backup, necesita el número de serie de NetApp que le permite usar el servicio durante la duración y la capacidad de la licencia. link:task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license["Aprenda a gestionar sus licencias BYOL"].
+
+Además, necesita tener una suscripción a Microsoft Azure para el espacio de almacenamiento en el que se ubicará los backups.
+
+--
+Regiones de Azure compatibles:: Cloud Backup es compatible en todas las regiones de Azure https://cloud.netapp.com/cloud-volumes-global-regions["Donde se admite Cloud Volumes ONTAP"^].
+
+
+
+
+== Habilitación de Cloud Backup
+
+Habilite Cloud Backup en cualquier momento directamente desde el entorno de trabajo de Kubernetes.
+
+.Pasos
+. Seleccione el entorno de trabajo y haga clic en *Activar* junto al servicio copia de seguridad y recuperación en el panel derecho.
++
+image:screenshot_backup_cvo_enable.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad en la nube que está disponible después de seleccionar un entorno de trabajo."]
+
+. Introduzca los detalles de la política de copia de seguridad y haga clic en *Siguiente*.
++
+Es posible definir la programación de backups y elegir la cantidad de backups que se retendrán.
+
++
+image:screenshot_backup_policy_k8s_azure.png["Captura de pantalla que muestra la configuración de Cloud Backup, en la que puede elegir la programación y la retención de la copia de seguridad."]
+
+. Seleccione los volúmenes persistentes de los que desea realizar un backup.
++
+** Para realizar una copia de seguridad de todos los volúmenes, active la casilla de la fila de título (image:button_backup_all_volumes.png[""]).
+** Para realizar un backup de volúmenes individuales, active la casilla de cada volumen (image:button_backup_1_volume.png[""]).
++
+image:screenshot_backup_select_volumes_k8s.png["Captura de pantalla de selección de los volúmenes persistentes de los que se realizará un backup."]
+
+
+
+. Si desea que todos los volúmenes actuales y futuros tengan habilitada la copia de seguridad, solo tiene que dejar activada la casilla de verificación "copia de seguridad automática de futuros volúmenes...​". Si deshabilita esta configuración, deberá habilitar manualmente las copias de seguridad para volúmenes futuros.
+. Haga clic en *Activar copia de seguridad* y Cloud Backup comenzará a realizar las copias de seguridad iniciales de cada volumen seleccionado.
+
+
+.Resultado
+Los archivos de backup se almacenan en un contenedor de Blob utilizando la misma suscripción y región de Azure que el sistema Cloud Volumes ONTAP.
+
+La consola de Kubernetes se muestra para que pueda supervisar el estado de los backups.
+
+.El futuro
+Puede hacerlo link:task-manage-backups-kubernetes.html["inicie y detenga backups de los volúmenes o cambie el backup programación"^]. También puede hacerlo link:task-restore-backups-kubernetes.html#restoring-volumes-from-a-kubernetes-backup-file["restaure volúmenes completos desde un archivo de backup"^] Como un volumen nuevo en el mismo clúster de Kubernetes o diferente en Azure (en la misma región).

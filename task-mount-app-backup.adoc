@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: task-mount-app-backup.html 
+keywords: mount, mount application backups, Oracle database, SAP HANA database 
+summary: Puede montar los backups de SAP HANA y Oracle en la base de datos indicada 
+---
+= Montar backups de aplicaciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+SnapCenter no admite la restauración de backups de Oracle y HANA en un host alternativo. Así, el backup en cloud para aplicaciones le permite montar los backups de Oracle y HANA en el host determinado.
+
+*Lo que necesitará*
+
+Si desea montar una copia de seguridad que se haya movido a almacén de objetos desde un almacenamiento secundario, debe añadir los detalles del entorno de trabajo principal y establecer el espacio de IP. Para obtener más información, consulte link:task-manage-app-backups.html#set-ip-space-of-the-primary-working-environment["Establecer el espacio IP del entorno de trabajo principal"].
+
+* Pasos*
+
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. En el campo Filter by (filtro por), seleccione *Type* (Tipo) y, en la lista desplegable, seleccione *SAP HANA* o *Oracle*.
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la aplicación protegida y selecciona *Ver detalles*.
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la copia de seguridad y selecciona *Mount*.
++
+.. Especifique una de las siguientes opciones:
++
+... Para el entorno NAS, especifique el FQDN o la dirección IP del host al cual se van a exportar los volúmenes alternativos restaurados a partir del almacén de objetos.
+... Para el entorno SAN, especifique los iniciadores del host al cual se asignarán las LUN de un volumen alternativo restaurado en el almacén de objetos.
+
+
+.. Especifique el sufijo que se añadirá al nombre del volumen alternativo.
+.. Si la instantánea se encuentra en el almacenamiento de archivado, especifique la prioridad para recuperar los datos del almacenamiento de archivado.
+.. Haga clic en *Mount*.
+
+
+
+
+Esta operación monta solo el almacenamiento en el host especificado. Debe montar manualmente el sistema de archivos y activar la base de datos. Después de utilizar el volumen alternativo, el administrador de almacenamiento puede eliminar el volumen del clúster de ONTAP.
+
+Para obtener información sobre cómo preparar la base de datos SAP HANA, consulte https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/sc-copy-clone-introduction.html["TR-4667: Automatización de las operaciones de copia y clonado del sistema SAP HANA con SnapCenter"^].

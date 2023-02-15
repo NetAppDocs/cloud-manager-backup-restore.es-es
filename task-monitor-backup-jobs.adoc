@@ -1,0 +1,94 @@
+---
+sidebar: sidebar 
+permalink: task-monitor-backup-jobs.html 
+keywords: cloud backup, cloud backup service, backup, restore, status, monitor, alert, notification 
+summary: Es posible supervisar el estado de los trabajos de backup y restauración que se iniciaron en los entornos de trabajo. Esto permite ver los trabajos que se completaron correctamente, los que están en curso en ese momento y los que han fallado para poder diagnosticar y corregir cualquier problema. También puede configurar notificaciones para que se envíen por correo electrónico, de modo que se le pueda informar de la actividad importante del sistema incluso si no ha iniciado sesión en el sistema. 
+---
+= Supervisar el estado de los trabajos de backup y restauración
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Es posible supervisar el estado de los trabajos de backup y restauración que se iniciaron en los entornos de trabajo. Esto permite ver los trabajos que se completaron correctamente, los que están en curso en ese momento y los que han fallado para poder diagnosticar y corregir cualquier problema. También puede configurar notificaciones para que se envíen por correo electrónico, de modo que se le pueda informar de la actividad importante del sistema incluso si no ha iniciado sesión en el sistema.
+
+
+
+== Use Job Monitor para ver el estado de los trabajos de backup y restauración
+
+Puede ver una lista de todas las operaciones de copia de seguridad y restauración y su estado actual en la ficha *Supervisión de trabajos*. Esto incluye operaciones de Cloud Volumes ONTAP, ONTAP en las instalaciones, aplicaciones, máquinas virtuales y sistemas Kubernetes. Cada operación, o trabajo, tiene un ID exclusivo y un estado. El estado puede ser:
+
+* Correcto
+* En curso
+* En cola
+* Advertencia
+* Error
+
+
+
+NOTE: Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad en curso, no se reflejan en la pestaña *Supervisión de trabajos* -- sólo se muestran los trabajos iniciados por el usuario.
+
+.Pasos
+. En el menú BlueXP, seleccione *Protección > copia de seguridad y recuperación*.
+. Haga clic en la ficha *Supervisión de trabajos*.
++
+image:screenshot_backup_job_monitor.png["Captura de pantalla que muestra los trabajos de copia de seguridad y restauración en el panel Supervisión de trabajos."]
+
+
+
+Esta captura de pantalla muestra los encabezados de columna/campo predeterminados. Puede hacer clic en image:button_plus_sign_round.png["el botón de signo más"] Para mostrar y ocultar encabezados de columna, o para agregar 2 encabezados adicionales para "Nombre de usuario" y "Tipo".
+
+Si está buscando trabajos específicos, puede:
+
+* utilice el selector de tiempo situado en la parte superior izquierda de la página para ver los trabajos durante un determinado período de tiempo
+* Introduzca una parte del nombre del trabajo en el campo Buscar
+* Haga clic en *Ver trabajos* para ver un estado determinado, por ejemplo, en "error" para ver sólo los trabajos fallidos
+* ordene los resultados mediante el filtro de cada encabezado de columna. Por ejemplo, el filtro para la columna "cargas de trabajo" permite ver trabajos en las siguientes categorías:
++
+** Volúmenes (Cloud Volumes ONTAP y ONTAP en las instalaciones)
+** Más grandes
+** Equipos virtuales
+** Kubernetes
+
+
+
+
+Tenga en cuenta que esta página se actualiza automáticamente cada 15 minutos para que siempre vea los resultados del estado de trabajo más recientes. Haga clic en el image:button_refresh.png["Actualice"] para actualizar la página inmediatamente.
+
+
+
+=== Descargar resultados de monitorización de trabajos como informe
+
+Si desea descargar el contenido de la página principal Supervisión de trabajos como un informe después de haberlo afinado, haga clic en image:button_download.png["Descargue"] botón. Cloud Backup genera un archivo .CSV que puede revisar y enviar a otros grupos según sea necesario. El archivo .CSV incluye hasta 10,000 filas de datos.
+
+
+
+=== Ver detalles del trabajo
+
+Para ver los detalles correspondientes a un trabajo específico, haga clic en el nombre del trabajo. Verá todos los subtrabajos que se ejecutan para completar el trabajo principal en la página Job Details.
+
+image:screenshot_backup_job_monitor_details.png["Captura de pantalla que muestra la página Detalles del trabajo."]
+
+
+
+== Utilice el Centro de notificaciones para revisar las alertas de copia de seguridad y restauración
+
+El centro de notificación realiza un seguimiento del progreso de los trabajos de backup y restauración que se han iniciado para comprobar si la operación se ha realizado correctamente o no. Puede mostrar las notificaciones haciendo clic en (image:icon_bell.png["timbre de notificación"]) En la barra de menús de BlueXP. También puede configurar BlueXP para que envíe notificaciones por correo electrónico como alertas, de forma que pueda ser informado de la actividad importante del sistema incluso cuando no haya iniciado sesión en el sistema.
+
+En este momento, hay cuatro eventos que activarán alertas de correo electrónico:
+
+* No se pudo activar Cloud Backup en el entorno de trabajo
+* Error en la operación de restauración de backup de cloud
+* Error de backup de volumen ad hoc (bajo demanda)
+* Posible ataque de ransomware detectado en su sistema
+
+
+De forma predeterminada, los administradores de cuentas de BlueXP recibirán correos electrónicos para todas las alertas "críticas" y "recomendaciones". Todos los demás usuarios y destinatarios están configurados, de forma predeterminada, para no recibir ningún correo electrónico de notificación. Pueden enviarse correos electrónicos a usuarios de BlueXP que formen parte de su cuenta de cloud de NetApp o a cualquier otro destinatario que tenga que conocer la actividad de backup y restauración.
+
+Deberá seleccionar los tipos de notificación "crítico" y "error" para recibir las alertas por correo electrónico de Cloud Backup.
+
+https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-monitor-cm-operations.html["Obtenga más información sobre el centro de notificaciones y sobre cómo enviar correos electrónicos de alerta para trabajos de backup y restauración"^].

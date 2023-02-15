@@ -1,0 +1,127 @@
+---
+sidebar: sidebar 
+permalink: task-restore-cloud-native-oracle-data.html 
+keywords: cloud native, application data, restore, data files, control files, recovery, Cloud Manager, BlueXP, Oracle database, Oracle 
+summary: Restaure los archivos de datos, los archivos de control o ambos y después recupere la base de datos. 
+---
+= Restaurar base de datos de Oracle nativa en cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+En caso de pérdida de datos, puede restaurar los archivos de datos, los archivos de control o ambos y recuperar la base de datos.
+
+*Lo que necesitará*
+
+Si la base de datos de Oracle 21c está EN estado INICIADO, se produce un error en la operación de restauración. Debe ejecutar lo siguiente para restaurar la base de datos correctamente.
+`cp -f <ORACLE_HOME>/jdbc/lib/ojdbc8.jar /opt/NetApp/snapcenter/spl/plugins/sco/lib ojdbc8-8.jar`
+
+* Pasos*
+
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la base de datos que desea restaurar y haga clic en *Ver detalles*.
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la copia de seguridad de datos que desea utilizar para restaurar y haga clic en *Restaurar*.
+. En la sección Restore Scope, realice las siguientes acciones:
++
+|===
+| Si... | Realice lo siguiente... 
+
+
+ a| 
+Desea restaurar únicamente los archivos de datos
+ a| 
+Seleccione *todos los archivos de datos*.
+
+
+
+ a| 
+Desea restaurar únicamente los archivos de control
+ a| 
+Seleccione *Archivos de control*
+
+
+
+ a| 
+Desea restaurar tanto archivos de datos como archivos de control
+ a| 
+Seleccione *todos los archivos de datos* y *Archivos de control*.
+
+|===
++
+
+NOTE: No se admiten la restauración de archivos de datos con archivos de control o solo archivos de control para iSCSI en el diseño de ASM.
+
++
+También puede seleccionar la casilla de verificación *Forzar restauración in situ*.
+
++
+En la distribución DE SAN, si el plugin de SnapCenter para Oracle encuentra cualquier archivo externo distinto a los archivos de datos de Oracle en el grupo de discos de ASM, se realiza el método de restauración de conexión y copia. Los archivos externos pueden ser uno o varios de los siguientes tipos:
+
++
+** Parámetro
+** Contraseña
+** registro de archivo
+** registro en línea
+** Archivo de parámetros de ASM.
++
+La opción *Forzar restauración in situ* reemplaza los archivos externos de tipo parámetro, contraseña y registro de archivo. Debe utilizar la última copia de seguridad cuando se seleccione la opción *Forzar restauración in situ*.
+
+
+
+. En la sección Recovery Scope, realice las siguientes acciones:
++
+|===
+| Si... | Realice lo siguiente... 
+
+
+ a| 
+Desea recuperar la última transacción
+ a| 
+Seleccione *todos los registros*.
+
+
+
+ a| 
+Desea recuperar a un número de cambio de sistema (SCN) específico
+ a| 
+Seleccione *Until System Change Number* y especifique el SCN.
+
+
+
+ a| 
+Desea recuperar a una fecha y hora específicas
+ a| 
+Seleccione *Fecha y hora*.
+
+
+
+ a| 
+No desea recuperar
+ a| 
+Seleccione *sin recuperación*.
+
+|===
++
+Para el ámbito de recuperación seleccionado, en el campo *Ubicaciones de archivos de registro de archivo* puede especificar opcionalmente la ubicación que contiene los registros de archivo necesarios para la recuperación.
+
++
+Seleccione la casilla de comprobación si desea abrir la base de datos en modo DE LECTURA/ESCRITURA después de la recuperación.
+
+. Haga clic en *Siguiente* y revise los detalles.
+. Haga clic en *Restaurar*.
+
+
+
+
+== Limitaciones
+
+* No admite restauraciones granulares, por ejemplo, la restauración de espacios de tablas y PDB
+* Se utilizan métodos de restauración sin movimiento y de conexión y copia si algunos de los grupos de discos contienen archivos externos. Sin embargo, no se admite el uso de ambos métodos a la vez para realizar la restauración y se produce un error en la operación de restauración. La base de datos se quedará en estado montado y es necesario que la base de datos se abra manualmente.
++
+El mensaje de error debido a la presencia de archivos externos no se muestra en la página de trabajo de la interfaz de usuario debido a un problema conocido. Compruebe si hay un fallo durante la fase DE restauración previa DE SAN en los registros del conector para conocer la causa del problema.
+
+

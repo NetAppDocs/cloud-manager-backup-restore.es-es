@@ -1,0 +1,238 @@
+---
+sidebar: sidebar 
+permalink: task-backup-to-gcp.html 
+keywords: backing up, back up, backup, backup cloud volumes ontap, back up cloud volumes ontap, cloud volumes ontap, gcp, google cloud, back up volumes, cloud backup 
+summary: Complete unos pasos para empezar a realizar backups de datos de Cloud Volumes ONTAP en el almacenamiento de Google Cloud. 
+---
+= Backups de los datos de Cloud Volumes ONTAP en Google Cloud Storage
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Complete unos pasos para empezar a realizar backups de datos de Cloud Volumes ONTAP en Google Cloud Storage.
+
+
+
+== Inicio rápido
+
+Empiece rápidamente siguiendo estos pasos o desplácese hacia abajo hasta las secciones restantes para obtener todos los detalles.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Uno"] Verifique la compatibilidad con la configuración
+[role="quick-margin-list"]
+* Ejecuta Cloud Volumes ONTAP 9.7P5 o posterior en GCP (se recomienda ONTAP 9.8P13 y posterior).
+* Tiene una suscripción válida para GCP para el espacio de almacenamiento donde se ubicará la copia de seguridad.
+* Tiene una cuenta de servicio en Google Cloud Project que tiene el rol de administrador de almacenamiento predefinido.
+* Se ha suscrito a https://console.cloud.google.com/marketplace/details/netapp-cloudmanager/cloud-manager?supportedpurview=project&rif_reserved["Oferta de backup de BlueXP Marketplace"^], o usted ha comprado link:task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license["y activado"^] Una licencia BYOL de Cloud Backup de NetApp.
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Dos"] Habilite Cloud Backup en su sistema nuevo o existente
+[role="quick-margin-list"]
+* Nuevos sistemas: Cloud Backup se puede habilitar cuando completa el nuevo asistente de entorno de trabajo.
+* Sistemas existentes: Seleccione el entorno de trabajo y haga clic en *Activar* junto al servicio copia de seguridad y recuperación del panel derecho y, a continuación, siga el asistente de configuración.
++
+image:screenshot_backup_cvo_enable.png["Una captura de pantalla que muestra el botón Habilitar copia de seguridad en la nube que está disponible después de seleccionar un entorno de trabajo."]
+
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Tres"] Introduzca los detalles del proveedor
+[role="quick-margin-para"]
+Seleccione Google Cloud Project y la región en la que desea crear el bucket de Google Cloud Storage para los backups. También puede elegir sus propias claves gestionadas por el cliente para el cifrado de datos en lugar de utilizar la clave de cifrado predeterminada gestionada por Google.
+
+[role="quick-margin-para"]
+image:screenshot_backup_provider_settings_gcp.png["Una captura de pantalla que muestra los detalles del proveedor de cloud al realizar backups de volúmenes de un sistema Cloud Volumes ONTAP instalado en GCP en un bloque de Google Cloud Storage."]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Cuatro"] Defina la política de backup predeterminada
+[role="quick-margin-para"]
+La política predeterminada realiza backups de volúmenes todos los días y conserva las 30 copias de backup más recientes de cada volumen. Cambiar a backups por hora, por día, por semana, por mes o por año, o bien seleccione una de las políticas definidas por el sistema que ofrezca más opciones. También es posible cambiar la cantidad de copias de backup que se desean retener.
+
+[role="quick-margin-para"]
+Los backups se almacenan de forma predeterminada en almacenamiento estándar. Si su clúster utiliza ONTAP 9.12.1 o superior, puede optar por organizar los backups en niveles en el almacenamiento de archivado después de un cierto número de días para obtener una mayor optimización de los costes. link:concept-cloud-backup-policies.html["Obtenga más información acerca de las opciones de configuración de la política de Cloud Backup disponibles"^].
+
+[role="quick-margin-para"]
+image:screenshot_backup_policy_gcp.png["Captura de pantalla que muestra la configuración de Cloud Backup, en la que puede activar o desactivar la función y, a continuación, elegir la retención de la copia de seguridad."]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["Cinco"] Seleccione los volúmenes de los que desea realizar el backup
+[role="quick-margin-para"]
+Identifique los volúmenes para los que se desea realizar el backup con la política de backup predeterminada en la página Select Volumes. Si desea asignar diferentes políticas de backup a ciertos volúmenes, puede crear políticas adicionales y aplicarlas más adelante.
+
+
+
+== Requisitos
+
+Lea los siguientes requisitos para asegurarse de que dispone de una configuración compatible antes de empezar a realizar backups de volúmenes en el almacenamiento de Google Cloud.
+
+La siguiente imagen muestra cada componente y las conexiones que necesita preparar entre ellos:
+
+image:diagram_cloud_backup_cvo_google.png["Un diagrama muestra cómo Cloud Backup se comunica con los volúmenes del sistema de origen y el almacenamiento de destino donde se encuentran los archivos de backup."]
+
+Versiones de ONTAP compatibles:: Se recomienda un mínimo de ONTAP 9.7P5; ONTAP 9.8P13 y posterior.
+Requisitos de licencia:: Para licencias de Cloud Backup PAYGO, una suscripción a BlueXP a través de https://console.cloud.google.com/marketplace/details/netapp-cloudmanager/cloud-manager?supportedpurview=project&rif_reserved["Mercado para GCP"^] Es necesario antes de habilitar Cloud Backup. La facturación de Cloud Backup se realiza mediante esta suscripción. https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-deploying-gcp.html["Puede suscribirse desde la página Detalles  Credentials del asistente de entorno de trabajo"^].
++
+--
+Para las licencias BYOL de Cloud Backup, necesita el número de serie de NetApp que le permite usar el servicio durante la duración y la capacidad de la licencia. link:task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license["Aprenda a gestionar sus licencias BYOL"^].
+
+Además, necesita una suscripción de Google para el espacio de almacenamiento en el que se localizarán los backups.
+
+--
+Regiones compatibles de GCP:: Cloud Backup es compatible en todas las regiones de GCP https://cloud.netapp.com/cloud-volumes-global-regions["Donde se admite Cloud Volumes ONTAP"^].
+Cuenta de servicio de GCP:: Es necesario tener una cuenta de servicio en Google Cloud Project que tenga el rol de administrador de almacenamiento predefinido. https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-creating-gcp-service-account.html["Aprenda a crear una cuenta de servicio"^].
+Verifique o agregue permisos al conector:: Para utilizar la funcionalidad "Search & Restore" de Cloud Backup, necesita disponer de permisos específicos en la función del conector para que pueda acceder al servicio de Google Cloud BigQuery. Consulte los siguientes permisos y siga los pasos si necesita modificar la directiva.
++
+--
+. Pulg https://console.cloud.google.com["Consola de cloud"^], Vaya a la página *roles*.
+. Mediante la lista desplegable situada en la parte superior de la página, seleccione el proyecto o la organización que contiene la función que desea editar.
+. Haga clic en una función personalizada.
+. Haga clic en *Editar rol* para actualizar los permisos del rol.
+. Haga clic en *Agregar permisos* para agregar los siguientes permisos nuevos a la función.
++
+[source, json]
+----
+bigquery.jobs.get
+bigquery.jobs.list
+bigquery.jobs.listAll
+bigquery.datasets.create
+bigquery.datasets.get
+bigquery.jobs.create
+bigquery.tables.get
+bigquery.tables.getData
+bigquery.tables.list
+bigquery.tables.create
+----
+. Haga clic en *Actualizar* para guardar la función editada.
+
+
+--
+Información necesaria para el uso de claves de cifrado gestionadas por el cliente (CMEK):: Puede utilizar sus propias claves gestionadas por el cliente para el cifrado de datos en lugar de utilizar las claves de cifrado predeterminadas gestionadas por Google. En este caso, deberá tener el timbre y el nombre de la clave para poder agregar esta información en el asistente de activación. https://cloud.google.com/kms/docs/cmek["Obtenga más información sobre las claves de cifrado gestionadas por el cliente"^].
++
+--
+También tendrá que agregar estos permisos necesarios en la función para que funcione el conector para CMEK:
+
+[source, json]
+----
+cloudkms.cryptoKeys.get
+cloudkms.cryptoKeys.getIamPolicy
+cloudkms.cryptoKeys.list
+cloudkms.cryptoKeys.setIamPolicy
+cloudkms.keyRings.get
+cloudkms.keyRings.getIamPolicy
+cloudkms.keyRings.list
+cloudkms.keyRings.setIamPolicy
+----
+*Consideraciones de CMEK:*
+
+* Se admiten tanto las claves HSM (respaldadas por hardware) como las generadas por software.
+* Se admiten las claves de Cloud KMS creadas o importadas recientemente.
+* Solo se admiten claves regionales; las claves globales no son compatibles.
+* Actualmente, sólo se admite el propósito "cifrado/descifrado simétrico".
+* Se asigna al agente de servicio asociado con la cuenta de almacenamiento el rol "CryptoKey Encrypter/Decrypter (roles/cloudKMS.crypKey EncrypterDecrypter)" IAM de Cloud Backup.
+
+
+--
+
+
+
+
+== Activación de Cloud Backup en un nuevo sistema
+
+Cloud Backup se puede habilitar cuando completa el asistente de entorno de trabajo para crear un nuevo sistema Cloud Volumes ONTAP.
+
+Debe tener una cuenta de servicio configurada. Si no selecciona ninguna cuenta de servicio al crear el sistema Cloud Volumes ONTAP, tendrá que apagar el sistema y agregar la cuenta de servicio a Cloud Volumes ONTAP desde la consola de GCP.
+
+Consulte https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-deploying-gcp.html["Lanzamiento de Cloud Volumes ONTAP en GCP"^] Para conocer los requisitos y detalles de cómo crear el sistema Cloud Volumes ONTAP.
+
+.Pasos
+. En la página entornos de trabajo, haga clic en *Agregar entorno de trabajo* y siga las indicaciones.
+. *Elija una ubicación*: Seleccione *Google Cloud Platform*.
+. *elegir Tipo*: Seleccione *Cloud Volumes ONTAP* (ya sea de un solo nodo o de alta disponibilidad).
+. *Detalles y credenciales*: Introduzca la siguiente información:
++
+.. Haga clic en *Editar proyecto* y seleccione un proyecto nuevo si el que desea utilizar es diferente del proyecto predeterminado (donde reside el conector).
+.. Especifique el nombre del clúster.
+.. Active el conmutador *cuenta de servicio* y seleccione la cuenta de servicio que tenga la función predefinida Administrador de almacenamiento. Esto es necesario para habilitar los backups y la organización en niveles.
+.. Especifique las credenciales.
++
+Asegúrese de que existe una suscripción a GCP Marketplace.
+
++
+image:screenshot_backup_to_gcp_new_env.png["Captura de pantalla que muestra cómo activar una cuenta de servicio en el asistente del entorno de trabajo."]
+
+
+
+. *Servicios*: Deje el Cloud Backup Service activado y haga clic en *continuar*.
++
+image:screenshot_backup_to_gcp.png["Muestra la opción Cloud Backup en el asistente de entorno de trabajo."]
+
+. Complete las páginas del asistente para implementar el sistema como se describe en https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-deploying-gcp.html["Lanzamiento de Cloud Volumes ONTAP en GCP"^].
+
+
+.Resultado
+Cloud Backup está habilitado en el sistema y realiza un backup del volumen que se creó cada día, y retiene las 30 copias de backup más recientes.
+
+
+
+== Habilitar Cloud Backup en un sistema existente
+
+Puede habilitar Cloud Backup en cualquier momento directamente desde el entorno de trabajo.
+
+.Pasos
+. Seleccione el entorno de trabajo y haga clic en *Activar* junto al servicio copia de seguridad y recuperación en el panel derecho.
++
+Si el destino de Google Cloud Storage para sus copias de seguridad existe como un entorno de trabajo en el lienzo, puede arrastrar el clúster al entorno de trabajo de Google Cloud Storage para iniciar el asistente de configuración.
+
++
+image:screenshot_backup_cvo_enable.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad en la nube que está disponible después de seleccionar un entorno de trabajo."]
+
+. Seleccione los detalles del proveedor y haga clic en *Siguiente*.
++
+.. Google Cloud Project y la región en la que desea crear el bucket de Google Cloud Storage para backups.
+.. Tanto si va a usar la clave de cifrado predeterminada gestionada por Google como si elige sus propias claves gestionadas por el cliente para gestionar el cifrado de sus datos. Para usar un CMEK, deberá tener el timbre y el nombre de la clave. https://cloud.google.com/kms/docs/cmek["Obtenga más información sobre las claves de cifrado gestionadas por el cliente"^].
++
+image:screenshot_backup_provider_settings_gcp.png["Una captura de pantalla que muestra los detalles del proveedor de cloud al realizar backups de volúmenes de un sistema Cloud Volumes ONTAP instalado en GCP en un bloque de Google Cloud Storage."]
+
++
+Tenga en cuenta que el proyecto debe tener una cuenta de servicio que tenga la función de administrador de almacenamiento predefinida.
+
+
+
+. Introduzca los detalles de la política de copia de seguridad que se utilizarán para su directiva predeterminada y haga clic en *Siguiente*. Puede seleccionar una política existente o crear una nueva introduciendo sus selecciones en cada sección:
++
+.. Escriba el nombre de la política predeterminada. No es necesario cambiar el nombre.
+.. Defina la programación de backup y elija la cantidad de backups que se retendrán. link:concept-ontap-backup-to-cloud.html#customizable-backup-schedule-and-retention-settings["Consulte la lista de políticas existentes que puede elegir"^].
+.. Al utilizar ONTAP 9.12.1 o superior, puede elegir colocar los backups en niveles en el almacenamiento de archivado después de un cierto número de días para una mayor optimización de los costes. link:concept-cloud-backup-policies.html["Obtenga más información acerca de las opciones de configuración de la política de Cloud Backup disponibles"^].
++
+image:screenshot_backup_policy_gcp.png["Captura de pantalla que muestra la configuración de Cloud Backup, en la que puede activar o desactivar la función y, a continuación, elegir la retención de la copia de seguridad."]
+
+
+
+. Seleccione los volúmenes de los que desea realizar un backup mediante la política de backup definida en la página Select Volumes. Si desea asignar diferentes políticas de backup a ciertos volúmenes, puede crear políticas adicionales y aplicarlas más adelante.
++
+** Para realizar un backup de todos los volúmenes existentes y cualquier volumen añadido en el futuro, active la casilla "realizar backup de todos los volúmenes existentes y futuros...". Recomendamos esta opción para que se haga un backup de todos los volúmenes y que nunca tendrá que recordar para habilitar los backups para volúmenes nuevos.
+** Para realizar un backup solo de los volúmenes existentes, active la casilla de la fila de título (image:button_backup_all_volumes.png[""]).
+** Para realizar un backup de volúmenes individuales, active la casilla de cada volumen (image:button_backup_1_volume.png[""]).
++
+image:screenshot_backup_select_volumes.png["Captura de pantalla de selección de los volúmenes de los que se realizará una copia de seguridad."]
+
+** Si hay copias Snapshot locales para volúmenes de lectura/escritura en este entorno de trabajo que coincidan con la etiqueta de programación de backup que acaba de seleccionar para este entorno de trabajo (por ejemplo, diario, semanal, etc.), se mostrará un mensaje adicional "Exportar copias Snapshot existentes a almacenamiento de objetos como copias de backup". Marque esta casilla si desea que todas las Snapshots históricas se copien al almacenamiento de objetos como archivos de backup para garantizar la protección más completa para los volúmenes.
+
+
+. Haga clic en *Activar copia de seguridad* y Cloud Backup comenzará a realizar las copias de seguridad iniciales de cada volumen seleccionado.
+
+
+.Resultado
+Se crea automáticamente un bloque de Google Cloud Storage en la cuenta de servicio indicada por la clave de acceso de Google y la clave secreta introducida; además, los archivos de backup se almacenan allí. La consola de backup de volumen se muestra para poder supervisar el estado de los backups. También es posible supervisar el estado de los trabajos de backup y restauración mediante la link:task-monitor-backup-jobs.html["Panel de control de trabajos"^].
+
+Las copias de seguridad se asocian de forma predeterminada con la clase de almacenamiento _Standard_. Puede utilizar las clases de almacenamiento de bajo coste _Nearline_, _Coldline_ o _Archive_. Sin embargo, debe configurar la clase de almacenamiento a través de Google, no a través de la interfaz de usuario de Cloud Backup. Consulte el tema de Google https://cloud.google.com/storage/docs/changing-default-storage-class["Cambiar la clase de almacenamiento predeterminada de un bloque"^] para obtener más detalles.
+
+
+
+== El futuro
+
+* Puede hacerlo link:task-manage-backups-ontap.html["gestione los archivos de copia de seguridad y las políticas de copia de seguridad"^]. Esto incluye iniciar y detener copias de seguridad, eliminar copias de seguridad, agregar y cambiar la programación de copia de seguridad, etc.
+* Puede hacerlo link:task-manage-backup-settings-ontap.html["gestione la configuración de backup en el nivel del clúster"^]. Esto incluye cambiar el ancho de banda de red disponible para cargar backups en el almacenamiento de objetos, cambiar la configuración de backup automático para volúmenes futuros, etc.
+* También puede hacerlo link:task-restore-backups-ontap.html["restaure volúmenes, carpetas o archivos individuales desde un archivo de backup"^] A un sistema Cloud Volumes ONTAP en Google o a un sistema ONTAP en las instalaciones.
+

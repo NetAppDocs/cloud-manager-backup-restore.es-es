@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: reference-google-backup-tiers.html 
+keywords: google, storage classes, archive 
+summary: Cloud Backup admite una clase de almacenamiento de archivado de Google y la mayoría de regiones. 
+---
+= Clases de almacenamiento de archivado y tiempos de recuperación de restauración de Google
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Cloud Backup admite una clase de almacenamiento de archivado de Google y la mayoría de regiones.
+
+
+
+== Clases de almacenamiento de archivado compatibles con Google para Cloud Backup
+
+Cuando los archivos de copia de seguridad se crean inicialmente, se almacenan en almacenamiento _Standard_. Este nivel está optimizado para almacenar datos a los que se accede con poca frecuencia, pero esto también permite acceder a ellos de forma inmediata.
+
+Si su clúster local utiliza ONTAP 9.12.1 o más, puede optar por organizar en niveles los backups antiguos en el almacenamiento _Archive_ en la interfaz de usuario de backup en cloud tras un determinado número de días (normalmente más de 30 días) para obtener una mayor optimización de los costes. Los datos de este nivel requerirán un mayor coste de recuperación, por lo que debe considerar la frecuencia con la que puede que necesite restaurar datos de estos ficheros de backup archivados. Consulte la sección Acerca de <<Restaurar datos desde el almacenamiento de archivado,restaurar datos desde el almacenamiento de archivado>>.
+
+Tenga en cuenta que al configurar Cloud Backup con este tipo de regla de ciclo de vida, no debe configurar ninguna regla de ciclo de vida al configurar el bloque en su cuenta de Google.
+
+https://cloud.google.com/storage/docs/storage-classes["Obtenga información sobre las clases de almacenamiento de Google"^].
+
+
+
+== Restaurar datos desde el almacenamiento de archivado
+
+A pesar de que el almacenamiento de archivos de backup antiguos en el almacenamiento de archivado es mucho más barato que en el almacenamiento estándar, el acceso a los datos desde un archivo de backup en el almacenamiento de archivado para las operaciones de restauración tardará un poco más tiempo y supondrá un coste mayor.
+
+¿Cuánto cuesta la restauración de datos desde Google Archive?:: Para obtener información detallada sobre los precios de Google Cloud Storage por región, visite la https://cloud.google.com/storage/pricing["Página de precios de Google Cloud Storage"^].
+¿Cuánto tiempo tardaría en restaurar los objetos archivados en Google Archive?:: Hay dos partes que componen el tiempo total de restauración:
++
+--
+* *Retrieval time*: El tiempo para recuperar el archivo de copia de seguridad de Archive y colocarlo en almacenamiento estándar. A esto se le llama a veces el tiempo de "rehidratación". A diferencia de las soluciones de almacenamiento "más frías" que ofrecen otros proveedores de cloud, se puede acceder a los datos en milisegundos.
+* *Tiempo de restauración*: Tiempo para restaurar los datos del archivo de copia de seguridad en almacenamiento estándar. Esta vez no difiere de la operación de restauración típica directamente del almacenamiento estándar cuando no se utiliza un nivel de archivado.
+
+
+--
+

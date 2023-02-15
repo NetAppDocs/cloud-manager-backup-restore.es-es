@@ -1,0 +1,92 @@
+---
+sidebar: sidebar 
+permalink: task-clone-cloud-native-oracle-data.html 
+keywords: cloud native, application data, restore, data files, control files, recovery, Cloud Manager, BlueXP, Oracle database, Oracle 
+summary: Clone la base de datos en el host de origen o alternativo. 
+---
+= Clone la base de datos de Oracle nativa en el cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Es posible clonar una base de datos de Oracle con el backup de la base de datos en el host de la base de datos de origen o en un host alternativo.
+
+Pueden clonarse bases de datos por los siguientes motivos:
+
+* Para poner a prueba una funcionalidad que debe implementarse con la estructura y el contenido de la base de datos actual durante ciclos de desarrollo de aplicaciones.
+* Para completar almacenes de datos con herramientas de extracción y manipulación de datos.
+* Para recuperar datos que se eliminaron o se modificaron por error.
+
+
+*Lo que necesitará*
+
+Antes de clonar la base de datos, debe comprender los conceptos de clon y asegurarse de que se cumplen todos los requisitos. link:concept-clone-cloud-native-oracle-concepts.html["Leer más"].
+
+* Pasos*
+
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la base de datos que desea clonar y haga clic en *Ver detalles*.
+. Haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la copia de seguridad de los datos y haga clic en *Clonar*.
+. En la página Clone Details, seleccione una de las opciones de clonado.
+. En función de la opción seleccionada, realice las siguientes acciones:
++
+|===
+| Si seleccionó... | Realice lo siguiente... 
+
+
+ a| 
+*Básico*
+ a| 
+.. Seleccione el host del clon.
++
+Si desea crear el clon en un host alternativo, seleccione el host que tiene la misma versión de Oracle y del sistema operativo que el host de la base de datos de origen.
+
+.. Especifique el SID del clon.
+.. Seleccione el esquema de nomenclatura de los clones.
++
+Si la base de datos se clona en el host de origen, el esquema de nomenclatura de los clones se generará automáticamente. Si la base de datos se clona en un host alternativo, el esquema de nomenclatura de los clones será idéntico.
+
+.. Especifique la ruta de acceso de inicio de Oracle.
+.. (Opcional) especifique las credenciales de la base de datos.
++
+*** Credencial de base de datos: Si la autenticación de usuario de sistema operativo está deshabilitada, debe proporcionar una contraseña para que el usuario sys la defina en el host de destino.
+*** Credencial ASM: Si la autenticación del usuario del sistema operativo está deshabilitada en el host de destino, debe proporcionar credenciales de usuario con privilegios sysasm para conectarse a la instancia de ASM en el host de destino.
+
+
+.. Haga clic en *Siguiente*.
+.. Haga clic en *Clonar*.
+
+
+
+
+ a| 
+*Archivo de especificación*
+ a| 
+.. Haga clic en *Descargar archivo* para descargar el archivo de especificación.
+.. Seleccione el esquema de nomenclatura de los clones.
++
+Si selecciona *generado automáticamente*, debe especificar el sufijo.
+
+.. Edite el archivo de especificación según los requisitos y cárguelo haciendo clic en el botón *examinar*.
+.. Seleccione el host del clon.
++
+Si desea crear el clon en un host alternativo, seleccione el host que tiene la misma versión de Oracle y del sistema operativo que el host de la base de datos de origen.
+
+.. Especifique el SID del clon.
+.. (Opcional) especifique las credenciales de la base de datos.
++
+*** Credencial de base de datos: Si la autenticación de usuario de sistema operativo está deshabilitada, debe proporcionar una contraseña para que el usuario sys la defina en el host de destino.
+*** Credencial ASM: Si la autenticación del usuario del sistema operativo está deshabilitada en el host de destino, debe proporcionar credenciales de usuario con privilegios sysasm para conectarse a la instancia de ASM en el host de destino.
+
+
+.. Haga clic en *Siguiente*.
+.. Haga clic en *Clonar*.
+
+
+|===
+. Haga clic en image:button_plus_sign_square.png["para seleccionar la acción"] Junto a *Filter by* y seleccione *Clone options* > *Clones* para ver los clones.
+

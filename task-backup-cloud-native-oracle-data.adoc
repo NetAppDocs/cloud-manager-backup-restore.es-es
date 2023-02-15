@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: task-backup-cloud-native-oracle-data.html 
+keywords: admin role, service account, pre-canned policies, cloud manager, BlueXP, scheduled backups, on-demand backups, create policy, Oracle database, backup limitations 
+summary: Crear backups programados o bajo demanda de bases de datos de Oracle. 
+---
+= Realice backup de bases de datos de Oracle nativas en el cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Debe asignar una política predefinida o la que creó y, a continuación, realizar una copia de seguridad.
+
+
+
+== Crear una política para proteger una base de datos de Oracle
+
+Puede crear directivas si no desea editar las directivas preparadas previamente.
+
+* Pasos*
+
+. En la página aplicaciones, en la lista desplegable Configuración, seleccione *Directivas*.
+. Haga clic en *Crear directiva*.
+. Escriba el nombre de una política.
+. (Opcional) edite el formato del nombre de la copia de seguridad.
+. Especifique los detalles de programación y retención.
+. Haga clic en *Crear*.
+
+
+
+
+== Cree un backup de la base de datos Oracle
+
+Puede asignar una directiva predefinida o crear una directiva y, a continuación, asignarla a la base de datos. Una vez asignada la política, los backups se crean según la programación definida en la política.
+
+
+NOTE: Para Oracle, al crear grupos de discos ASM, asegúrese de que no haya volúmenes comunes entre grupos de discos. Cada grupo de discos debe tener volúmenes dedicados.
+
+* Pasos*
+
+. En la página aplicaciones, si la base de datos no está protegida mediante ninguna directiva, haga clic en *asignar directiva*.
++
+Si la base de datos se protege mediante una o más políticas, puede asignar más políticas haciendo clic en image:icon-action.png["para seleccionar la acción"] > *asignar directiva*.
+
+. Seleccione la directiva y haga clic en *asignar*.
++
+Los backups se crearán según el programa que se defina en la política.
+
++
+
+NOTE: La cuenta de servicio (_SnapCenter-account-<account_id>_) se utiliza para ejecutar las operaciones de backup programadas.
+
+
+
+
+
+== Cree un backup bajo demanda de la base de datos de Oracle
+
+Después de asignar la política, puede crear un backup bajo demanda de la aplicación.
+
+* Pasos*
+
+. En la página aplicaciones, haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde a la aplicación y haga clic en *On-Demand Backup*.
+. Si se asignan varias directivas a la aplicación, seleccione la directiva, el valor de retención y, a continuación, haga clic en *Crear copia de seguridad*.
+
+
+*Más información*
+
+Después de restaurar una base de datos grande (250 GB o más), si se ejecuta un backup completo en línea en la misma base de datos, la operación puede fallar y generar el siguiente error:
+
+`failed with status code 500, error {\"error\":{\"code\":\"app_internal_error\",\"message\":\"Failed to create snapshot. Reason: Snapshot operation not allowed due to clones backed by snapshots. Try again after sometime.`
+
+Para obtener información sobre cómo solucionar este problema, consulte: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/Snapshot_operation_not_allowed_due_to_clones_backed_by_snapshots["No se permite la operación de Snapshot debido a clones realizados por copias de Snapshot"].
+
+
+
+== Limitaciones
+
+* No admite backups de datos en línea ni solo backups de registros
+* No admite backups sin conexión
+* No admite la copia de seguridad de la base de datos Oracle que reside en puntos de montaje recursivos
+* No admite snapshots de grupos de consistencia para bases de datos de Oracle que residen en varios grupos de discos de ASM con superposición de volúmenes FSX
+* Si las bases de datos de Oracle se configuran en ASM, asegúrese de que los nombres de SVM sean únicos en los sistemas FSX. Si tiene el mismo nombre de SVM en sistemas FSX, no se admite el backup de las bases de datos de Oracle que residen en dichas SVM.
+

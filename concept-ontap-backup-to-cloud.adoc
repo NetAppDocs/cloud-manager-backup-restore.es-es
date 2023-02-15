@@ -1,0 +1,450 @@
+---
+sidebar: sidebar 
+permalink: concept-ontap-backup-to-cloud.html 
+keywords: backing up, restoring, back up, backup, restore, cloud volumes ontap, aws, azure, s3, blob, google cloud, storagegrid, back up volumes, cloud backup, restore volumes, billing, cost, on-premises ontap, onprem 
+summary: Cloud Backup proporciona funcionalidades de backup y restauración para protección y archivado a largo plazo de sus datos de clúster de ONTAP. Los backups se generan y almacenan automáticamente en un almacén de objetos en su cuenta de cloud público o privado, independientemente de las copias Snapshot de volumen que se utilicen para la recuperación o el clonado a corto plazo. 
+---
+= Proteja los datos de su clúster de ONTAP mediante Cloud Backup
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Cloud Backup proporciona funcionalidades de backup y restauración para protección y archivado a largo plazo de sus datos de clúster de ONTAP. Los backups se generan y almacenan automáticamente en un almacén de objetos en su cuenta de cloud público o privado, independientemente de las copias Snapshot de volumen que se utilicen para la recuperación o el clonado a corto plazo.
+
+Cuando sea necesario, puede restaurar un _volume_ completo, un _folder_ o uno o más _files_, desde una copia de seguridad en el mismo entorno de trabajo o en un entorno de trabajo diferente.
+
+
+
+== Funciones
+
+Funciones de backup:
+
+* Realice backups de copias independientes de sus volúmenes de datos en un almacenamiento de objetos de bajo coste.
+* Aplique una única política de backup a todos los volúmenes de un clúster o asigne diferentes políticas de backup a los volúmenes que tengan objetivos de punto de recuperación únicos.
+* Cree una política de backup que se aplicará a todos los volúmenes futuros que se creen en el clúster.
+* Cree archivos de backup inmutables para que estén bloqueados y protegidos durante el período de retención.
+* Analice archivos de copia de seguridad para detectar posibles ataques de ransomware y quite/reemplace automáticamente las copias de seguridad infectadas.
+* Apilar los archivos de backup antiguos en el almacenamiento de archivado para ahorrar costes.
+* Elimine la relación de backup para poder archivar volúmenes de origen innecesarios y retener backups de volúmenes.
+* Realice backups de un cloud a otro y desde sistemas en las instalaciones a un cloud público o privado.
+* En el caso de los sistemas Cloud Volumes ONTAP, los backups pueden residir en una suscripción/cuenta diferente o en una región diferente.
+* Los datos de los backups se protegen con conexiones HTTPS en reposo con cifrado AES de 256 bits y TLS 1.2.
+* Utilice sus propias claves gestionadas por el cliente para el cifrado de datos en lugar de utilizar las claves de cifrado predeterminadas de su proveedor de cloud.
+* Permite hasta 4,000 backups de un único volumen.
+
+
+Funciones de restauración:
+
+* Restaure los datos de un momento específico.
+* Restaure un volumen, una carpeta o archivos individuales, al sistema de origen o a otro sistema.
+* Restaure los datos a un entorno de trabajo utilizando una cuenta o suscripción diferente o que se encuentre en una región diferente.
+* Los datos se restauran en el nivel de bloque, colocando los datos directamente en la ubicación especificada, siempre que se conservan las ACL originales.
+* Catálogos de archivos que se pueden examinar y realizar búsquedas para seleccionar fácilmente carpetas y archivos individuales para restaurar un solo archivo.
+
+
+
+
+== Entornos de trabajo de ONTAP compatibles y proveedores de almacenamiento de objetos
+
+Cloud Backup le permite realizar backups de ONTAP Volumes desde los siguientes entornos laborales en el almacenamiento de objetos en los siguientes proveedores de cloud público y privado:
+
+[cols="50,50"]
+|===
+| Entorno de trabajo de fuente | Destino de archivo de copia de seguridad ifdef::aws[] 
+
+
+| Cloud Volumes ONTAP en AWS | Endif de Amazon S3::aws[] ifdef::Azure[] 
+
+
+| Cloud Volumes ONTAP en Azure | Endif de Azure Blob::Azure[] ifdef::gcp[] 
+
+
+| Cloud Volumes ONTAP en Google | Fin de Google Cloud Storage::gcp[] 
+
+
+| Sistema ONTAP en las instalaciones | Ifdef::aws[] Amazon S3 endif::aws[] ifdef::Azure[] endif de Azure Blob::Azure[] ifdef::gcp[] Google Cloud Storage endif::gcp[] NetApp StorageGRID 
+|===
+Es posible restaurar un volumen, una carpeta o archivos individuales, desde un archivo de backup de ONTAP a los siguientes entornos de trabajo:
+
+[cols="50,50"]
+|===
+| Ubicación del archivo de copia de seguridad | Entorno de trabajo de destino ifdef::aws[] 
+
+
+| Amazon S3 | Cloud Volumes ONTAP en la endif del sistema ONTAP en las instalaciones de AWS::aws[] ifdef::Azure[] 
+
+
+| Azure Blob | Cloud Volumes ONTAP en Azure on-premises ONTAP system endif::Azure[] ifdef::gcp[] 
+
+
+| Google Cloud Storage | Cloud Volumes ONTAP en Google on-local ONTAP system endif::gcp[] 
+
+
+| StorageGRID de NetApp | Sistema ONTAP en las instalaciones 
+|===
+Tenga en cuenta que las referencias a "sistemas ONTAP en las instalaciones" incluyen sistemas FAS, AFF y ONTAP Select.
+
+
+
+=== Compatibilidad con sitios sin conectividad a Internet
+
+Cloud Backup se puede utilizar en un sitio sin conectividad a Internet (también conocido como sitio "sin conexión" o "oscuro") para realizar backups de datos de volumen de sistemas ONTAP locales in situ en sistemas StorageGRID de NetApp locales. Esta configuración también admite tanto la restauración de volúmenes como de archivos. En este caso, deberá desplegar el conector BlueXP (versión mínima 3.9.20) en el sitio oscuro. Consulte link:task-backup-onprem-private-cloud.html["Realización de backups de datos de ONTAP en las instalaciones en StorageGRID"] para obtener más detalles.
+
+
+
+== Volúmenes compatibles
+
+Cloud Backup admite los siguientes tipos de volúmenes:
+
+* Volúmenes FlexVol de lectura y escritura
+* Volúmenes de destino de protección de datos (DP) de SnapMirror
+* SnapLock Enterprise Volumes (requiere ONTAP 9.11.1 o posterior)
++
+** Actualmente, los volúmenes de SnapLock Compliance no son compatibles.
+
+
+* FlexGroup Volumes (requiere ONTAP 9.12.1 o posterior)
+
+
+Consulte las secciones de <<Limitaciones,Limitaciones de backup y restauración>> para requisitos y limitaciones adicionales.
+
+
+
+== Coste
+
+Existen dos tipos de costes asociados con el uso de Cloud Backup con sistemas ONTAP: Costes por recursos y cargos por servicio.
+
+*gastos de recursos*
+
+El proveedor de cloud paga los recursos por la capacidad de almacenamiento de objetos y por la escritura y lectura de archivos de backup en el cloud.
+
+* Para Backup, paga a su proveedor de cloud por los costes de almacenamiento de objetos.
++
+Desde que Cloud Backup conserva las eficiencias del almacenamiento del volumen de origen, pagará los costes del almacenamiento de objetos del proveedor de cloud por las eficiencias de los datos _After_ ONTAP (en cuanto a la menor cantidad de datos después de aplicar la deduplicación y la compresión).
+
+* Para restaurar datos con la opción de búsqueda y restauración, el proveedor de cloud aprovisiona determinados recursos y hay un coste por TIB asociado con la cantidad de datos que escanean sus solicitudes de búsqueda. (Estos recursos no son necesarios para examinar y restaurar.)
++
+ifdef::aws[]
+
++
+** En AWS, https://aws.amazon.com/athena/faqs/["Amazon Athena"^] y.. https://aws.amazon.com/glue/faqs/["Pegamento de AWS"^] Los recursos se implementan en un nuevo bloque de S3.
++
+endif::aws[]
+
+
+
++
+ifdef::azure[]
+
++
+** En Azure, una https://azure.microsoft.com/en-us/services/synapse-analytics/?&ef_id=EAIaIQobChMI46_bxcWZ-QIVjtiGCh2CfwCsEAAYASAAEgKwjvD_BwE:G:s&OCID=AIDcmm5edswduu_SEM_EAIaIQobChMI46_bxcWZ-QIVjtiGCh2CfwCsEAAYASAAEgKwjvD_BwE:G:s&gclid=EAIaIQobChMI46_bxcWZ-QIVjtiGCh2CfwCsEAAYASAAEgKwjvD_BwE["Espacio de trabajo de Azure Synapse"^] y.. https://azure.microsoft.com/en-us/services/storage/data-lake-storage/?&ef_id=EAIaIQobChMIuYz0qsaZ-QIVUDizAB1EmACvEAAYASAAEgJH5fD_BwE:G:s&OCID=AIDcmm5edswduu_SEM_EAIaIQobChMIuYz0qsaZ-QIVUDizAB1EmACvEAAYASAAEgJH5fD_BwE:G:s&gclid=EAIaIQobChMIuYz0qsaZ-QIVUDizAB1EmACvEAAYASAAEgJH5fD_BwE["Almacenamiento de lagos de datos de Azure"^] se aprovisionan en su cuenta de almacenamiento para almacenar y analizar los datos.
++
+endif::azure[]
+
+
+
+
+
+ifdef::gcp[]
+
+* En Google, se pone en marcha un nuevo bloque y el https://cloud.google.com/bigquery["Servicios de Google Cloud BigQuery"^] se aprovisionan en el nivel de cuenta/proyecto.
+
+
+endif::gcp[]
+
+* Si necesita restaurar datos de volumen de un archivo de backup que se haya movido a almacenamiento de archivado, hay una tasa de recuperación adicional por GIB y una cuota por solicitud del proveedor de cloud.
+
+
+*cargos por servicio*
+
+NetApp cobra costes de servicio, por lo que cubre tanto el coste de crear_ backups como los volúmenes o archivos de _restore_ de dichos backups. Solo paga por los datos que protege, calculados por la capacidad lógica utilizada de origen (_antes_ eficiencia de ONTAP) de los volúmenes de ONTAP de los que se realiza un backup en el almacenamiento de objetos. Esta capacidad también se conoce como terabytes de interfaz (FETB).
+
+El servicio de backup consta de tres formas de pago. La primera opción es suscribirse a su proveedor de cloud, lo que le permite pagar por mes. La segunda opción es conseguir un contrato anual. La tercera opción consiste en adquirir licencias directamente a NetApp. Lea la <<Licencia,Licencia>> para obtener más información.
+
+
+
+== Licencia
+
+Cloud Backup está disponible con los siguientes modelos de consumo:
+
+* *BYOL*: Una licencia comprada a NetApp que se puede usar con cualquier proveedor de cloud.
+* *PAYGO*: Una suscripción por hora desde el mercado de su proveedor de la nube.
+* *Anual*: Un contrato anual del mercado de su proveedor de cloud.
+
+
+[NOTE]
+====
+Si adquiere una licencia de BYOL de NetApp, también tendrá que suscribirse a la oferta PAYGO del mercado de su proveedor de cloud. La licencia siempre se cargará primero, pero se cargará a partir de la tarifa por horas en el mercado en estos casos:
+
+* Si supera la capacidad de la licencia
+* Si el período de su licencia caduca
+
+
+Si tiene un contrato anual desde un mercado, se le cobrará todo el consumo de Cloud Backup con relación a dicho contrato. No se puede mezclar y combinar un contrato anual de mercado con una licencia propia.
+
+====
+
+
+=== Con su propia licencia
+
+BYOL se basa en el plazo (12, 24 o 36 meses) en incrementos de 1 TIB. Usted paga a NetApp para que utilice el servicio por un período de tiempo, digamos 1 año, y por una cantidad máxima, digamos 10 TIB.
+
+Recibirá un número de serie que introduzca en la página de Blue XP Digital Wallet para activar el servicio. Cuando se alcance cualquiera de los límites, deberá renovar la licencia. La licencia BYOL de copia de seguridad se aplica a todos los sistemas de origen asociados a su https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-netapp-accounts.html["Cuenta BlueXP"^].
+
+link:task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license["Aprenda a gestionar sus licencias BYOL"].
+
+
+
+=== Suscripción de pago por uso
+
+Cloud Backup ofrece licencias basadas en consumo en un modelo de pago por uso. Después de suscribirse a través del mercado de su proveedor de cloud, paga por GIB los datos de los que se ha realizado el backup: No hay ningún pago por adelantado. Su proveedor de cloud se le factura con cargo mensual.
+
+link:task-licensing-cloud-backup.html#use-a-cloud-backup-paygo-subscription["Aprenda a configurar una suscripción de pago por uso"].
+
+Tenga en cuenta que está disponible una prueba gratuita de 30 días cuando se inscriba inicialmente con una suscripción a PAYGO.
+
+
+
+=== Contrato anual
+
+ifdef::aws[]
+
+Cuando se utiliza AWS, hay dos contratos anuales disponibles para períodos de 12, 24 o 36 meses:
+
+* Un plan de "Backup en el cloud" que le permite realizar backups de datos de Cloud Volumes ONTAP y de datos de ONTAP en las instalaciones.
+* Un plan "CVO Professional" que le permite agrupar Cloud Volumes ONTAP y Cloud Backup. Esto incluye backups ilimitados de volúmenes de Cloud Volumes ONTAP cargados con esta licencia (la capacidad de backup no se cuenta con la licencia).
+
+
+endif::aws[]
+
+ifdef::azure[]
+
+* Al utilizar Azure, puede solicitar una oferta privada de NetApp y, a continuación, seleccionar el plan al suscribirse desde Azure Marketplace durante la activación de Cloud Backup.
+
+
+endif::azure[]
+
+ifdef::gcp[]
+
+* Cuando utilice GCP, puede solicitar una oferta privada de NetApp y, a continuación, seleccionar el plan al suscribirse desde Google Cloud Marketplace durante la activación de Cloud Backup.
+
+
+endif::gcp[]
+
+link:task-licensing-cloud-backup.html#use-an-annual-contract["Aprenda a establecer contratos anuales"].
+
+
+
+== Cómo funciona Cloud Backup
+
+Cuando habilita Cloud Backup en un sistema Cloud Volumes ONTAP o ONTAP en las instalaciones, el servicio realiza un backup completo de los datos. Las snapshots de volúmenes no están incluidas en la imagen de backup. Tras el primer backup, todos los backups adicionales son incrementales, lo que significa que solo se realiza un backup de los bloques modificados y los nuevos bloques. De este modo se minimiza el tráfico de red. Cloud Backup se basa en la https://docs.netapp.com/us-en/ontap/concepts/snapmirror-cloud-backups-object-store-concept.html["Tecnología SnapMirror Cloud de NetApp"^].
+
+
+CAUTION: Cualquier acción que se realice directamente desde el entorno de su proveedor de cloud para gestionar o cambiar los archivos de copia de seguridad puede dañar los archivos y provocar una configuración no compatible.
+
+La siguiente imagen muestra la relación entre cada componente:
+
+image:diagram_cloud_backup_general.png["Un diagrama muestra cómo Cloud Backup se comunica con los volúmenes en los sistemas de origen y el almacenamiento de objetos de destino donde se encuentran los archivos de backup."]
+
+
+
+=== La ubicación de los backups
+
+Las copias de seguridad se almacenan en un almacén de objetos que BlueXP crea en su cuenta de cloud. Hay un almacén de objetos por clúster/entorno de trabajo y BlueXP asigna el nombre del almacén de objetos de la siguiente forma: "netapp-backup-clusterUUID". Asegúrese de no eliminar este almacén de objetos.
+
+ifdef::aws[]
+
+* En AWS, BlueXP habilita la https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html["Función de acceso público en bloque de Amazon S3"^] En el bloque de S3.
+
+
+endif::aws[]
+
+ifdef::azure[]
+
+* En Azure, BlueXP usa un grupo de recursos nuevo o existente con una cuenta de almacenamiento para el contenedor Blob. BlueXP https://docs.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-prevent["bloquea el acceso público a los datos blob"] de forma predeterminada.
+
+
+endif::azure[]
+
+ifdef::gcp[]
+
+* En GCP, BlueXP utiliza un proyecto nuevo o existente con una cuenta de almacenamiento para el bloque de almacenamiento de Google Cloud.
+
+
+endif::gcp[]
+
+* En StorageGRID, BlueXP utiliza una cuenta de almacenamiento existente para el bloque de almacenamiento de objetos.
+
+
+Si desea cambiar el almacén de objetos de destino de un clúster en el futuro, tendrá que hacerlo link:task-manage-backups-ontap.html#unregistering-cloud-backup-for-a-working-environment["Cancele el registro de Cloud Backup para el entorno de trabajo"^]Y, a continuación, active Cloud Backup con la información del nuevo proveedor de cloud.
+
+
+
+=== Programación de copia de seguridad y configuración de retención personalizables
+
+Al habilitar Cloud Backup para un entorno de trabajo, todos los volúmenes que inicialmente seleccione se incluirán en los backups con la política de backup predeterminada que haya definido. Si desea asignar diferentes políticas de backup a ciertos volúmenes que tienen diferentes objetivos de punto de recuperación (RPO), es posible crear políticas adicionales para ese clúster y asignar dichas políticas a los otros volúmenes después de activar Cloud Backup.
+
+Se puede elegir una combinación de backups por hora, diarios, semanales, mensuales y anuales de todos los volúmenes. También puede seleccionar una de las políticas definidas por el sistema que proporcione backups y retención durante 3 meses, 1 año y 7 años. Estas políticas son:
+
+[cols="35,16,16,16,26"]
+|===
+| Nombre de la política de backup 3+| Backups por intervalo... | Capacidad Completos 
+
+
+|  | *Diario* | *Semanal* | *mensual* |  
+
+
+| Netapp3MonthsRetention | 30 | 13 | 3 | 46 
+
+
+| Netapp1YearRetention | 30 | 13 | 12 | 55 
+
+
+| Retención de Netapp7YearsRetention | 30 | 53 | 84 | 167 
+|===
+Las políticas de protección de backup que se crearon en el clúster con ONTAP System Manager o la interfaz de línea de comandos de ONTAP también aparecerán como selecciones. Esto incluye las políticas creadas con etiquetas de SnapMirror personalizadas.
+
+Una vez que haya alcanzado la cantidad máxima de backups para una categoría o intervalo, los backups más antiguos se eliminan de modo que siempre tendrá los backups más actuales (y, por lo tanto, los backups obsoletos no continúan ocupar espacio en el cloud).
+
+Consulte link:concept-cloud-backup-policies.html#backup-schedules["Programaciones de backup"^] para obtener más información acerca de las opciones de programación disponibles.
+
+Tenga en cuenta que puede link:task-manage-backups-ontap.html#creating-a-manual-volume-backup-at-any-time["crear un backup bajo demanda de un volumen"] Desde la consola de backup en cualquier momento, además de los archivos de backup creados a partir de las copias de seguridad programadas.
+
+
+TIP: El período de retención para backups de volúmenes de protección de datos es el mismo que se define en la relación de SnapMirror de origen. Puede cambiar esto si lo desea con la API de.
+
+
+
+=== Configuración de protección de archivos de copia de seguridad
+
+Si su clúster utiliza ONTAP 9.11.1 o superior, puede proteger sus backups de ataques de ransomware y eliminación. Cada política de copia de seguridad ofrece una sección de _DataLock y Protección de ransomware_ que se puede aplicar a sus archivos de copia de seguridad durante un período de tiempo específico: El _período de retención_. _DataLock_ protege los archivos de copia de seguridad de que no se modifican o eliminan. _Ransomware Protection_ analiza sus archivos de copia de seguridad para buscar pruebas de un ataque de ransomware cuando se crea un archivo de copia de seguridad y cuando se restauran los datos de un archivo de copia de seguridad.
+
+El período de retención de backup es igual al período de retención de programa de backup; más 14 días. Por ejemplo, las copias de seguridad _Weekly_ con _5_ copias retenidas bloquearán cada archivo de copia de seguridad durante 5 semanas. _Mensual_ los backups con _6_ copias retenidas bloquearán cada archivo de copia de seguridad durante 6 meses.
+
+Actualmente, existe soporte disponible si su destino de backup es Amazon S3, Azure Blob o StorageGRID de NetApp. En futuras versiones se añadirán otros destinos proveedores de almacenamiento.
+
+Consulte link:concept-cloud-backup-policies.html#datalock-and-ransomware-protection["Protección de DataLock y ransomware"^] Para obtener más detalles sobre cómo funciona la protección DataLock y Ransomware.
+
+
+TIP: No se puede habilitar DataLock si se dispone de la organización en niveles de los backups en el almacenamiento de archivado.
+
+
+
+=== Almacenamiento de archivado para ficheros de backup antiguos
+
+Al usar cierto almacenamiento en cloud, se pueden mover los archivos de backup antiguos a un nivel de acceso/clase de almacenamiento más económico tras un determinado número de días. Tenga en cuenta que el almacenamiento de archivado no se puede utilizar si ha habilitado DataLock.
+
+ifdef::aws[]
+
+* En AWS, los backups comienzan en la clase de almacenamiento _Standard_ y realizan la transición a la clase de almacenamiento _Standard-Infrecuente Access_ tras 30 días.
++
+Si su clúster utiliza ONTAP 9.10.1 o superior, puede optar por organizar en niveles los backups más antiguos en el almacenamiento _S3 Glacier_ o _S3 Glacier Deep Archive_ en la interfaz de usuario de Cloud Backup tras un determinado número de días para obtener una mayor optimización de los costes. link:reference-aws-backup-tiers.html["Obtenga más información acerca del almacenamiento de archivado de AWS"^].
+
+
+
+endif::aws[]
+
+ifdef::azure[]
+
+* En Azure, los backups están asociados con el nivel de acceso _Cool_.
++
+Si su clúster utiliza ONTAP 9.10.1 o superior, puede optar por organizar niveles de backups antiguos en el almacenamiento _Azure Archive_ en la interfaz de usuario de Cloud Backup tras un cierto número de días para obtener mayor optimización de los costes. link:reference-azure-backup-tiers.html["Obtenga más información sobre el almacenamiento de archivado de Azure"^].
+
+
+
+endif::azure[]
+
+ifdef::gcp[]
+
+* En GCP, las copias de seguridad están asociadas con la clase de almacenamiento _Standard_.
++
+Si su clúster utiliza ONTAP 9.12.1 o superior, puede optar por organizar niveles de backups antiguos en el almacenamiento _Archive_ en la interfaz de usuario de Cloud Backup tras unos días para obtener mayor optimización de los costes. link:reference-google-backup-tiers.html["Más información sobre el almacenamiento de archivos de Google"^].
+
+
+
+endif::gcp[]
+
+* En StorageGRID, las copias de seguridad están asociadas con la clase de almacenamiento _Standard_.
++
+Si su clúster de instalaciones utiliza ONTAP 9.12.1 o superior y su sistema StorageGRID utiliza 11.4 o más, puede archivar archivos de backup antiguos al almacenamiento de archivado en cloud público tras un determinado número de días. Actualmente es compatible con los niveles de almacenamiento de AWS S3 Glacier/S3 Glacier Deep Archive o Azure Archive. link:task-backup-onprem-private-cloud.html#preparing-to-archive-older-backup-files-to-public-cloud-storage["Obtenga más información sobre el archivado de archivos de backup desde StorageGRID"^].
+
+
+
+Consulte link:concept-cloud-backup-policies.html#archival-storage-settings["Configuración de almacenamiento de archivado"] para obtener más información acerca del archivado de archivos de copia de seguridad antiguos.
+
+
+
+== Consideraciones sobre la política de organización en niveles de FabricPool
+
+Hay ciertas cosas que debe tener en cuenta cuando el volumen del cual se está realizando el backup reside en un agregado de FabricPool y tiene una política asignada, excepto en `none`:
+
+* El primer backup de un volumen organizado en niveles de FabricPool requiere la lectura de todos los datos locales y por niveles (del almacén de objetos). Una operación de backup no "recalienta" los datos fríos organizados por niveles en almacenamiento de objetos.
++
+Esta operación podría provocar un aumento único en el coste de leer los datos del proveedor de cloud.
+
++
+** Los backups posteriores son incrementales y no tienen este efecto.
+** Si la política de organización en niveles se asigna al volumen cuando se crea inicialmente, no se verá este problema.
+
+
+* Tenga en cuenta el impacto de los backups antes de asignar el `all` la política de organización en niveles en los volúmenes. Dado que los datos se organizan en niveles inmediatamente, Cloud Backup leerá los datos del nivel de cloud en lugar del nivel local. Como las operaciones de backup simultáneas comparten el enlace de red con el almacén de objetos en cloud, se puede producir una degradación del rendimiento si los recursos de red se saturan. En este caso, puede que desee configurar de forma proactiva varias interfaces de red (LIF) para reducir este tipo de saturación de red.
+
+
+
+
+== Limitaciones
+
+
+
+=== Limitaciones de backup
+
+* La posibilidad de organizar en niveles archivos de backup antiguos en el almacenamiento de datos archivados requiere que el clúster ejecute ONTAP 9.10.1 o posterior. Para restaurar volúmenes a partir de archivos de backup que residen en un almacenamiento de archivado, el clúster de destino tiene que ejecutar ONTAP 9.10.1 o posterior.
+* Cuando se crea o edita una política de backup cuando no se asignan volúmenes a la política, el número de backups retenidos puede ser un máximo de 1018. Como solución alternativa, puede reducir el número de copias de seguridad para crear la directiva. Luego, se puede editar la política para crear hasta 4000 backups después de asignar volúmenes a la política.
+* Cuando se realiza un backup de volúmenes de protección de datos (DP):
++
+** Relaciones con las etiquetas de SnapMirror `app_consistent` y.. `all_source_snapshot` no se realizarán backups en el cloud.
+** Si crea copias locales de Snapshot en el volumen de destino de SnapMirror (independientemente de las etiquetas de SnapMirror utilizadas), estas Snapshots no se moverán al cloud como backups. En este momento, deberá crear una política de Snapshot con las etiquetas que desee en el volumen de DP de origen para que Cloud Backup los realice backups.
+
+
+* Los backups de volúmenes de FlexGroup no se pueden mover a un almacenamiento de archivado ni tampoco se puede usar la protección de DataLock y Ransomware.
+* Se admite el backup de volúmenes de SVM-DR con las siguientes restricciones:
++
+** Los backups solo son compatibles desde el almacenamiento secundario de ONTAP.
+** La política de Snapshot aplicada al volumen debe ser una de las políticas reconocidas por Cloud Backup, que incluye diario, semanal, mensual, etc. No se reconoce la política predeterminada "sm_creado" (utilizada para *Mirror All Snapshots*) y el volumen DP no aparecerá en la lista de volúmenes de los que se puede hacer copia de seguridad.
+
+
+
+
+* Soporte de MetroCluster:
++
+** Cuando se utiliza ONTAP 9.12.1 GA o superior, el backup es compatible cuando se conecta al sistema primario. Toda la configuración de backup se transfiere al sistema secundario de forma que los backups al cloud continúan automáticamente tras la conmutación. No es necesario configurar el backup en el sistema secundario (de hecho, ya no se tiene la restricción de hacerlo).
+** Cuando se utiliza ONTAP 9.12.0 y versiones anteriores, el backup solo es compatible desde el sistema secundario ONTAP.
+** Por el momento no se admiten backups de volúmenes de FlexGroup.
+
+
+* La copia de seguridad de volumen ad-hoc con el botón *Backup Now* no se admite en los volúmenes de protección de datos.
+* No se admiten las configuraciones de SM-BC.
+* ONTAP no admite relaciones de SnapMirror entre fan-out de un único volumen y varios almacenes de objetos; por lo tanto, Cloud Backup no admite esta configuración.
+* El modo WORM y cumplimiento de normativas en un almacén de objetos solo es compatible en Amazon S3 y StorageGRID en este momento. Esto se conoce como función DataLock y debe gestionarse mediante la configuración Cloud Backup, no mediante la interfaz del proveedor de cloud.
+
+
+
+
+=== Limitaciones de la restauración
+
+Estas limitaciones se aplican tanto a los métodos de restauración de archivos y carpetas como a los métodos de búsqueda y restauración, a menos que se especifique lo contrario.
+
+* Browse & Restore permite restaurar hasta 100 archivos individuales a la vez.
+* Search & Restore puede restaurar 1 fichero cada vez.
+* Browse & Restore (examinar y restaurar) y Search & Restore (Buscar y restaurar) pueden restaurar 1 carpeta cada vez.
+* Actualmente, la restauración de directorio/carpeta no es compatible con los volúmenes de FlexGroup.
+* No se admite la restauración de volúmenes de FlexGroup a volúmenes de FlexVol o volúmenes de FlexVol a volúmenes de FlexGroup.
+* No puede restaurar carpetas individuales si el archivo de backup reside en el almacenamiento de archivado.
+* El archivo que se va a restaurar debe estar utilizando el mismo idioma que el del volumen de destino. Recibirá un mensaje de error si los idiomas no son los mismos.
+* La prioridad de restauración _High_ no se admite al restaurar datos de Azure a sistemas StorageGRID.
+

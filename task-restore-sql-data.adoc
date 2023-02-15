@@ -1,0 +1,88 @@
+---
+sidebar: sidebar 
+permalink: task-restore-sql-data.html 
+keywords: restore, Azure, Amazon Web services, Microsoft SQL Server database 
+summary: Puede restaurar la base de datos de SQL Server desde el cloud al servidor de SnapCenter en las instalaciones. 
+---
+= Restaurar base de datos de SQL Server
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Es posible restaurar la base de datos de SQL Server en el mismo host o en el host alternativo. No se admiten la recuperación de backups de registros ni la propagación de grupos de disponibilidad.
+
+
+NOTE: IMPORTANTE: Se admite la restauración de backups secundarios mediante el almacenamiento primario.
+
+
+IMPORTANT: No se admite la restauración de archivos individuales (SFR).
+
+*Lo que necesitará*
+
+Si desea restaurar una copia de seguridad que se haya movido a almacén de objetos desde almacenamiento secundario, debe añadir los detalles del entorno de trabajo principal y establecer el espacio de IP. Para obtener más información, consulte link:task-manage-app-backups.html#set-ip-space-of-the-primary-working-environment["Establecer el espacio IP del entorno de trabajo principal"].
+
+* Pasos*
+
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. En el campo *filtro por*, seleccione el filtro *Tipo* y, en la lista desplegable, seleccione *SQL*.
+. Haga clic en *Ver detalles* para ver todas las copias de seguridad disponibles.
+. Seleccione la copia de seguridad y haga clic en *Restaurar*.
+. Seleccione la ubicación en la que desea restaurar los archivos de la base de datos.
++
+|===
+| Opción | Descripción 
+
+
+ a| 
+Restaure la base de datos en el mismo host en el que se creó el backup
+ a| 
+Seleccione esta opción si desea restaurar la base de datos en la misma instancia de SQL Server donde se realizan los backups.
+
+
+
+ a| 
+Restaurar la base de datos en un host alternativo
+ a| 
+Seleccione esta opción si desea que la base de datos se restaure en un servidor SQL diferente en el mismo host o diferente donde se realizan los backups.
+
+Seleccione un nombre de host, proporcione un nombre de base de datos (opcional), seleccione una instancia y especifique las rutas de restauración.
+
+
+NOTE: La extensión de archivo proporcionada en la ruta alternativa debe ser la misma que la del archivo de base de datos original.
+
+Si la opción *Restaurar la base de datos a un host alternativo* no aparece en la página Restaurar ámbito, borre la memoria caché del explorador.
+
+|===
+. Si la instantánea se encuentra en el almacenamiento de archivado, especifique la prioridad de restauración de los datos desde el almacenamiento de archivado.
+. En la página *Opciones previas a la restauración*, seleccione una de las siguientes opciones:
++
+** Seleccione *Sobrescribir la base de datos con el mismo nombre durante la restauración* para restaurar la base de datos con el mismo nombre.
+** Seleccione *mantener la configuración de replicación de bases de datos SQL* para restaurar la base de datos y mantener la configuración de replicación existente.
+
+
+. En la página *Opciones de posrestauración*, para especificar el estado de la base de datos para restaurar registros transaccionales adicionales, seleccione una de las siguientes opciones:
++
+** Seleccione *operativo, pero no disponible* si está restaurando todas las copias de seguridad necesarias ahora.
++
+Este es el comportamiento predeterminado, que deja la base de datos preparada para su uso revirtiendo las transacciones no comprometidas. No podrá restaurar registros de transacciones adicionales hasta que cree un backup.
+
+** Seleccione *no operativo, pero disponible* para dejar la base de datos no operativa sin revertir las transacciones no comprometidas.
++
+Pueden restaurarse registros de transacciones adicionales. No podrá utilizar la base de datos hasta que esta se recupere.
+
+** Seleccione *modo de sólo lectura y disponible* para dejar la base de datos en modo de sólo lectura.
++
+Esta opción deshace las transacciones no comprometidas, pero guarda las acciones deshechas en un archivo en espera para que puedan revertirse los efectos de recuperación.
+
++
+Si se habilita la opción Undo directory, se restauran más registros de transacciones. Si la operación de restauración para el registro de transacciones no se realiza correctamente, pueden revertirse los cambios. La documentación de SQL Server contiene más información.
+
+
+
+. Revise los detalles y haga clic en *Restaurar*.
+

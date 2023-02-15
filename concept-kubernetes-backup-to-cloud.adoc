@@ -1,0 +1,196 @@
+---
+sidebar: sidebar 
+permalink: concept-kubernetes-backup-to-cloud.html 
+keywords: backing up, restoring, back up, backup, restore, aws, azure, s3, blob, google cloud, back up volumes, cloud backup, restore volumes, billing, cost, kubernetes 
+summary: Cloud Backup ofrece funcionalidades de backup y restauración para protección y archivado a largo plazo de sus datos de clúster de Kubernetes. Los backups se generan y almacenan automáticamente en un almacén de objetos en su cuenta de cloud público o privado. 
+---
+= Proteja los datos de clústeres de Kubernetes mediante Cloud Backup
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Cloud Backup ofrece funcionalidades de backup y restauración para protección y archivado a largo plazo de sus datos de clúster de Kubernetes. Los backups se generan y almacenan automáticamente en un almacén de objetos en su cuenta de cloud público o privado.
+
+Cuando sea necesario, puede restaurar un _volume_ completo desde una copia de seguridad al mismo entorno de trabajo o diferente.
+
+
+
+== Funciones
+
+Funciones de backup:
+
+* Realice backups de copias independientes de sus volúmenes persistentes en un almacenamiento de objetos de bajo coste.
+* Aplique una única política de backup a todos los volúmenes de un clúster o asigne diferentes políticas de backup a los volúmenes que tengan objetivos de punto de recuperación únicos.
+* Los datos de los backups se protegen con conexiones HTTPS en reposo con cifrado AES de 256 bits y TLS 1.2.
+* Permite hasta 4,000 backups de un único volumen.
+
+
+Funciones de restauración:
+
+* Restaure los datos de un momento específico.
+* Restaure un volumen al sistema de origen o a otro sistema.
+* Restaura datos en el nivel de bloque, colocando los datos directamente en la ubicación especificada, mientras conserva las ACL originales.
+
+
+
+
+== Entornos de trabajo de Kubernetes compatibles y proveedores de almacenamiento de objetos
+
+Cloud Backup le permite realizar backups de volúmenes de Kubernetes de los siguientes entornos de trabajo en el almacenamiento de objetos, en los siguientes proveedores de cloud público y privado:
+
+[cols="45,40"]
+|===
+| Entorno de trabajo de fuente | Destino de archivo de copia de seguridad ifdef::aws[] 
+
+
+| Clúster de Kubernetes en AWS | Endif de Amazon S3::aws[] ifdef::Azure[] 
+
+
+| Clúster de Kubernetes en Azure | Endif de Azure Blob::Azure[] ifdef::gcp[] 
+
+
+| Clúster de Kubernetes en Google | Fin de Google Cloud Storage::gcp[] 
+|===
+Es posible restaurar un volumen de un archivo de backup de Kubernetes en los siguientes entornos de trabajo:
+
+[cols="40,45"]
+|===
+| Ubicación del archivo de copia de seguridad | Entorno de trabajo de destino ifdef::aws[] 
+
+
+| Amazon S3 | Clúster de Kubernetes en endif de AWS::aws[] ifdef::Azure[] 
+
+
+| Azure Blob | Clúster de Kubernetes en endif de Azure::Azure[] ifdef::gcp[] 
+
+
+| Google Cloud Storage | Clúster de Kubernetes en Google endif::gcp[] 
+|===
+
+
+== Coste
+
+Existen dos tipos de costes asociados con el uso de Cloud Backup: Cargos por recursos y cargos por servicio.
+
+*gastos de recursos*
+
+Se paga un recargo por los recursos al proveedor de cloud por la capacidad de almacenamiento de objetos en el cloud. Desde que Cloud Backup conserva las eficiencias del almacenamiento del volumen de origen, pagará los costes del almacenamiento de objetos del proveedor de cloud por las eficiencias de los datos _After_ ONTAP (en cuanto a la menor cantidad de datos después de aplicar la deduplicación y la compresión).
+
+*cargos por servicio*
+
+NetApp paga los gastos de servicio y cubre tanto el coste de los backups _create_ como los volúmenes _restore_ de dichos backups. Solo paga por los datos que protege, calculados por la capacidad lógica utilizada de origen (_antes_ eficiencia de ONTAP) de los volúmenes de los que se ha realizado un backup en el almacenamiento de objetos. Esta capacidad también se conoce como terabytes de interfaz (FETB).
+
+El servicio de backup consta de dos formas de pago. La primera opción es suscribirse a su proveedor de cloud, lo que le permite pagar por mes. La segunda opción consiste en comprar licencias directamente a NetApp. Lea la <<Licencia,Licencia>> para obtener más información.
+
+
+
+== Licencia
+
+Cloud Backup está disponible en dos opciones de licencia: Pago por uso (PAYGO) y con su propia licencia (BYOL). Hay disponible una prueba gratuita de 30 días si no tiene licencia.
+
+
+
+=== Prueba gratuita
+
+Al utilizar la prueba gratuita de 30 días, se le notifica el número de días de prueba gratuitos que quedan. Al final de su prueba gratuita, los backups dejan de crearse. Debe suscribirse al servicio o adquirir una licencia para seguir utilizando el servicio.
+
+Los archivos de copia de seguridad no se eliminan cuando el servicio está deshabilitado. El proveedor de cloud seguirá facturando los costes del almacenamiento de objetos por la capacidad que utilizan sus backups a menos que elimine los backups.
+
+
+
+=== Suscripción de pago por uso
+
+Cloud Backup ofrece licencias basadas en consumo en un modelo de pago por uso. Después de suscribirse a través del mercado de su proveedor de nube, paga por GB los datos de los que se ha realizado una copia de seguridad: ​there no es el pago inicial. Su proveedor de cloud se le factura con cargo mensual.
+
+Debe suscribirse aunque tenga una prueba gratuita o si lleva su propia licencia (BYOL):
+
+* La suscripción garantiza que no se produzcan interrupciones en el servicio una vez que finalice la prueba gratuita.
++
+Cuando finalice la prueba, se le cobrará cada hora según la cantidad de datos de los que realiza la copia de seguridad.
+
+* Si realiza un backup de más datos de los permitidos en su licencia BYOL, el backup de datos continúa con su suscripción de pago por uso.
++
+Por ejemplo, si tiene una licencia BYOL de 10 TB, toda la capacidad que supere los 10 TB se cargará a través de la suscripción PAYGO.
+
+
+
+No se le cobrará su suscripción de pago por uso durante su prueba gratuita o si no ha superado su licencia BYOL.
+
+link:task-licensing-cloud-backup.html#use-a-cloud-backup-paygo-subscription["Aprenda a configurar una suscripción de pago por uso"].
+
+
+
+=== Con su propia licencia
+
+BYOL se basa en el plazo (12, 24 o 36 meses) en incrementos de 1 TB. Usted paga a NetApp para que utilice el servicio por un periodo, digamos de 1 año, y por una cantidad máxima, digamos 10 TB.
+
+Recibirá un número de serie que introduzca en la página de Blue XP Digital Wallet para activar el servicio. Cuando se alcance cualquiera de los límites, deberá renovar la licencia. La licencia BYOL de copia de seguridad se aplica a todos los sistemas de origen asociados a su https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-netapp-accounts.html["Cuenta BlueXP"^].
+
+link:task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license["Aprenda a gestionar sus licencias BYOL"].
+
+
+
+== Cómo funciona Cloud Backup
+
+Cuando habilita Cloud Backup en un sistema Kubernetes, el servicio realiza un backup completo de sus datos. Tras el primer backup, todos los backups adicionales son incrementales, lo que significa que solo se realiza un backup de los bloques modificados y los nuevos bloques. De este modo se minimiza el tráfico de red.
+
+
+CAUTION: Cualquier acción que se realice directamente desde el entorno de su proveedor de cloud para gestionar o cambiar los archivos de copia de seguridad puede dañar los archivos y provocar una configuración no compatible.
+
+La siguiente imagen muestra la relación entre cada componente:
+
+image:diagram_cloud_backup_general_k8s.png["Un diagrama muestra cómo Cloud Backup se comunica con los volúmenes en los sistemas de origen y el almacenamiento de objetos de destino donde se encuentran los archivos de backup."]
+
+
+
+=== Clases de almacenamiento o niveles de acceso admitidos
+
+ifdef::aws[]
+
+* En AWS, los backups comienzan en la clase de almacenamiento _Standard_ y realizan la transición a la clase de almacenamiento _Standard-Infrecuente Access_ tras 30 días.
+
+
+endif::aws[]
+
+ifdef::azure[]
+
+* En Azure, los backups están asociados con el nivel de acceso _Cool_.
+
+
+endif::azure[]
+
+ifdef::gcp[]
+
+* En GCP, las copias de seguridad están asociadas con la clase de almacenamiento _Standard_ de forma predeterminada.
+
+
+endif::gcp[]
+
+
+
+=== Configuración de retención y programación de backup personalizable por clúster
+
+Al habilitar Cloud Backup para un entorno de trabajo, todos los volúmenes que inicialmente seleccione se incluirán en los backups con la política de backup predeterminada que haya definido. Si desea asignar diferentes políticas de backup a ciertos volúmenes que tienen diferentes objetivos de punto de recuperación (RPO), puede crear políticas adicionales para ese clúster y asignar dichas políticas a otros volúmenes.
+
+Se puede elegir una combinación de backups por hora, diarios, semanales y mensuales de todos los volúmenes.
+
+Una vez que haya alcanzado el número máximo de backups para una categoría o intervalo, se eliminan los backups más antiguos de modo que siempre tendrá los backups más recientes.
+
+
+
+== Volúmenes compatibles
+
+Cloud Backup es compatible con volúmenes persistentes (VP).
+
+
+
+== Limitaciones
+
+* Cuando se crea o edita una política de backup cuando no se asignan volúmenes a la política, el número de backups retenidos puede ser un máximo de 1018. Como solución alternativa, puede reducir el número de copias de seguridad para crear la directiva. Luego, se puede editar la política para crear hasta 4000 backups después de asignar volúmenes a la política.
+* Las copias de seguridad de volumen ad-hoc con el botón *Backup Now* no se admiten en los volúmenes Kubernetes.
+

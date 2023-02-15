@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: concept-protect-vm-data.html 
+keywords: protect virtual machines, vm, policy, policies, backup back up, restore, SnapCenter Plug-in, Cloud Manager, BlueXP 
+summary: Obtenga más información sobre la protección de datos en los equipos virtuales y conozca las distintas políticas. 
+---
+= Proteja los datos de los equipos virtuales
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Puede proteger los datos en sus máquinas virtuales integrando el complemento de SnapCenter para VMware vSphere con BlueXP (antes Cloud Manager). Puede realizar backup de almacenes de datos de almacenamiento primario y secundario en las instalaciones al cloud y restaurar máquinas virtuales nuevamente al plugin de SnapCenter en las instalaciones para VMware vSphere con facilidad.
+
+Puede realizar backups de almacenes de datos en Amazon Web Services S3 (los niveles de archivado compatibles son Glacier y Deep Glacier), Microsoft Azure Blob (el nivel de archivado compatible es Azure Archive), Google Cloud Platform y StorageGRID.
+
+
+
+== Requisitos
+
+Lea los siguientes requisitos para asegurarse de tener una configuración compatible antes de comenzar a realizar el backup de almacenes de datos y máquinas virtuales a los servicios de cloud.
+
+* Plugin de SnapCenter para VMware vSphere 4.6P1 o posterior
++
+** Debe utilizar el plugin de SnapCenter para VMware vSphere 4.7P1 o versiones posteriores para realizar el backup de máquinas virtuales desde el almacenamiento secundario en las instalaciones.
+
+
+* ONTAP 9.8 o posterior
+* BlueXP 3.9 o posterior
+* Solo se admiten almacenes de datos NFS. No se admiten los almacenes de datos VMFS basados en iSCSI/FC/NVMe y vVols.
+* Debe haber al menos un backup en el plugin de SnapCenter para VMware vSphere 4.6P1.
+* Al menos una política diaria, semanal o mensual en el plugin de SnapCenter para VMware vSphere sin etiqueta ni etiqueta de la política de máquinas virtuales en BlueXP.
+* Para una política preparada previamente, el nivel de programación debe ser el mismo para el almacén de datos en el plugin de SnapCenter para VMware vSphere y en el cloud.
+* Compruebe que no haya volúmenes de FlexGroup en el almacén de datos debido a que no se admiten el backup y la restauración de volúmenes de FlexGroup.
+* Asegúrese de que ninguno de los volúmenes esté cifrado porque no se admite la restauración de volúmenes cifrados.
+* Desactive "*_Recent*" en los grupos de recursos necesarios. Si tiene activado "*_Recent*" para el grupo de recursos, las copias de seguridad de esos grupos de recursos no se pueden utilizar para la protección de datos en la nube y, posteriormente, no se pueden utilizar para la operación de restauración.
+* Asegúrese de que el almacén de datos de destino donde se restaurará la máquina virtual tenga espacio suficiente para acomodar una copia de todos los archivos de equipos virtuales, como VMDK, VMX, VMSD, etc.
+* Asegúrese de que el almacén de datos de destino no tenga archivos obsoletos de máquinas virtuales en formato RESTORE_xxx_xxxxxx_FILENAME de los errores anteriores de la operación de restauración. Debe eliminar los archivos obsoletos antes de activar una operación de restauración.
+
+
+La siguiente imagen muestra cada componente y las conexiones que necesita preparar entre ellos:
+
+image:cloud_backup_vm.png["diagrama de la arquitectura"]

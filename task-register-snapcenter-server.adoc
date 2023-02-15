@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: task-register-snapcenter-server.html 
+keywords: SnapCenter Server, register 
+summary: Realice unos pasos para registrar el servidor SnapCenter. 
+---
+= Registre el servidor SnapCenter
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Solo un usuario con el rol de administrador de SnapCenter puede registrar el host en el que se ejecuta SnapCenter Server 4.6 o una versión posterior. Es posible registrar varios hosts de SnapCenter Server.
+
+* Pasos*
+
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. En el menú desplegable *Configuración*, haga clic en *servidores SnapCenter*.
+. Haga clic en *Registrar servidor SnapCenter*.
+. Especifique los siguientes detalles:
++
+.. En el campo servidor SnapCenter, especifique el FQDN o la dirección IP del host SnapCenter Server.
+.. En el campo Puerto, especifique el número de puerto en el que se está ejecutando el servidor SnapCenter.
++
+Debe asegurarse de que el puerto esté abierto para que se produzca la comunicación entre SnapCenter Server y el backup en el cloud para las aplicaciones.
+
+.. En el campo Etiquetas, especifique un nombre de sitio, un nombre de ciudad o cualquier nombre personalizado con el que desee etiquetar el servidor SnapCenter.
++
+Las etiquetas están separadas por comas.
+
+.. En el campo Username and Password, especifique las credenciales del usuario con el rol SnapCenterAdmin.
+
+
+. Haga clic en *Registrar*.
+
+
+*Después de terminar*
+
+Haga clic en *copia de seguridad y restauración* > *aplicaciones* para ver todas las aplicaciones protegidas con el host de servidor SnapCenter registrado.
+
+De forma predeterminada, las aplicaciones se detectan automáticamente cada día, a medianoche. Puede configurar la programación para detectar las aplicaciones.
+
+
+NOTE: En las bases de datos de SQL Server, la columna Nombre de aplicación muestra el nombre en formato _Application_name (nombre de instancia)_.
+
+Las aplicaciones admitidas y sus configuraciones son:
+
+* Base de datos de Oracle:
++
+** Backups completos (datos + registro) creados con al menos una programación diaria, semanal o mensual
+** SAN, NFS, VMDK-SAN, VMDK-NFS Y RDM
+
+
+* Base de datos Microsoft SQL Server:
++
+** Independientes, instancias de clústeres de conmutación por error y grupos de disponibilidad
+** Backups completos creados con al menos un programa diario, semanal o mensual
+** SAN, VMDK-SAN, VMDK-NFS Y RDM
+
+
+* Base de datos SAP HANA:
++
+** Contenedor único 1.x
+** Contenedor de base de datos múltiple 2.x.
+** Replicación de sistemas HANA (HSR)
++
+Debe tener al menos un backup en las ubicaciones primaria y secundaria. Puede decidir realizar un error proactivo o una conmutación por error diferida al secundario.
+
+** Recursos de volúmenes sin datos (NDV), como los binarios de HANA, el volumen de registro de archivos de HANA, el volumen compartido de HANA, etc.
+
+
+
+
+No se mostrarán las siguientes bases de datos:
+
+* Bases de datos que no tienen backups
+* Bases de datos que solo tienen políticas bajo demanda o por hora
+* Bases de datos de Oracle que residen en NVMe
+

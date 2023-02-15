@@ -1,0 +1,332 @@
+---
+sidebar: sidebar 
+permalink: task-backup-onprem-private-cloud.html 
+keywords: backing up, back up, backup, backup on-prem ontap, on-prem, on-premises, back up volumes, cloud backup, StorageGRID 
+summary: Complete algunos pasos para empezar a realizar backups de datos desde sus sistemas ONTAP locales a su almacenamiento de objetos en sus sistemas StorageGRID de NetApp. 
+---
+= Realización de backups de datos de ONTAP en las instalaciones en StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Complete algunos pasos para empezar a realizar backups de datos desde sus sistemas ONTAP locales a su almacenamiento de objetos en sus sistemas StorageGRID de NetApp.
+
+Cabe destacar que "sistemas ONTAP en las instalaciones" incluyen sistemas FAS, AFF y ONTAP Select.
+
+
+
+== Inicio rápido
+
+Empiece rápidamente siguiendo estos pasos o desplácese hacia abajo hasta las secciones restantes para obtener todos los detalles.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Uno"] Verifique la compatibilidad con la configuración
+[role="quick-margin-list"]
+* Ha descubierto el clúster en las instalaciones y lo ha añadido a un entorno de trabajo en BlueXP. Consulte https://docs.netapp.com/us-en/cloud-manager-ontap-onprem/task-discovering-ontap.html["Detección de clústeres de ONTAP"^] para obtener más detalles.
++
+** El clúster ejecuta ONTAP 9.7P5 o una versión posterior.
+** El clúster tiene una licencia de SnapMirror, se incluye como parte del paquete Premium o de Data Protection Bundle.
+** El clúster debe tener conexiones de red necesarias a StorageGRID y conector.
+
+
+* Tiene un conector instalado en sus instalaciones.
++
+** El conector se puede instalar en un sitio con o sin acceso a Internet.
+** La conexión a redes para el conector permite una conexión HTTPS de salida al clúster de ONTAP y a StorageGRID.
+
+
+* Ha comprado link:task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license["y activado"^] Una licencia BYOL de Cloud Backup de NetApp.
+* La versión 10.3 de StorageGRID o posterior con claves de acceso que tienen permisos de S3.
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Dos"] Habilite Cloud Backup en el sistema
+[role="quick-margin-para"]
+Seleccione el entorno de trabajo ONTAP de origen y haga clic en *Activar > copia de seguridad de volúmenes* junto al servicio copia de seguridad y recuperación en el panel derecho y, a continuación, siga el asistente de configuración.
+
+[role="quick-margin-para"]
+image:screenshot_backup_onprem_enable.png["Una captura de pantalla que muestra el botón Habilitar copia de seguridad y recuperación que está disponible después de seleccionar un entorno de trabajo."]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Tres"] Introduzca los detalles de la StorageGRID
+[role="quick-margin-para"]
+Seleccione StorageGRID como proveedor y, a continuación, introduzca los detalles de la cuenta de inquilino de S3 y el servidor StorageGRID. También debe especificar el espacio IP del clúster de ONTAP en el que residen los volúmenes.
+
+[role="quick-margin-para"]
+image:screenshot_backup_provider_settings_storagegrid.png["Una captura de pantalla que muestra los detalles del proveedor de cloud al realizar backups de volúmenes de un clúster de ONTAP en StorageGRID."]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Cuatro"] Defina la política de backup predeterminada
+[role="quick-margin-para"]
+La política predeterminada realiza backups de volúmenes todos los días y conserva las 30 copias de backup más recientes de cada volumen. Cambiar a backups por hora, por día, por semana, por mes o por año, o bien seleccione una de las políticas definidas por el sistema que ofrezca más opciones. También es posible cambiar la cantidad de copias de backup que se desean retener.
+
+[role="quick-margin-para"]
+Si su clúster utiliza ONTAP 9.12.1 o superior y su sistema StorageGRID utiliza la versión 11.4 o superior, puede optar por organizar en niveles los backups antiguos en niveles de archivado en cloud público después de un determinado número de días para obtener una mayor optimización de los costes. Actualmente es compatible con los niveles de almacenamiento de AWS S3 Glacier/S3 Glacier Deep Archive o Azure Archive.
+
+[role="quick-margin-para"]
+Si su clúster utiliza ONTAP 9.11.1 o superior, puede optar por proteger sus copias de seguridad de ataques de eliminación y ransomware configurando una de las configuraciones _DataLock y Protección de ransomware_. link:concept-cloud-backup-policies.html["Obtenga más información acerca de las opciones de configuración de la política de Cloud Backup disponibles"^].
+
+[role="quick-margin-para"]
+image:screenshot_backup_onprem_policy.png["Captura de pantalla que muestra la configuración de Cloud Backup, en la que puede elegir la programación y el período de retención de la copia de seguridad."]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["Cinco"] Seleccione los volúmenes de los que desea realizar el backup
+[role="quick-margin-para"]
+Identifique los volúmenes para los que se desea realizar el backup con la política de backup predeterminada en la página Select Volumes. Si desea asignar diferentes políticas de backup a ciertos volúmenes, puede crear políticas adicionales y aplicarlas más adelante.
+
+[role="quick-margin-para"]
+Un bloque de S3 se crea automáticamente en StorageGRID, en la cuenta de servicio indicada por la clave de acceso de S3 y la clave secreta introducida; además, se almacenan allí los archivos de backup.
+
+
+
+== Requisitos
+
+Lea los siguientes requisitos para asegurarse de que tiene una configuración compatible antes de comenzar a realizar el backup de los volúmenes en las instalaciones en StorageGRID.
+
+La siguiente imagen muestra cada componente al realizar una copia de seguridad de un sistema ONTAP en las instalaciones en StorageGRID y de las conexiones que necesita preparar entre ellos.
+
+image:diagram_cloud_backup_onprem_storagegrid.png["Un diagrama muestra cómo Cloud Backup se comunica con los volúmenes en los sistemas de origen y el almacenamiento de destino donde se encuentran los archivos de backup."]
+
+Cuando el conector y el sistema ONTAP en las instalaciones se instalan en una ubicación en las instalaciones sin acceso a Internet (un «sitio oscuro»), el sistema StorageGRID debe estar ubicado en el mismo centro de datos en las instalaciones. No se admite el archivado de archivos de backup antiguos en el cloud público en configuraciones de sitios oscuros.
+
+
+
+=== Preparar los clústeres de ONTAP
+
+Debe detectar los clústeres de ONTAP en las instalaciones en BlueXP para poder empezar a realizar backups de datos de volúmenes.
+
+https://docs.netapp.com/us-en/cloud-manager-ontap-onprem/task-discovering-ontap.html["Aprenda a detectar un clúster"^].
+
+Requisitos de ONTAP::
++
+--
+* Se recomienda un mínimo de ONTAP 9.7P5; ONTAP 9.8P13 y posterior.
+* Una licencia de SnapMirror (incluida como parte del paquete Premium o del paquete de protección de datos).
++
+*Nota:* el "paquete de nube híbrida" no es necesario cuando se utiliza Cloud Backup.
+
++
+Descubra cómo https://docs.netapp.com/us-en/ontap/system-admin/manage-licenses-concept.html["gestione las licencias de clúster"^].
+
+* La hora y la zona horaria están configuradas correctamente.
++
+Descubra cómo https://docs.netapp.com/us-en/ontap/system-admin/manage-cluster-time-concept.html["configure la hora del clúster"^].
+
+
+
+--
+Requisitos para la red de clúster::
++
+--
+* El clúster de ONTAP inicia una conexión HTTPS a través de un puerto especificado por el usuario desde la LIF del interconexión de clústeres al nodo de puerta de enlace StorageGRID para las operaciones de backup y restauración. El puerto se puede configurar durante la configuración de copia de seguridad.
++
+ONTAP lee y escribe datos en y desde el almacenamiento de objetos. El almacenamiento de objetos nunca se inicia, solo responde.
+
+* ONTAP requiere una conexión entrante desde el conector hasta la LIF de administración del clúster. El conector debe residir en sus instalaciones.
+* Se requiere una LIF de interconexión de clústeres en cada nodo ONTAP donde se alojan los volúmenes en los que se desea incluir. La LIF debe estar asociada al _IPspace_ que ONTAP debería utilizar para conectarse al almacenamiento de objetos. https://docs.netapp.com/us-en/ontap/networking/standard_properties_of_ipspaces.html["Obtenga más información acerca de los espacios IP"^].
++
+Cuando configura Cloud Backup, se le solicita que utilice el espacio IP. Debe elegir el espacio IP al que está asociada cada LIF. Puede ser el espacio IP «predeterminado» o un espacio IP personalizado que haya creado.
+
+* Las LIF de interconexión de clústeres de los nodos pueden acceder al almacén de objetos (no es necesario cuando se instala el conector en un sitio «oscuro»).
+* Los servidores DNS se configuraron para la máquina virtual de almacenamiento donde se encuentran los volúmenes. Descubra cómo https://docs.netapp.com/us-en/ontap/networking/configure_dns_services_auto.html["Configure los servicios DNS para la SVM"^].
+* Tenga en cuenta que si utiliza un espacio IP diferente al predeterminado, es posible que deba crear una ruta estática para obtener acceso al almacenamiento de objetos.
+* Actualice las reglas de firewall, si es necesario, para permitir conexiones Cloud Backup Service desde ONTAP al almacenamiento de objetos a través del puerto que ha especificado (por lo general, el puerto 443) y el tráfico de resolución de nombres desde la máquina virtual de almacenamiento al servidor DNS a través del puerto 53 (TCP/UDP).
+
+
+--
+
+
+
+
+=== Preparando StorageGRID
+
+StorageGRID debe cumplir con los siguientes requisitos. Consulte https://docs.netapp.com/us-en/storagegrid-116/["Documentación de StorageGRID"^] si quiere más información.
+
+Versiones de StorageGRID compatibles:: Se admite StorageGRID 10.3 y versiones posteriores.
++
+--
+Para usar la protección DataLock & Ransomware para sus copias de seguridad, sus sistemas StorageGRID deben ejecutar la versión 11.6.0.3 o posterior.
+
+Para organizar los backups antiguos en niveles en el almacenamiento de archivado en cloud, los sistemas StorageGRID deben ejecutar la versión 11.3 o posterior.
+
+--
+Credenciales de S3:: Debe haber creado una cuenta de inquilino de S3 para controlar el acceso al almacenamiento de StorageGRID. https://docs.netapp.com/us-en/storagegrid-116/admin/creating-tenant-account.html["Consulte los documentos de StorageGRID para obtener más información"^].
++
+--
+Al configurar un backup en StorageGRID, el asistente de backup le solicita una clave de acceso de S3 y una clave secreta para una cuenta de inquilino. La cuenta de inquilino permite a Cloud Backup autenticar y acceder a los bloques StorageGRID que se usan para almacenar backups. Las claves son necesarias para que StorageGRID sepa quién está haciendo la solicitud.
+
+Estas claves de acceso deben estar asociadas a un usuario que tenga los siguientes permisos:
+
+[source, json]
+----
+"s3:ListAllMyBuckets",
+"s3:ListBucket",
+"s3:GetObject",
+"s3:PutObject",
+"s3:DeleteObject",
+"s3:CreateBucket"
+----
+--
+Control de versiones de objetos:: No debe habilitar manualmente el control de versiones de objetos StorageGRID en el bloque de almacenamiento de objetos.
+
+
+
+
+=== Creación o conmutación de conectores
+
+Al realizar una copia de seguridad de datos en StorageGRID, debe haber un conector disponible en las instalaciones. Tendrá que instalar un conector nuevo o asegurarse de que el conector seleccionado actualmente reside en las instalaciones. El conector se puede instalar en un sitio con o sin acceso a Internet.
+
+* https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["Más información sobre conectores"^]
+* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-installing-linux.html["Instalación del conector en un host Linux con acceso a Internet"^]
+* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-onprem-no-internet.html["Instalación del conector en un host Linux sin acceso a Internet"^]
+* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-managing-connectors.html["Cambio entre conectores"^]
+
+
+
+NOTE: La funcionalidad de copia de seguridad en la nube está integrada en el conector BlueXP. Cuando esté instalado en un sitio sin conectividad a Internet, deberá actualizar periódicamente el software Connector para obtener acceso a nuevas funciones. Compruebe la link:whats-new.html["Novedades sobre el backup en el cloud"] Para ver las nuevas funciones en cada versión de Cloud Backup y, a continuación, puede seguir los pasos a. https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-managing-connectors.html#upgrade-the-connector-on-prem-without-internet-access["Actualice el software del conector"^] cuando desee utilizar nuevas funciones.
+
+Le recomendamos encarecidamente que cree copias de seguridad locales de los datos de configuración de Cloud Backup de forma periódica cuando el conector esté instalado en un sitio sin conectividad a Internet. link:reference-backup-cbs-db-in-dark-site.html["Descubra cómo realizar backups de datos de Cloud Backup en un sitio oscuro"^].
+
+
+
+=== Preparación de la conexión a redes para el conector
+
+Asegúrese de que el conector tiene las conexiones de red necesarias.
+
+.Pasos
+. Asegúrese de que la red en la que está instalado el conector habilita las siguientes conexiones:
++
+** Una conexión HTTPS a través del puerto 443 al nodo de puerta de enlace StorageGRID
+** Una conexión HTTPS a través del puerto 443 para la LIF de gestión del clúster ONTAP
+** Una conexión de Internet de salida a través del puerto 443 a Cloud Backup (no es necesaria cuando el conector está instalado en un sitio "oscuro")
+
+
+
+
+
+
+=== Preparar el archivado de archivos de backup antiguos en un almacenamiento de cloud público
+
+Organizar en niveles los archivos de backup antiguos en el almacenamiento de archivado ahorra dinero al utilizar un tipo de almacenamiento más económico para backups que quizás no necesite. StorageGRID es una solución en las instalaciones (cloud privado) que no ofrece almacenamiento de archivado, pero puede mover archivos de backup antiguos a un almacenamiento de archivado en el cloud público. Cuando se utilizan de esta forma, los datos organizados en niveles en el almacenamiento cloud o restaurados a partir del almacenamiento en cloud pasan entre StorageGRID y el almacenamiento cloud - BlueXP no está implicado en esta transferencia de datos.
+
+El soporte actual le permite archivar backups en el almacenamiento AWS _S3 Glacier_/_S3 Glacier Deep Archive_ o _Azure Archive_.
+
+*Requisitos de ONTAP*
+
+* Su clúster debe usar ONTAP 9.12.1 o superior
+
+
+*Requisitos de StorageGRID*
+
+* Su StorageGRID debe usar 11.4 o superior
+* Su StorageGRID debe estar https://docs.netapp.com/us-en/cloud-manager-storagegrid/task-discover-storagegrid.html["Descubierto y disponible en BlueXP Canvas"^].
+
+
+*Requisitos de Amazon S3*
+
+* Tendrá que registrarse en una cuenta de Amazon S3 para conocer el espacio de almacenamiento donde se ubicarán sus backups archivados.
+* Puede elegir entre organizar los backups en niveles en el almacenamiento de AWS S3 Glacier o S3 Glacier Deep Archive. link:reference-aws-backup-tiers.html["Obtenga más información acerca de los niveles de archivado de AWS"^].
+* StorageGRID debe tener acceso de control total al cucharón (`s3:*`); sin embargo, si esto no es posible, la directiva bucket debe conceder los siguientes permisos S3 a StorageGRID:
++
+** `s3:AbortMultipartUpload`
+** `s3:DeleteObject`
+** `s3:GetObject`
+** `s3:ListBucket`
+** `s3:ListBucketMultipartUploads`
+** `s3:ListMultipartUploadParts`
+** `s3:PutObject`
+** `s3:RestoreObject`
+
+
+
+
+*Requisitos de Azure Blob*
+
+* Tendrá que inscribirse en una suscripción de Azure para disfrutar del espacio de almacenamiento donde se ubicar los backups archivados.
+* El asistente de activación permite utilizar un grupo de recursos existente para administrar el contenedor Blob que almacenará las copias de seguridad o crear un nuevo grupo de recursos.
+
+
+A la hora de definir la configuración de archivado para la política de backup del clúster, debe introducir las credenciales del proveedor de cloud y seleccionar la clase de almacenamiento que desea utilizar. Cloud Backup crea el bucket de cloud cuando activa el backup para el clúster. A continuación se muestra la información necesaria para el almacenamiento de archivado de AWS y Azure.
+
+image:screenshot_sg_archive_to_cloud.png["Una captura de pantalla de la información que necesitará para archivar archivos de backup de StorageGRID a AWS S3 o Azure Blob."]
+
+La configuración de la política de archivado que seleccione generará una política de gestión del ciclo de vida de la información (ILM) en StorageGRID y añadirá la configuración como "reglas". Si ya existe una política activa de ILM, se añadirán nuevas reglas a la política de ILM para mover los datos al nivel de archivado. Si ya existe una política de ILM en el estado "propuesta", no será posible la creación y activación de una nueva política de ILM. https://docs.netapp.com/us-en/storagegrid-116/ilm/index.html["Obtenga más información acerca de las reglas y políticas de ILM de StorageGRID"^].
+
+
+
+=== Requisitos de licencia
+
+Antes de poder activar Cloud Backup en su clúster, tendrá que adquirir y activar una licencia BYOL de Cloud Backup de NetApp. Esta licencia es para la cuenta y puede utilizarse en varios sistemas.
+
+Necesitará el número de serie de NetApp que le permita utilizar el servicio durante la duración y la capacidad de la licencia. link:task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license["Aprenda a gestionar sus licencias BYOL"].
+
+
+TIP: No se admite la licencia de PAYGO cuando se realiza una copia de seguridad de archivos en StorageGRID.
+
+
+
+== Habilitar Cloud Backup en StorageGRID
+
+Habilite Cloud Backup en cualquier momento directamente desde el entorno de trabajo local.
+
+.Pasos
+. En Canvas, selecciona el entorno de trabajo en las instalaciones y haz clic en *Activar > copia de seguridad de volúmenes* junto al servicio copia de seguridad y recuperación del panel derecho.
++
+Si el destino de StorageGRID para sus copias de seguridad existe como un entorno de trabajo en el lienzo, puede arrastrar el clúster al entorno de trabajo de StorageGRID para iniciar el asistente de configuración.
+
++
+image:screenshot_backup_onprem_enable.png["Una captura de pantalla que muestra el botón Habilitar copia de seguridad y recuperación que está disponible después de seleccionar un entorno de trabajo."]
+
+. Seleccione *StorageGRID* como proveedor, haga clic en *Siguiente* y, a continuación, introduzca los detalles del proveedor:
++
+.. El FQDN del nodo de puerta de enlace StorageGRID.
+.. El puerto que debe usar ONTAP para la comunicación HTTPS con StorageGRID.
+.. La clave de acceso y la clave secreta utilizadas para acceder al bloque para almacenar backups.
+.. El espacio IP del clúster de ONTAP en el que residen los volúmenes de los que desea realizar backup. Las LIF entre clústeres de este espacio IP deben tener acceso saliente a Internet (no es necesario cuando el conector se instala en un sitio «oscuro»).
++
+Si selecciona el espacio IP correcto, Cloud Backup puede configurar una conexión de ONTAP al almacenamiento de objetos de StorageGRID.
+
++
+image:screenshot_backup_provider_settings_storagegrid.png["Una captura de pantalla que muestra los detalles del proveedor de cloud al realizar backups de volúmenes de un clúster en las instalaciones al almacenamiento StorageGRID."]
+
+
+
+. Introduzca los detalles de la política de copia de seguridad que se utilizarán para su directiva predeterminada y haga clic en *Siguiente*. Puede seleccionar una política existente o crear una nueva introduciendo sus selecciones en cada sección:
++
+.. Escriba el nombre de la política predeterminada. No es necesario cambiar el nombre.
+.. Defina la programación de backup y elija la cantidad de backups que se retendrán. link:concept-ontap-backup-to-cloud.html#customizable-backup-schedule-and-retention-settings["Consulte la lista de políticas existentes que puede elegir"^].
+.. Si su clúster utiliza ONTAP 9.11.1 o superior, puede optar por proteger sus backups de ataques de eliminación y ransomware configurando _DataLock y Protección de ransomware_. _DataLock_ protege sus archivos de copia de seguridad de ser modificados o eliminados, y _Ransomware protection_ analiza sus archivos de copia de seguridad para buscar evidencia de un ataque de ransomware en sus archivos de copia de seguridad. link:concept-cloud-backup-policies.html#datalock-and-ransomware-protection["Obtenga más información acerca de los ajustes de DataLock disponibles"^].
+.. Si el clúster utiliza ONTAP 9.12.1 o posterior y el sistema StorageGRID utiliza la versión 11.4 o posterior, puede optar por organizar en niveles los backups antiguos en niveles de archivado en cloud público después de un determinado número de días. Actualmente es compatible con los niveles de almacenamiento de AWS S3 Glacier/S3 Glacier Deep Archive o Azure Archive. <<Preparar el archivado de archivos de backup antiguos en un almacenamiento de cloud público,Vea cómo configurar sus sistemas para esta funcionalidad>>.
++
+image:screenshot_backup_onprem_policy.png["Una captura de pantalla que muestra la configuración de Cloud Backup, en la que puede elegir la programación de copia de seguridad y el período de retención."]
+
++
+*Importante:* Si planea utilizar DataLock, debe activarlo en su primera directiva al activar Cloud Backup.
+
+
+
+. Seleccione los volúmenes de los que desea realizar un backup mediante la política de backup definida en la página Select Volumes. Si desea asignar diferentes políticas de backup a ciertos volúmenes, puede crear políticas adicionales y aplicarlas más adelante.
++
+** Para realizar un backup de todos los volúmenes existentes y cualquier volumen añadido en el futuro, active la casilla "realizar backup de todos los volúmenes existentes y futuros...". Recomendamos esta opción para que se haga un backup de todos los volúmenes y que nunca tendrá que recordar para habilitar los backups para volúmenes nuevos.
+** Para realizar un backup solo de los volúmenes existentes, active la casilla de la fila de título (image:button_backup_all_volumes.png[""]).
+** Para realizar un backup de volúmenes individuales, active la casilla de cada volumen (image:button_backup_1_volume.png[""]).
++
+image:screenshot_backup_select_volumes.png["Captura de pantalla de selección de los volúmenes de los que se realizará una copia de seguridad."]
+
+** Si hay copias Snapshot locales para volúmenes de lectura/escritura en este entorno de trabajo que coincidan con la etiqueta de programación de backup que acaba de seleccionar para este entorno de trabajo (por ejemplo, diario, semanal, etc.), se mostrará un mensaje adicional "Exportar copias Snapshot existentes a almacenamiento de objetos como copias de backup". Marque esta casilla si desea que todas las Snapshots históricas se copien al almacenamiento de objetos como archivos de backup para garantizar la protección más completa para los volúmenes.
+
+
+. Haga clic en *Activar copia de seguridad* y Cloud Backup comenzará a realizar las copias de seguridad iniciales de cada volumen seleccionado.
+
+
+.Resultado
+Un bloque de S3 se crea automáticamente en la cuenta de servicio indicada por la clave de acceso de S3 y la clave secreta introducida; además, se almacenan allí los archivos de backup. La consola de backup de volumen se muestra para poder supervisar el estado de los backups. También es posible supervisar el estado de los trabajos de backup y restauración mediante la link:task-monitor-backup-jobs.html["Panel de control de trabajos"^].
+
+
+
+== El futuro
+
+* Puede hacerlo link:task-manage-backups-ontap.html["gestione los archivos de copia de seguridad y las políticas de copia de seguridad"^]. Esto incluye iniciar y detener copias de seguridad, eliminar copias de seguridad, agregar y cambiar la programación de copia de seguridad, etc.
+* Puede hacerlo link:task-manage-backup-settings-ontap.html["gestione la configuración de backup en el nivel del clúster"^]. Esto incluye cambiar las claves de almacenamiento que utiliza ONTAP para acceder al almacenamiento en cloud, cambiar el ancho de banda de red disponible para cargar backups en el almacenamiento de objetos, cambiar la configuración de backup automático para volúmenes futuros, etc.
+* También puede hacerlo link:task-restore-backups-ontap.html["restaure volúmenes, carpetas o archivos individuales desde un archivo de backup"^] En un sistema ONTAP en las instalaciones.
+

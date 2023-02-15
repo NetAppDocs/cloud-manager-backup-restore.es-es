@@ -1,0 +1,529 @@
+---
+sidebar: sidebar 
+permalink: whats-new.html 
+keywords: 'what"s new, features, new, release notes, bugs, limitations, known issues, enhancements, fixes, backup, restore' 
+summary: Descubra las novedades de Cloud Backup. 
+---
+= Novedades de Cloud Backup
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Descubra las novedades de Cloud Backup.
+
+
+
+== 6 de febrero de 2023
+
+
+
+=== Capacidad para mover archivos de backup antiguos a almacenamiento de archivado de Azure desde sistemas StorageGRID
+
+Ahora puede organizar en niveles archivos de backup antiguos de sistemas StorageGRID en el almacenamiento de archivado en Azure. Esto le permite liberar espacio en sus sistemas de StorageGRID y ahorrar dinero gracias a una clase de almacenamiento económico para archivos de backup antiguos.
+
+Esta funcionalidad está disponible si su clúster local utiliza ONTAP 9.12.1 o posterior y su sistema StorageGRID utiliza 11.4 o posterior. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-backup-onprem-private-cloud.html#preparing-to-archive-older-backup-files-to-public-cloud-storage["Más información aquí"^].
+
+
+
+=== La protección de DataLock y Ransomware se puede configurar para archivos de backup en Azure Blob
+
+Ahora, la protección de DataLock y Ransomware es compatible con los archivos de backup almacenados en Azure Blob. Si su sistema Cloud Volumes ONTAP o ONTAP en las instalaciones ejecutan ONTAP 9.12.1 o superior, ahora puede bloquear sus archivos de copia de seguridad y escanearlos para detectar posible ransomware. https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-cloud-backup-policies.html#datalock-and-ransomware-protection["Obtenga más información sobre cómo proteger sus backups con la protección DataLock y Ransomware"^].
+
+
+
+=== Mejoras en los volúmenes de FlexGroup de backup y restauración
+
+* Ahora puede elegir varios agregados al restaurar un volumen de FlexGroup. En la última versión solo se pudo seleccionar un único agregado.
+* Los sistemas Cloud Volumes ONTAP ahora admiten la restauración de volúmenes de FlexGroup. En la última versión solo pudo restaurar a sistemas de ONTAP en las instalaciones.
+
+
+
+
+=== Los sistemas Cloud Volumes ONTAP pueden trasladar los backups más antiguos a un sistema de almacenamiento para archivado de Google
+
+Los archivos de copia de seguridad se crean inicialmente en la clase de almacenamiento de Google Standard. Ahora puede usar Cloud Backup para organizar los backups anteriores en niveles en el almacenamiento de Google Archive y, de este modo, optimizar los costes aún más. La última versión solo admitía esta funcionalidad con clústeres de ONTAP en las instalaciones. Ahora se admiten los sistemas Cloud Volumes ONTAP implementados en Google Cloud.
+
+
+
+=== Las operaciones de restauración de volúmenes ahora permiten seleccionar la SVM donde desea restaurar datos de volúmenes
+
+Ahora puede restaurar datos de volúmenes en diferentes máquinas virtuales de almacenamiento en los clústeres de ONTAP. Anteriormente, no había capacidad para elegir la máquina virtual de almacenamiento.
+
+
+
+=== Compatibilidad mejorada con volúmenes en configuraciones de MetroCluster
+
+Al utilizar ONTAP 9.12.1 GA o superior, ahora se admite el backup cuando se conecta al sistema principal en una configuración MetroCluster. Toda la configuración de backup se transfiere al sistema secundario de forma que los backups al cloud continúan automáticamente tras la conmutación.
+
+https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-ontap-backup-to-cloud.html#backup-limitations["Consulte limitaciones de copia de seguridad para obtener más información"].
+
+
+
+== 9 de enero de 2023
+
+
+
+=== Capacidad de mover archivos de backup antiguos a almacenamiento de archivado AWS S3 desde sistemas StorageGRID
+
+Ahora puede organizar en niveles archivos de backup antiguos de sistemas StorageGRID en almacenamiento de archivado en AWS S3. Esto le permite liberar espacio en sus sistemas de StorageGRID y ahorrar dinero gracias a una clase de almacenamiento económico para archivos de backup antiguos. Puede elegir entre organizar los backups en niveles en el almacenamiento de AWS S3 Glacier o S3 Glacier Deep Archive.
+
+Esta funcionalidad está disponible si su clúster local utiliza ONTAP 9.12.1 o posterior y su sistema StorageGRID utiliza 11.3 o posterior. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-backup-onprem-private-cloud.html#preparing-to-archive-older-backup-files-to-public-cloud-storage["Más información aquí"].
+
+
+
+=== Capacidad de seleccionar sus propias claves gestionadas por el cliente para el cifrado de datos en Google Cloud
+
+Al realizar un backup de datos de sus sistemas ONTAP en Google Cloud Storage, ahora puede seleccionar sus propias claves gestionadas por el cliente para el cifrado de datos en el asistente de activación en lugar de usar las claves de cifrado predeterminadas gestionadas por Google. Solo tiene que configurar primero sus claves de cifrado gestionadas por el cliente en Google y, a continuación, introducir los detalles al activar Cloud Backup.
+
+
+
+=== Ya no se necesita el rol de "administrador del almacenamiento" para que la cuenta de servicio cree backups en Google Cloud Storage
+
+En versiones anteriores, se necesitaba el rol de administrador de almacenamiento para la cuenta de servicio que permite que Cloud Backup acceda a los bloques de Google Cloud Storage. Ahora puede crear una función personalizada con un conjunto reducido de permisos que se asignarán a la cuenta de servicio. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-backup-onprem-to-gcp.html#preparing-google-cloud-storage-for-backups["Descubra cómo preparar Google Cloud Storage para realizar backups"].
+
+
+
+=== Se ha agregado compatibilidad para restaurar datos mediante Buscar y restaurar en sitios sin acceso a Internet
+
+Si va a realizar un backup de datos de un clúster de ONTAP en las instalaciones a StorageGRID en un sitio sin acceso a Internet, también conocido como sitio oscuro o sitio sin conexión, ahora puede utilizar la opción Search & Restore para restaurar datos cuando sea necesario. Esta funcionalidad requiere que el conector BlueXP (versión 3.9.25 o superior) esté desplegado en el sitio sin conexión.
+
+https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-restore-backups-ontap.html#restoring-ontap-data-using-search-restore["Descubra cómo restaurar datos de ONTAP mediante la función de restauración de  de búsqueda"].https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-onprem-no-internet.html["Vea cómo instalar el conector en su sitio sin conexión"].
+
+
+
+=== Capacidad de descargar la página resultados de la supervisión de trabajos como un informe .csv
+
+Después de filtrar la página Supervisión de trabajos para mostrar los trabajos y las acciones que le interesan, ahora puede generar y descargar un archivo .csv de esos datos. A continuación, puede analizar la información o enviar el informe a otras personas de su organización. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-monitor-backup-jobs.html#download-job-monitoring-results-as-a-report["Vea cómo generar un informe de supervisión de trabajos"].
+
+
+
+== 19 de diciembre de 2022
+
+
+
+=== Mejoras en Cloud Backup para aplicaciones
+
+* Bases de datos SAP HANA
++
+** Admite backup y restauración basadas en políticas de bases de datos SAP HANA que residen en Azure NetApp Files (ANF).
+** Admite directivas personalizadas
+
+
+* Bases de datos de Oracle
++
+** Añada hosts e implemente el plugin automáticamente
+** Admite directivas personalizadas
+** Admite backup, restauración y clonado basados en políticas de bases de datos de Oracle que residen en Cloud Volumes ONTAP
+** Admite backup y restauración basadas en políticas de bases de datos de Oracle que residen en Amazon FSX para ONTAP de NetApp
+** Admite la restauración de bases de datos de Oracle mediante método de conexión y copia
+** Compatible con Oracle 21c
+** Admite el clonado de bases de datos de Oracle nativas en el cloud
+
+
+
+
+
+
+=== Mejoras de Cloud Backup para máquinas virtuales
+
+* Equipos virtuales
++
+** Realice backups de máquinas virtuales desde un almacenamiento secundario en las instalaciones
+** Admite directivas personalizadas
+** Admite Google Cloud Platform (GCP) para realizar backup de uno o más almacenes de datos
+** Admite almacenamiento en cloud de bajo coste, como Glacier, Deep Glacier y Azure Archive
+
+
+
+
+
+
+== 6 de diciembre de 2022
+
+
+
+=== Cambios de extremo de acceso a Internet saliente del conector requerido
+
+Debido a un cambio en Cloud Backup, debe cambiar los siguientes extremos de conector para que la operación de Cloud Backup se realice correctamente:
+
+[cols="50,50"]
+|===
+| Extremo antiguo | Nuevo extremo 
+
+
+| \https://cloudmanager.cloud.netapp.com | \https://api.bluexp.netapp.com 
+
+
+| \https://*.cloudmanager.cloud.netapp.com | \https://*.api.bluexp.netapp.com 
+|===
+Vea la lista completa de puntos finales de la https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-creating-connectors-aws.html#outbound-internet-access["AWS"^], https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-creating-connectors-gcp.html#outbound-internet-access["Google Cloud"^], o. https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-creating-connectors-azure.html#outbound-internet-access["Azure"^] de cloud híbrido.
+
+
+
+=== Compatibilidad para seleccionar la clase de almacenamiento Google Archival en la interfaz de usuario
+
+Los archivos de copia de seguridad se crean inicialmente en la clase de almacenamiento de Google Standard. Ahora puede usar la interfaz de usuario de Cloud Backup para organizar los backups anteriores en niveles en el almacenamiento de Google Archive después de unos días, y conseguir una optimización de costes adicional.
+
+Esta funcionalidad actualmente es compatible con clústeres de ONTAP en las instalaciones utilizando ONTAP 9.12.1 o posterior. No está disponible actualmente para los sistemas Cloud Volumes ONTAP.
+
+
+
+=== Compatibilidad con volúmenes de FlexGroup
+
+Cloud Backup ahora admite los backups y restauración de volúmenes de FlexGroup. Al usar ONTAP 9.12.1 o superior, puede realizar un backup de FlexGroup Volumes en un almacenamiento en cloud público y privado. Si tiene entornos de trabajo que incluyen volúmenes FlexVol y FlexGroup, una vez que actualice el software ONTAP, puede realizar un backup de cualquiera de los volúmenes FlexGroup de esos sistemas.
+
+https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-ontap-backup-to-cloud.html#supported-volumes["Consulte la lista completa de los tipos de volumen admitidos"].
+
+
+
+=== Capacidad de restaurar datos desde backups a un agregado específico en sistemas Cloud Volumes ONTAP
+
+En versiones anteriores solo podía seleccionar el agregado al restaurar datos en sistemas ONTAP en las instalaciones. Esta funcionalidad ahora funciona cuando se restauran datos en sistemas Cloud Volumes ONTAP.
+
+
+
+== 2 de noviembre de 2022
+
+
+
+=== Posibilidad de exportar copias snapshot más antiguas a sus archivos de backup de referencia
+
+Si hay copias Snapshot locales para los volúmenes en su entorno de trabajo que coincidan con las etiquetas de programación de backup (por ejemplo, diario, semanal, etc.), puede exportar estas copias Snapshot históricas a almacenamiento de objetos como archivos de backup. Esto permite inicializar backups en el cloud al mover copias de Snapshot más antiguas a la copia de backup de referencia.
+
+Esta opción está disponible cuando se activa Cloud Backup en sus entornos de trabajo. También puede cambiar esta configuración más adelante en la https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-manage-backup-settings-ontap.html["Advanced Settings"].
+
+
+
+=== Cloud Backup ahora se puede utilizar para archivar volúmenes que ya no necesita en el sistema de origen
+
+Ahora es posible eliminar la relación de backup de un volumen. Esto ofrece un mecanismo de archivado si desea detener la creación de nuevos archivos de copia de seguridad y eliminar el volumen de origen, pero conservar todos los archivos de copia de seguridad existentes. Esto le permite restaurar el volumen desde el archivo de backup en el futuro, si es necesario, a la vez que se borra espacio del sistema de almacenamiento de origen. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-manage-backups-ontap.html#deleting-volume-backup-relationships["Vea cómo"].
+
+
+
+=== Se ha añadido soporte para recibir alertas de Cloud Backup por correo electrónico y en el Centro de notificaciones
+
+Cloud Backup se ha integrado en el servicio de notificación de BlueXP. Puede mostrar notificaciones de Cloud Backup haciendo clic en la campana de notificación de la barra de menús de BlueXP. También puede configurar BlueXP para que envíe notificaciones por correo electrónico como alertas, de forma que pueda ser informado de la actividad importante del sistema incluso cuando no haya iniciado sesión en el sistema. El correo electrónico puede enviarse a los destinatarios que tengan que conocer la actividad de backup y restauración. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-monitor-backup-jobs.html#use-the-job-monitor-to-view-backup-and-restore-job-status["Vea cómo"].
+
+
+
+=== Nueva página Advanced Settings permite cambiar la configuración de backup a nivel del clúster
+
+Esta nueva página le permite cambiar muchas opciones de backup a nivel del clúster que se establecen al activar Cloud Backup para cada sistema ONTAP. También puede modificar algunos ajustes que se aplican como ajustes de copia de seguridad "predeterminados". El conjunto completo de ajustes de copia de seguridad que puede cambiar incluye:
+
+* Las claves de almacenamiento que otorgan a su sistema ONTAP permiso para acceder al almacenamiento de objetos
+* El ancho de banda de red asignado para cargar backups en el almacenamiento de objetos
+* La configuración (y la política) automática de backups para volúmenes futuros
+* La clase de almacenamiento para archivado (solo AWS)
+* Si se incluyen copias snapshot históricas en sus archivos de backup de base iniciales
+* Si se eliminan copias Snapshot "anuales" del sistema de origen
+* El espacio IP de ONTAP que está conectado al almacenamiento de objetos (en caso de que la selección no sea correcta durante la activación)
+
+
+https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-manage-backup-settings-ontap.html["Obtenga más información sobre la gestión de configuraciones de backup en el nivel de clúster"].
+
+
+
+=== Ahora puede restaurar archivos de copia de seguridad utilizando Buscar y restaurar cuando utilice un conector local
+
+En la versión anterior, se agregó compatibilidad para crear archivos de backup en el cloud público cuando el conector se implementa en sus instalaciones. En esta versión, se ha continuado permitiendo el uso de Search & Restore para restaurar backups de Amazon S3 o Azure Blob cuando el conector se pone en marcha en sus instalaciones. Search & Restore también admite la restauración de backups desde sistemas StorageGRID a sistemas ONTAP en las instalaciones ahora.
+
+En este momento, el conector debe ponerse en marcha en Google Cloud Platform al utilizar la opción de búsqueda y restauración para restaurar backups desde Google Cloud Storage.
+
+
+
+=== Se ha actualizado la página Supervisión de trabajos
+
+Se han realizado las siguientes actualizaciones en https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-monitor-backup-jobs.html["Página Job Monitoring"]:
+
+* Hay una columna para "Workload" disponible para filtrar la página con el fin de ver los trabajos de los siguientes servicios de backup: Volúmenes, aplicaciones, máquinas virtuales y Kubernetes.
+* Puede añadir nuevas columnas para "Nombre de usuario" y "Tipo de trabajo" si desea ver estos detalles para una tarea de copia de seguridad específica.
+* En la página Job Details, se muestran todos los subtrabajos que se ejecutan para completar el trabajo principal.
+* La página se actualiza automáticamente cada 15 minutos para que siempre vea los resultados más recientes sobre el estado del trabajo. Y puede hacer clic en el botón *Actualizar* para actualizar la página inmediatamente.
+
+
+
+
+=== Mejoras de backup entre cuentas de AWS
+
+Si desea utilizar una cuenta AWS diferente para las copias de seguridad de Cloud Volumes ONTAP que la que está utilizando para los volúmenes de origen, debe añadir las credenciales de la cuenta AWS de destino en BlueXP y debe agregar los permisos "s3:PutBucketPolicy" y "s3:PutketOwnerOwnershipControls" a la función IAM que proporciona permisos para BlueXP. Anteriormente, era necesario configurar muchos ajustes en la consola de AWS, pero ya no es necesario hacerlo.
+
+
+
+== 28 de septiembre de 2022
+
+
+
+=== Mejoras en Cloud Backup para aplicaciones
+
+* Admite Google Cloud Platform (GCP) y StorageGRID para realizar backups de copias Snapshot consistentes con las aplicaciones
+* Crear directivas personalizadas
+* Admite almacenamiento de archivado
+* Realice un backup de las aplicaciones SAP HANA
+* Realizar un backup de aplicaciones de Oracle y SQL que se encuentran en un entorno de VMware
+* Realice backups de las aplicaciones del almacenamiento secundario en las instalaciones
+* Desactivar las copias de seguridad
+* Cancele el registro del servidor SnapCenter
+
+
+
+
+=== Mejoras de Cloud Backup para máquinas virtuales
+
+* Admite StorageGRID para realizar backup de uno o más almacenes de datos
+* Crear directivas personalizadas
+
+
+
+
+== 19 de septiembre de 2022
+
+
+
+=== La protección DataLock y Ransomware se puede configurar para archivos de copia de seguridad en sistemas StorageGRID
+
+En la última versión, se introdujo _DataLock y Protección ransomware_ para backups almacenados en bloques de Amazon S3. Esta versión amplía el soporte a los archivos de backup almacenados en sistemas StorageGRID. Si el clúster utiliza ONTAP 9.11.1 o posterior y el sistema StorageGRID ejecuta la versión 11.6.0.3 o posterior, esta nueva opción de política de backup está disponible. https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-cloud-backup-policies.html#datalock-and-ransomware-protection["Más información sobre cómo usar la protección DataLock y Ransomware para proteger sus backups"^].
+
+Tenga en cuenta que tendrá que ejecutar un conector con la versión 3.9.22 o superior del software. El conector debe estar instalado en sus instalaciones y se puede instalar en un sitio con o sin acceso a Internet.
+
+
+
+=== La restauración a nivel de carpeta ya está disponible en los archivos de copia de seguridad
+
+Ahora puede restaurar una carpeta desde un archivo de copia de seguridad si necesita tener acceso a todos los archivos de esa carpeta (directorio o recurso compartido). La restauración de una carpeta es mucho más eficiente que la restauración de un volumen completo. Esta funcionalidad está disponible para las operaciones de restauración mediante el método Browse & Restore y el método Search & Restore cuando se utiliza ONTAP 9.11.1 o posterior. En este momento puede seleccionar y restaurar solo una carpeta única y solo se restauran los archivos de esa carpeta, no se restauran ninguna subcarpeta ni los archivos de dicha carpeta.
+
+
+
+=== La restauración a nivel de archivos ahora está disponible desde backups que se han movido a almacenamiento de archivado
+
+En el pasado, solo podía restaurar volúmenes desde archivos de backup que se habían movido a almacenamiento de archivado (solo AWS y Azure). Ahora puede restaurar ficheros individuales a partir de estos ficheros de copia de seguridad archivados. Esta funcionalidad está disponible para las operaciones de restauración mediante el método Browse & Restore y el método Search & Restore cuando se utiliza ONTAP 9.11.1 o posterior.
+
+
+
+=== La restauración a nivel de archivo ofrece ahora la opción de sobrescribir el archivo de origen original
+
+Anteriormente, un archivo restaurado en el volumen original siempre se restauró como un archivo nuevo con el prefijo "Restore_<file_name>". Ahora puede optar por sobrescribir el archivo de origen original al restaurar el archivo a la ubicación original del volumen. Esta funcionalidad está disponible para las operaciones de restauración mediante el método Browse & Restore y el método Search & Restore.
+
+
+
+=== Arrastre y suelte para habilitar Cloud Backup en los sistemas StorageGRID
+
+Si la https://docs.netapp.com/us-en/cloud-manager-storagegrid/task-discover-storagegrid.html["StorageGRID"^] El destino de las copias de seguridad existe como un entorno de trabajo en el lienzo, puede arrastrar el entorno de trabajo de ONTAP en las instalaciones al destino para iniciar el asistente de configuración de copia de seguridad en la nube.
+
+
+
+== 18 de agosto de 2022
+
+
+
+=== Se ha añadido la compatibilidad con la protección de los datos de aplicaciones nativas en el cloud
+
+Cloud Backup para aplicaciones es un servicio basado en SaaS que proporciona funcionalidades de protección de datos para aplicaciones que se ejecutan en el almacenamiento en cloud de NetApp. Cloud Backup para aplicaciones habilitado en BlueXP ofrece backup y restauración eficientes y consistentes con las aplicaciones y basadas en políticas de bases de datos de Oracle que residen en Amazon FSX para ONTAP de NetApp.https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html["Leer más"^].
+
+
+
+=== Search & Restore ahora es compatible con archivos de backup en Azure Blob
+
+El método Search & Restore de restaurar volúmenes y archivos ahora está disponible para los usuarios que almacenan sus archivos de backup en el almacenamiento de Azure Blob. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-restore-backups-ontap.html#prerequisites-2["Descubra cómo restaurar sus volúmenes y archivos mediante Search  Restore"^].
+
+Tenga en cuenta que se necesitan permisos adicionales en la función conector para utilizar esta funcionalidad. Un conector implementado con el software de la versión 3.9.21 (agosto de 2022) incluye estos permisos. Deberá agregar manualmente los permisos si implementó el conector con una versión anterior. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-backup-onprem-to-azure.html#verify-or-add-permissions-to-the-connector["Consulte cómo agregar estos permisos, si es necesario"^].
+
+
+
+=== Hemos añadido la capacidad para proteger sus archivos de backup frente a ataques de borrado y ransomware
+
+Cloud Backup ahora es compatible con el bloqueo de objetos para backups a prueba de ransomware. Si su clúster utiliza ONTAP 9.11.1 o superior y su destino de backup es Amazon S3, ahora hay disponible una nueva opción de política de backup llamada _DataLock y Protección de ransomware_. DataLock protege sus archivos de copia de seguridad de ser modificados o eliminados, y la protección Ransomware examina sus archivos de copia de seguridad para buscar evidencia de un ataque de ransomware en sus archivos de copia de seguridad. https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-cloud-backup-policies.html#datalock-and-ransomware-protection["Más información sobre cómo usar la protección DataLock y Ransomware para proteger sus backups"^].
+
+Tenga en cuenta que se necesitan permisos adicionales en la función conector para utilizar esta funcionalidad. Un conector implementado con el software de la versión 3.9.21 incluye estos permisos. Deberá agregar manualmente los permisos si implementó el conector con una versión anterior. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-backup-onprem-to-aws.html#set-up-s3-permissions["Consulte cómo agregar estos permisos si es necesario"^].
+
+
+
+=== Cloud Backup ahora admite políticas que se crean con etiquetas de SnapMirror personalizadas
+
+Anteriormente, Cloud Backup solo admitía las etiquetas de SnapMirror predefinidas, como horarios, diarios, semanales, horas y anuales. Ahora Cloud Backup puede detectar las políticas de SnapMirror que tienen etiquetas de SnapMirror personalizadas que haya creado mediante System Manager o la CLI. Estas nuevas etiquetas se exponen en la interfaz de usuario de Cloud Backup, lo que permite realizar backups de volúmenes con la etiqueta de SnapMirror que elija en el cloud.
+
+
+
+=== Mejoras adicionales en las políticas de backup para los sistemas ONTAP
+
+Algunas de las páginas de política de backup se han rediseñado para facilitar la visualización de todas las políticas de backup que están disponibles para los volúmenes de cada clúster de ONTAP. De este modo, es más fácil ver los detalles de las políticas disponibles para que se puedan aplicar las mejores políticas en los volúmenes.
+
+
+
+=== Arrastre y suelte para habilitar Cloud Backup en Azure Blob y Google Cloud Storage
+
+Si la https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-viewing-azure-blob.html["Azure Blob"^] o. https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-viewing-gcp-storage.html["Google Cloud Storage"^] El destino de sus backups existe como un entorno de trabajo en el lienzo, puede arrastrar el entorno de trabajo ONTAP o Cloud Volumes ONTAP local (instalado en Azure o GCP) al destino para iniciar el asistente de configuración de copia de seguridad.
+
+Esta funcionalidad ya existe para bloques de Amazon S3.
+
+
+
+== 13 de julio de 2022
+
+
+
+=== Se ha añadido la compatibilidad para realizar backup de volúmenes SnapLock Enterprise
+
+Ahora puede utilizar Cloud Backup para realizar backups de SnapLock Enterprise Volumes en clouds públicos y privados. Esta función requiere que su sistema ONTAP ejecute ONTAP 9.11.1 o posterior. No obstante, los volúmenes de SnapLock Compliance no son compatibles en este momento.
+
+
+
+=== Ahora puede crear archivos de backup en el cloud público cuando utiliza un conector en las instalaciones
+
+Anteriormente, necesitaba implementar Connector en el mismo proveedor de cloud que el lugar en el que creaba archivos de backup. Ahora, puede utilizar un conector puesto en marcha en sus instalaciones para crear archivos de backup desde sistemas ONTAP en las instalaciones a Amazon S3, Azure Blob y Google Cloud Storage. (Siempre se necesitaba un conector local al crear archivos de backup en sistemas StorageGRID).
+
+
+
+=== Se dispone de funciones adicionales cuando se crean políticas de backup para los sistemas ONTAP
+
+* Copia de seguridad en un programa anual está ahora disponible. El valor de retención predeterminado es 1 para copias de seguridad anuales, pero puede cambiar este valor si desea tener acceso a muchos archivos de copia de seguridad de años anteriores.
+* Es posible asignar un nombre a las políticas de backup para poder identificar las políticas con un texto más descriptivo.
+
+
+
+
+== 14 de junio de 2022
+
+
+
+=== Se ha agregado compatibilidad para realizar backups de los datos del clúster ONTAP en las instalaciones en sitios sin acceso a Internet
+
+Si su clúster de ONTAP en las instalaciones se encuentra en un sitio sin acceso a Internet, también conocido como sitio oscuro o sitio sin conexión, ahora puede utilizar Cloud Backup para realizar backups de datos de volumen en un sistema StorageGRID de NetApp que reside en el mismo sitio. Esta funcionalidad requiere que el conector BlueXP (versión 3.9.19 o superior) también esté desplegado en el sitio sin conexión.
+
+https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-onprem-no-internet.html["Vea cómo instalar el conector en su sitio sin conexión"].https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-backup-onprem-private-cloud.html["Vea cómo realizar backups de los datos de ONTAP en StorageGRID en la página sin conexión"].
+
+
+
+=== Cloud Backup para máquinas virtuales 1.1.0 ya es GA
+
+Puede proteger los datos en sus máquinas virtuales integrando el plugin de SnapCenter para VMware vSphere con BlueXP. Es posible realizar backups de almacenes de datos en el cloud y restaurar máquinas virtuales de nuevo en el plugin de SnapCenter en las instalaciones para VMware vSphere con facilidad.
+
+https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-vm-data.html["Obtenga más información sobre la protección de las máquinas virtuales en la nube"].
+
+
+
+=== La instancia de restauración en cloud no es necesaria para la funcionalidad de exploración y restauración de ONTAP
+
+Se solía requerir una instancia/máquina virtual de Cloud Restore aparte para operaciones de exploración y restauración a nivel de archivos desde el almacenamiento S3 y Blob. Esta instancia se apaga cuando no está en uso -- pero aún agrega tiempo y costo al restaurar archivos. Esta funcionalidad se ha sustituido por un contenedor sin coste que se implementa en el conector cuando es necesario. Ofrece las siguientes ventajas:
+
+* Sin coste añadido para las operaciones de restauración a nivel de archivo
+* Operaciones de restauración de nivel de archivo más rápidas
+* Compatibilidad con operaciones de examinar y restaurar archivos desde el cloud cuando el conector está instalado en sus instalaciones
+
+
+Tenga en cuenta que la instancia/máquina virtual de Cloud Restore se eliminará automáticamente si lo utilizaba anteriormente. Se ejecutará un proceso de copia de seguridad en la nube una vez al día para eliminar todas las instancias antiguas de Cloud Restore. Este cambio es completamente transparente. No afecta a los datos y no notará ningún cambio en sus tareas de backup o restauración.
+
+
+
+=== Busque y restaure compatibilidad para archivos desde el almacenamiento de Google Cloud y StorageGRID
+
+Con la adición del contenedor para operaciones de exploración y restauración (como se ha descrito anteriormente), las operaciones de restauración de archivos ahora pueden realizarse a partir de archivos de backup almacenados en sistemas de Google Cloud y StorageGRID. Ahora, Browse y Restore se puede usar para restaurar archivos de todos los proveedores de cloud público y de StorageGRID. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-restore-backups-ontap.html#restoring-ontap-data-using-browse-restore["Vea cómo usar examinar  Restore para restaurar volúmenes y archivos a partir de sus copias de seguridad de ONTAP"].
+
+
+
+=== Arrastre y suelte para habilitar Cloud Backup en el almacenamiento S3
+
+Si el destino de Amazon S3 para sus backups existe como un entorno de trabajo en Canvas, puede arrastrar el clúster de ONTAP local o el sistema Cloud Volumes ONTAP (instalado en AWS) al entorno de trabajo de Amazon S3 para iniciar el asistente de configuración.
+
+
+
+=== Aplique automáticamente una política de backup a los volúmenes recién creados en los clústeres de Kubernetes
+
+Si añadió volúmenes persistentes nuevos a sus clústeres de Kubernetes después de que se activó Cloud Backup, en el pasado fue necesario recordar configurar los backups de esos volúmenes. Ahora puede seleccionar una política que se aplicará automáticamente a los volúmenes recién creados https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-manage-backups-kubernetes.html#setting-a-backup-policy-to-be-assigned-to-new-volumes["En la página _Backup Settings_"] Para los clústeres que ya han activado Cloud Backup.
+
+
+
+=== Las API de Cloud Backup ya están disponibles para gestionar las operaciones de backup y restauración
+
+Las API están disponibles en https://docs.netapp.com/us-en/cloud-manager-automation/cbs/overview.html[]. Consulte link:api-backup-restore.html["esta página"] Para obtener una descripción de las API de.
+
+
+
+== 2 de mayo de 2022
+
+
+
+=== Search & Restore ahora es compatible con archivos de copia de seguridad en Google Cloud Storage
+
+El método Search & Restore de restaurar volúmenes y archivos se introdujo en abril para usuarios que almacenan sus archivos de backup en AWS. Ahora la funcionalidad está disponible para los usuarios que almacenan sus archivos de backup en Google Cloud Storage. https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-restore-backups-ontap.html#prerequisites-2["Descubra cómo restaurar sus volúmenes y archivos mediante Search  Restore"].
+
+
+
+=== Configure una política de backup que se aplicará automáticamente a los volúmenes recién creados en los clústeres de Kubernetes
+
+Si añadió volúmenes persistentes nuevos a sus clústeres de Kubernetes después de que se activó Cloud Backup, en el pasado fue necesario recordar configurar los backups de esos volúmenes. Ahora puede seleccionar una política que se aplicará automáticamente a los volúmenes recién creados. Esta opción está disponible en el asistente de configuración cuando se activa Cloud Backup para un nuevo clúster de Kubernetes.
+
+
+
+=== Cloud Backup ahora requiere una licencia antes de activarse en un entorno de trabajo
+
+La implementación de las licencias con Cloud Backup se ha realizado a partir de algunos cambios:
+
+* Debe inscribirse para obtener una suscripción al mercado de PAYGO de su proveedor de cloud o adquirir una licencia BYOL de NetApp para poder activar Cloud Backup.
+* La prueba gratuita de 30 días solo está disponible cuando se usa una suscripción de PAYGO a su proveedor de cloud, pero no está disponible cuando se usa la licencia BYOL.
+* La prueba gratuita comienza el día en que comienza la suscripción a Marketplace. Por ejemplo, si activa la prueba gratuita después de haber utilizado una suscripción a Marketplace durante 30 días para un sistema Cloud Volumes ONTAP, la prueba de Cloud Backup no estará disponible.
+
+
+https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-licensing-cloud-backup.html["Obtenga más información sobre los modelos de licencias disponibles"].
+
+
+
+== 4 de abril de 2022
+
+
+
+=== Cloud Backup para aplicaciones 1.1.0 (con tecnología SnapCenter) ahora es GA
+
+La nueva funcionalidad de backup de cloud para aplicaciones le permite descargar las copias Snapshot consistentes con las aplicaciones existentes para Oracle y Microsoft SQL del almacenamiento primario en las instalaciones al almacenamiento de objetos en cloud en Amazon S3 o Azure Blob.
+
+Cuando sea necesario, puede restaurar estos datos desde el cloud a las instalaciones.
+
+link:concept-protect-app-data-to-cloud.html["Obtenga más información acerca de la protección de los datos de las aplicaciones en las instalaciones en el cloud"].
+
+
+
+=== Nueva función de búsqueda y restauración para buscar volúmenes o archivos en todos los archivos de copia de seguridad de ONTAP
+
+Ahora puede buscar un volumen o archivo en *todos los archivos de copia de seguridad de ONTAP* por nombre de volumen parcial o completo, nombre de archivo parcial o completo, intervalo de tamaño y filtros de búsqueda adicionales. Esta es una nueva y estupenda forma de encontrar los datos que desea restaurar si no está seguro de qué clúster o volumen era el origen de los datos. link:task-restore-backups-ontap.html#restoring-ontap-data-using-search-restore["Aprenda a utilizar la función Restaurar  de búsqueda"].
+
+
+
+== 3 de marzo de 2022
+
+
+
+=== Capacidad de realizar backups de volúmenes persistentes de sus clústeres de Kubernetes de GKE en almacenamiento de Google Cloud
+
+Si su clúster de GKE ha instalado Astra Trident de NetApp, y utiliza Cloud Volumes ONTAP para GCP como almacenamiento de back-end para el clúster, puede realizar backups y restauraciones de sus volúmenes persistentes a y desde Google Cloud Storage. link:task-backup-kubernetes-to-gcp.html["Vaya aquí para obtener más información"].
+
+
+
+=== La capacidad Beta para usar Cloud Data Sense para analizar sus archivos de Cloud Backup se ha interrumpido en esta versión
+
+
+
+== 14 de febrero de 2022
+
+
+
+=== Ahora es posible asignar políticas de backup a volúmenes individuales en un solo clúster
+
+Anteriormente, se podía asignar solo una única política de backup a todos los volúmenes de un clúster. Ahora puede crear varias políticas de backup para un único clúster y aplicar diferentes políticas a diferentes volúmenes. link:task-manage-backups-ontap#changing-the-policy-assigned-to-existing-volumes["Consulte cómo crear nuevas políticas de backup para un clúster y asignarlas a volúmenes seleccionados"].
+
+
+
+=== Una nueva opción le permite aplicar automáticamente una política de backup predeterminada en los volúmenes recién creados
+
+Anteriormente, los nuevos volúmenes creados en un entorno laboral después de activar Cloud Backup requerían que se aplique manualmente una política de backup. Ahora, independientemente de si el volumen se creó en BlueXP, System Manager, la CLI o utilizando API, Cloud Backup detectará el volumen y aplicará la política de backup que haya elegido como predeterminada.
+
+Esta opción está disponible al habilitar la copia de seguridad en un entorno de trabajo nuevo o en la página _Manage Volumes_ para entornos de trabajo existentes.
+
+
+
+=== New Job Monitor está disponible para ver el estado en proceso de todos los trabajos de backup y restauración
+
+El Monitor de trabajo puede ser muy útil cuando se inició una operación en varios volúmenes, como cambiar la política de backup o eliminar backups, para que se pueda ver cuándo se completó la operación en todos los volúmenes. link:task-monitor-backup-jobs.html["Consulte cómo utilizar el Monitor de trabajo"].

@@ -1,0 +1,100 @@
+---
+sidebar: sidebar 
+permalink: task-restore-oracle-data.html 
+keywords: restore, Azure, Amazon Web services, Oracle database 
+summary: Puede restaurar bases de datos de Oracle desde el cloud al servidor de SnapCenter en las instalaciones. 
+---
+= Restaurar base de datos de Oracle
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Solo puede restaurar la base de datos de Oracle en el mismo host de servidor de SnapCenter, la misma SVM o en el mismo host de base de datos. Para una base de datos de RAC, los datos se restauran en el nodo local donde se creó el backup.
+
+
+NOTE: Se admite la restauración de backups secundarios mediante el almacenamiento primario.
+
+Solo es compatible una base de datos completa con restauración de archivos de control. Si los registros de archivo no están presentes en el AFS, debe especificar la ubicación que contiene los registros de archivo necesarios para la recuperación.
+
+
+IMPORTANT: No se admite la restauración de archivos individuales (SFR).
+
+*Lo que necesitará*
+
+Si desea restaurar una copia de seguridad que se haya movido a almacén de objetos desde almacenamiento secundario, debe añadir los detalles del entorno de trabajo principal y establecer el espacio de IP. Para obtener más información, consulte link:task-manage-app-backups.html#set-ip-space-of-the-primary-working-environment["Establecer el espacio IP del entorno de trabajo principal"].
+
+* Pasos*
+
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. En el campo *filtro por*, seleccione el filtro *Tipo* y, en la lista desplegable, seleccione *Oracle*.
+. Haga clic en *Ver detalles* correspondiente a la base de datos que desea restaurar y haga clic en *Restaurar*.
+. En la página Restore Type, realice las siguientes acciones:
++
+.. Seleccione *Estado de la base de datos* si desea cambiar el estado de la base de datos al estado requerido para realizar operaciones de restauración y recuperación.
++
+Los distintos estados de una base de datos, del más alto al más bajo, son open, mounted, started y shutdown. Debe seleccionar esta casilla de comprobación si la base de datos está en un estado más alto, pero el estado debe cambiarse a un estado más bajo para realizar una operación de restauración. Si la base de datos está en un estado más bajo, pero el estado debe cambiarse a uno más alto para realizar la operación de restauración, el estado de la base de datos se modifica automáticamente aunque no seleccione la casilla de comprobación.
+
++
+Si una base de datos está en el estado open y, para restaurarla, la base de datos necesita que esté en el estado mounted, el estado de la base de datos se modifica únicamente si selecciona esta casilla de comprobación.
+
+.. Seleccione *Archivos de control* si desea restaurar el archivo de control junto con la base de datos completa.
+.. Si la instantánea se encuentra en el almacenamiento de archivado, especifique la prioridad de restauración de los datos desde el almacenamiento de archivado.
+
+
+. En la página Recovery Scope, realice las siguientes acciones:
++
+.. Especifique el alcance de recuperación.
++
+|===
+| Si... | Realice lo siguiente... 
+
+
+ a| 
+Desea recuperar la última transacción
+ a| 
+Seleccione *todos los registros*.
+
+
+
+ a| 
+Desea recuperar a un número de cambio de sistema (SCN) específico
+ a| 
+Seleccione *Until SCN (System Change Number)*.
+
+
+
+ a| 
+Desea recuperar a una fecha y una hora específicas
+ a| 
+Seleccione *Fecha y hora*.
+
+Debe especificar la fecha y la hora de la zona horaria del host de la base de datos.
+
+
+
+ a| 
+No desea recuperar
+ a| 
+Seleccione *sin recuperación*.
+
+
+
+ a| 
+Desea especificar cualquier ubicación de registros de archivos externos
+ a| 
+Si los registros de archivo no están presentes en el AFS, debe especificar la ubicación que contiene los registros de archivo necesarios para la recuperación.
+
+|===
+.. Seleccione la casilla de comprobación si desea abrir la base de datos después de la recuperación.
++
+En una configuración de RAC, solo la instancia de RAC que se usa para la recuperación se abre después de esta.
+
+
+
+. Revise los detalles y haga clic en *Restaurar*.
+

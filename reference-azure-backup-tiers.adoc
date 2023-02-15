@@ -1,0 +1,67 @@
+---
+sidebar: sidebar 
+permalink: reference-azure-backup-tiers.html 
+keywords: microsoft azure, azure, cool, access tier, archive 
+summary: Cloud Backup admite un nivel de acceso de archivado de Azure y la mayoría de las regiones. 
+---
+= Niveles de archivado y tiempos de recuperación de restauraciones de Azure
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Cloud Backup admite un nivel de acceso de archivado de Azure y la mayoría de las regiones.
+
+
+
+== Niveles de acceso de Azure Blob compatibles para Cloud Backup
+
+Cuando los archivos de copia de seguridad se crean inicialmente, se almacenan en el nivel de acceso _Cool_. Este nivel está optimizado para almacenar datos a los que se accede con poca frecuencia; sin embargo, cuando sea necesario, es posible acceder de forma inmediata.
+
+Si sus clústeres de origen ejecutan ONTAP 9.10.1 o más, puede optar por colocar en niveles los backups del almacenamiento _Cool_ to _Azure Archive_ tras un determinado número de días (normalmente más de 30 días) para obtener una mayor optimización de los costes. No se puede acceder inmediatamente a los datos de este nivel cuando sea necesario y exige un mayor coste de recuperación, por lo que debe plantearse la frecuencia con la que es necesario restaurar los datos de estos ficheros de backup archivados. Consulte la siguiente sección acerca de <<Restaurar datos desde el almacenamiento de archivado,restaurar datos desde el almacenamiento de archivado>>.
+
+Tenga en cuenta que al configurar Cloud Backup con este tipo de regla de ciclo de vida, no debe configurar ninguna regla de ciclo de vida al configurar el contenedor en su cuenta de Azure.
+
+https://docs.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview["Obtenga más información acerca de los niveles de acceso de Azure Blob"^].
+
+
+
+== Restaurar datos desde el almacenamiento de archivado
+
+A pesar de que almacenar archivos de backup antiguos en un almacenamiento de archivado es mucho más barato que Cool Storage, el acceso a los datos desde un archivo de backup en Azure Archive para las operaciones de restauración tardará más tiempo y costará más dinero.
+
+¿Cuánto cuesta restaurar los datos desde Azure Archive?:: Puede elegir entre dos prioridades de restauración al recuperar datos de Azure Archive:
++
+--
+* *Alta*: Recuperación más rápida, mayor costo
+* *Estándar*: Recuperación más lenta, menor costo
+
+
+Cada método tiene una tarifa de recuperación por GB diferente y una tarifa por solicitud. Para obtener información detallada sobre los precios de Azure Archive por región de Azure, visite la https://azure.microsoft.com/en-us/pricing/details/storage/blobs/["Página de precios de Azure"^].
+
+--
+
+
+
+NOTE: La prioridad alta no es compatible cuando se restauran datos desde Azure a sistemas StorageGRID.
+
+¿Cuánto tiempo tardaría en restaurar mis datos archivados en Azure Archive?:: Hay dos partes que componen el tiempo de restauración:
++
+--
+* *Retrieval Time*: El tiempo para recuperar el archivo de copia de seguridad archivado de Azure Archive y colocarlo en almacenamiento Cool. A esto se le llama a veces el tiempo de "rehidratación". El tiempo de recuperación varía en función de la prioridad de restauración que se elija:
++
+** *Alta*: < 1 hora
+** *Estándar*: < 15 horas
+
+
+* *Tiempo de restauración*: El tiempo para restaurar los datos del archivo de copia de seguridad en almacenamiento fresco. Esta vez no difiere de la operación de restauración típica directamente del almacenamiento Cool, cuando no se utiliza un nivel de archivado.
+
+
+Para obtener más información sobre las opciones de recuperación de Azure Archive, consulte https://azure.microsoft.com/en-us/pricing/details/storage/blobs/#faq["Estas preguntas frecuentes de Azure"^].
+
+--
+

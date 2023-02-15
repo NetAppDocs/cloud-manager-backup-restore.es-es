@@ -1,0 +1,267 @@
+---
+sidebar: sidebar 
+permalink: task-manage-backups-kubernetes.html 
+keywords: cloud backup, cloud backup service, backup schedule, change schedule, change backup schedule, modify schedule, modify backup schedule, retention, backup retention, delete, delete backups, deleting, deleting backups, disable, disable backups, turn off backups, disable cloud backup, turn off cloud backup 
+summary: Es posible gestionar backups de sus sistemas Kubernetes cambiando la programación de backup, habilitar/deshabilitar backups de volúmenes, eliminar backups, etc. 
+---
+= Gestionar backups para sus sistemas Kubernetes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Es posible gestionar backups de sus sistemas Kubernetes cambiando la programación de backup, habilitar/deshabilitar backups de volúmenes, eliminar backups, etc.
+
+
+CAUTION: No gestione ni modifique los archivos de backup directamente desde su entorno de proveedor de cloud. Esto puede dañar los archivos y dar como resultado una configuración no compatible.
+
+
+
+== Ver los volúmenes de los que se está realizando backup
+
+Es posible ver una lista de todos los volúmenes de los que Cloud Backup está haciendo backup en ese momento.
+
+.Pasos
+. En el menú BlueXP, seleccione *Protección > copia de seguridad y recuperación*.
+. Haga clic en la ficha *Kubernetes* para ver la lista de volúmenes persistentes para sistemas Kubernetes.
++
+image:screenshot_backup_dashboard_k8s.png["Una captura de pantalla que muestra todos los entornos y volúmenes de trabajo que tienen archivos de copia de seguridad."]
+
+
+
+Si busca volúmenes específicos en ciertos clústeres, puede refinar la lista por clúster y volumen, o puede utilizar el filtro de búsqueda.
+
+
+
+== Habilitar y deshabilitar backups de volúmenes
+
+Puede detener el backup de un volumen si no necesita copias de backup de ese volumen, y no quiere pagar por el coste de almacenar los backups. También puede añadir un nuevo volumen a la lista de backups si actualmente no se está realizando un backup.
+
+.Pasos
+. En la ficha *Kubernetes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button_k8s.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el clúster de Kubernetes y seleccione *gestionar volúmenes persistentes*.
++
+image:screenshot_backup_manage_volumes_k8s.png["Captura de pantalla que muestra el botón Administrar volúmenes persistentes de la página Configuración de copia de seguridad."]
+
+. Seleccione la casilla de verificación para un volumen o volúmenes que desee cambiar y, a continuación, haga clic en *Activar* o *Desactivar* dependiendo de si desea iniciar o detener copias de seguridad para el volumen.
++
+image:screenshot_backup_manage_volumes_page_k8s.png["En la página gestionar volúmenes, donde puede seleccionar o anular la selección de volúmenes."]
+
+. Haga clic en *Guardar* para confirmar los cambios.
+
+
+*Nota:* cuando detenga la copia de seguridad de un volumen, su proveedor de cloud seguirá cobrándose por los costes de almacenamiento de objetos de la capacidad que utilizan las copias de seguridad a menos que usted <<Eliminar backups,eliminar los backups>>.
+
+
+
+== Editar una política de backup existente
+
+Puede cambiar los atributos de una política de backup que se aplique actualmente a los volúmenes en un entorno de trabajo. Los cambios que se aplican en la política de backup afectan a todos los volúmenes existentes que usan la política.
+
+.Pasos
+. En la ficha *Kubernetes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button_k8s.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad de la ficha volúmenes."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el entorno de trabajo en el que desea cambiar la configuración y seleccione *Administrar directivas*.
++
+image:screenshot_backup_modify_policy_k8s.png["Captura de pantalla que muestra la opción Administrar políticas de la página Configuración de copia de seguridad."]
+
+. En la página _Manage Policies_, haga clic en *Edit Policy* para la política de copia de seguridad que desea cambiar en ese entorno de trabajo.
++
+image:screenshot_backup_manage_policy_page_edit_k8s.png["Captura de pantalla que muestra el botón Editar directiva de la página Administrar directivas."]
+
+. En la página _Edit Policy_, cambie la programación y la retención de la copia de seguridad y haga clic en *Save*.
++
+image:screenshot_backup_edit_policy_k8s.png["Captura de pantalla que muestra la configuración de la política de copia de seguridad en la que puede modificar la programación de copia de seguridad y la configuración de retención de copia de seguridad."]
+
+
+
+
+
+== Configurar una política de backup que se asignará a volúmenes nuevos
+
+Si no seleccionó la opción para asignar automáticamente una política de backup a los volúmenes nuevos cuando activó Cloud Backup en el clúster de Kubernetes, puede elegir esta opción en la página _Backup Settings_ más adelante. Si se asigna una política de backup a volúmenes recién creados, se garantizan que todos los datos estén protegidos.
+
+Tenga en cuenta que la política que desea aplicar a los volúmenes ya debe existir.
+
+También puede deshabilitar este ajuste para que los volúmenes nuevos no se hagan backup automáticamente. En ese caso, deberá habilitar manualmente los backups para cualquier volumen concreto del que desee realizar backup en el futuro.
+
+.Pasos
+. En la ficha *Kubernetes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button_k8s.png["Una captura de pantalla que muestra el botón Backup Settings (Configuración de copia de seguridad) que está disponible después de seleccionar un clúster de Kubernetes."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el clúster Kubernetes donde existen los volúmenes, y seleccione *copia de seguridad automática de nuevos volúmenes*.
++
+image:screenshot_auto_backup_new_volumes_k8s.png["Captura de pantalla de selección de la opción copia de seguridad automática de nuevos volúmenes en la página Configuración de copia de seguridad."]
+
+. Seleccione la casilla de verificación "copia de seguridad automática de futuros volúmenes persistentes...", elija la política de copia de seguridad que desea aplicar a nuevos volúmenes y haga clic en *Guardar*.
++
+image:screenshot_auto_backup_k8s.png["Una captura de pantalla que muestra cómo seleccionar una política de backup que se asignará a todos los volúmenes futuros del clúster Kubernetes."]
+
+
+
+.Resultado
+Ahora esta política de backup se aplicará a todos los volúmenes nuevos que se creen en este clúster de Kubernetes.
+
+
+
+== Ver la lista de backups de cada volumen
+
+Es posible ver la lista de todos los archivos de backup que existen para cada volumen. Esta página muestra detalles sobre el volumen de origen, la ubicación de destino y los detalles de backup, como el último backup realizado, la política actual de backup, el tamaño del archivo de backup y mucho más.
+
+Esta página también permite realizar las siguientes tareas:
+
+* Elimine todos los archivos de backup del volumen
+* Elimine los archivos de backup individuales del volumen
+* Descargue un informe de backup para el volumen
+
+
+.Pasos
+. En la ficha *Kubernetes*, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el volumen de origen y seleccione *Detalles y lista de copia de seguridad*.
++
+image:screenshot_backup_view_k8s_backups_button.png["Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."]
+
++
+Se muestra la lista de todos los archivos de backup junto con detalles sobre el volumen de origen, la ubicación de destino y los detalles de la copia de seguridad.
+
++
+image:screenshot_backup_view_k8s_backups.png["Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."]
+
+
+
+
+
+== Eliminar backups
+
+Cloud Backup le permite eliminar un único archivo de backup, eliminar todos los backups de un volumen o eliminar todos los backups de todos los volúmenes de un clúster de Kubernetes. Es posible eliminar todos los backups si ya no se necesitan los backups o si se eliminó el volumen de origen y se desean quitar todos los backups.
+
+
+CAUTION: Si piensa eliminar un entorno de trabajo o clúster que tiene copias de seguridad, debe eliminar las copias de seguridad *antes de* eliminando el sistema. Cloud Backup no elimina automáticamente las copias de seguridad cuando se elimina un sistema y no hay compatibilidad actual en la interfaz de usuario para eliminar las copias de seguridad después de que el sistema se haya eliminado. Seguirá cobrándose los costes de almacenamiento de objetos por los backups restantes.
+
+
+
+=== Eliminar todos los archivos de copia de seguridad de un entorno de trabajo
+
+La eliminación de todos los backups de un entorno de trabajo no deshabilita los futuros backups de los volúmenes en este entorno de trabajo. Si desea detener la creación de backups de todos los volúmenes en un entorno de trabajo, puede desactivar los backups <<Desactivación de Cloud Backup en un entorno de trabajo,como se describe aquí>>.
+
+.Pasos
+. En la ficha *Kubernetes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button_k8s.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. Haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el clúster Kubernetes en el que desea eliminar todas las copias de seguridad y seleccione *Eliminar todas las copias de seguridad*.
++
+image:screenshot_delete_all_backups_k8s.png["Una captura de pantalla de selección del botón Delete All backups para eliminar todas las copias de seguridad de un entorno de trabajo."]
+
+. En el cuadro de diálogo de confirmación, introduzca el nombre del entorno de trabajo y haga clic en *Eliminar*.
+
+
+
+
+=== Eliminación de todos los archivos de backup de un volumen
+
+La eliminación de todos los backups de un volumen también deshabilita los futuros backups para ese volumen.
+
+Puede hacerlo <<Habilitar y deshabilitar backups de volúmenes,reinicie haciendo backups para el volumen>> En cualquier momento desde la página Manage backups.
+
+.Pasos
+. En la ficha *Kubernetes*, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el volumen de origen y seleccione *Detalles y lista de copia de seguridad*.
++
+image:screenshot_backup_view_k8s_backups_button.png["Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."]
+
++
+Se muestra la lista de todos los archivos de copia de seguridad.
+
++
+image:screenshot_backup_view_backups_k8s.png["Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."]
+
+. Haga clic en *acciones* > *Eliminar todas las copias de seguridad*.
++
+image:screenshot_delete_we_backups.png["Una captura de pantalla que muestra cómo eliminar todos los archivos de copia de seguridad de un volumen."]
+
+. En el cuadro de diálogo de confirmación, introduzca el nombre del volumen y haga clic en *Eliminar*.
+
+
+
+
+=== Eliminar un único archivo de backup para un volumen
+
+Puede eliminar un único archivo de copia de seguridad. Esta función solo está disponible si el backup de volumen se creó a partir de un sistema con ONTAP 9.8 o posterior.
+
+.Pasos
+. En la ficha *Kubernetes*, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el volumen de origen y seleccione *Detalles y lista de copia de seguridad*.
++
+image:screenshot_backup_view_k8s_backups_button.png["Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."]
+
++
+Se muestra la lista de todos los archivos de copia de seguridad.
+
++
+image:screenshot_backup_view_backups_k8s.png["Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."]
+
+. Haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el archivo de copia de seguridad de volumen que desea eliminar y haga clic en *Eliminar*.
++
+image:screenshot_delete_one_backup_k8s.png["Una captura de pantalla que muestra cómo eliminar un único archivo de copia de seguridad."]
+
+. En el cuadro de diálogo de confirmación, haga clic en *Eliminar*.
+
+
+
+
+== Desactivación de Cloud Backup en un entorno de trabajo
+
+Al deshabilitar Cloud Backup para un entorno de trabajo, se desactivan los backups de cada volumen en el sistema y también se deshabilita la capacidad para restaurar un volumen. No se eliminarán los backups existentes. Esto no anula el registro del servicio de backup de este entorno de trabajo y básicamente le permite pausar toda la actividad de backup y restauración durante un periodo de tiempo.
+
+Tenga en cuenta que su proveedor de cloud seguirá facturando los costes del almacenamiento de objetos por la capacidad que utilicen sus backups a menos que usted <<Eliminar todos los archivos de copia de seguridad de un entorno de trabajo,eliminar los backups>>.
+
+.Pasos
+. En la ficha *Kubernetes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button_k8s.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] En el entorno de trabajo o en el clúster Kubernetes, donde desea desactivar las copias de seguridad y seleccionar *Desactivar copia de seguridad*.
++
+image:screenshot_disable_backups_k8s.png["Captura de pantalla del botón Desactivar copia de seguridad para un entorno de trabajo."]
+
+. En el cuadro de diálogo de confirmación, haga clic en *Desactivar*.
+
+
+
+NOTE: Aparece un botón *Activar copia de seguridad* para ese entorno de trabajo mientras la copia de seguridad está desactivada. Haga clic en este botón para volver a habilitar la funcionalidad de backup para ese entorno de trabajo.
+
+
+
+== Cancelación del registro de Cloud Backup para un entorno de trabajo
+
+Es posible cancelar el registro de Cloud Backup para un entorno de trabajo si ya no desea usar la funcionalidad de backup y quiere dejar de estar cargado por backups en ese entorno de trabajo. Normalmente, esta función se usa cuando se planea eliminar un clúster de Kubernetes y se desea cancelar el servicio de backup.
+
+También puede usar esta función si desea cambiar el almacén de objetos de destino donde se almacenan los backups del clúster. Después de cancelar el registro de Cloud Backup para el entorno laboral, puede habilitar Cloud Backup para ese clúster mediante la nueva información del proveedor de cloud.
+
+Para poder cancelar el registro de Cloud Backup, debe realizar los siguientes pasos en el siguiente orden:
+
+* Desactivar Cloud Backup en el entorno de trabajo
+* Eliminar todos los backups de ese entorno de trabajo
+
+
+La opción cancelar el registro no estará disponible hasta que se completen estas dos acciones.
+
+.Pasos
+. En la ficha *Kubernetes*, seleccione *Configuración de copia de seguridad*.
++
+image:screenshot_backup_settings_button_k8s.png["Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."]
+
+. En la página _Backup Settings_, haga clic en image:screenshot_horizontal_more_button.gif["Icono más"] Para el clúster Kubernetes, donde desea cancelar el registro del servicio de copia de seguridad y seleccione *Unregister*.
++
+image:screenshot_backup_unregister.png["Captura de pantalla del botón Unregister backup para un entorno de trabajo."]
+
+. En el cuadro de diálogo de confirmación, haga clic en *Unregister*.
+

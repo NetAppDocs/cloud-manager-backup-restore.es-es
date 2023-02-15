@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: task-backup-vm-data-to-azure.html 
+keywords: back up, backup, backup virtual machine data, Microsoft Azure, cloud backup, backup datastores 
+summary: Realice el backup de sus almacenes de datos desde la ONTAP en las instalaciones a Azure. 
+---
+= Backup de almacenes de datos en Microsoft Azure
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Puede realizar backups de uno o más almacenes de datos en Microsoft Azure mediante la integración del plugin de SnapCenter para VMware vSphere con BlueXP. Esto ayudará a los administradores de VM a realizar backups y archivar datos de forma rápida y sencilla para lograr la eficiencia del almacenamiento, así como a acelerar la transición al cloud.
+
+Si el almacén de datos está asociado con una política de archivado, se ofrecerá una opción para seleccionar el nivel de archivado. El nivel de archivado compatible es Azure Archive Blob Storage.
+
+
+NOTE: Asegúrese de haber cumplido con todos los link:concept-protect-vm-data.html#Requirements["requisitos"] antes de realizar backups de almacenes de datos en el cloud.
+
+.Pasos
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *Máquinas virtuales*.
+. Haga clic en image:icon-action.png["acción"] Corresponde al almacén de datos del que desea realizar la copia de seguridad y haga clic en *Activar copia de seguridad*.
+. En la página asignar directiva, seleccione la directiva y haga clic en *Siguiente*.
+. Agregue el entorno de trabajo.
++
+Configure los clústeres de ONTAP que desea que BlueXP detecte para realizar backups de los almacenes de datos. Después de añadir el entorno de trabajo para uno de los almacenes de datos, se puede reutilizar para todos los demás almacenes de datos que residen en el mismo clúster de ONTAP.
+
++
+.. Haga clic en *Agregar entorno de trabajo* correspondiente a la SVM.
+.. En el asistente Agregar entorno de trabajo:
++
+... Especifique la dirección IP del clúster de ONTAP.
+... Especifique las credenciales del usuario del clúster de ONTAP.
+
+
+.. Haga clic en *Agregar entorno de trabajo*.
+
+
+. Seleccione *Microsoft Azure* para configurarlo como proveedor de cloud.
++
+.. Especifique el ID de suscripción de Azure.
+.. Seleccione la región en la que desea crear los backups.
+.. Crear un grupo de recursos nuevo o utilizar un grupo de recursos existente.
+.. Especifique las direcciones IP de los clústeres de ONTAP que se añadieron como entornos de trabajo.
+.. Seleccione el nivel de archivado.
++
+Se recomienda configurar el nivel de archivado porque se trata de una actividad única y no se le permitirá configurarla más adelante.
+
+
+
+. Revise los detalles y haga clic en *Activar copia de seguridad*.
+

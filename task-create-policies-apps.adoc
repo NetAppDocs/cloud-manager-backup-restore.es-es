@@ -1,0 +1,79 @@
+---
+sidebar: sidebar 
+permalink: task-create-policies-apps.html 
+keywords: policy, create, pre-canned polices, custom policies, protection policies 
+summary: Utilice las políticas predefinidas o cree sus propias políticas para proteger la aplicación. 
+---
+= Crear una política para realizar backups de aplicaciones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Puede usar una de las políticas preparadas previamente o crear una política personalizada para realizar el backup de los datos de la aplicación en el cloud. Puede crear directivas si no desea editar las directivas preparadas previamente.
+
+Las políticas predefinidas son:
+
+|===
+| Nombre de la directiva | Etiqueta | Valor de retención 
+
+
+ a| 
+1 año diario LTR
+ a| 
+Todos los días
+ a| 
+366
+
+
+
+ a| 
+5 años diarios
+ a| 
+Todos los días
+ a| 
+1830
+
+
+
+ a| 
+7 años de SERVICIO semanal
+ a| 
+Semanal
+ a| 
+370
+
+
+
+ a| 
+10 años cada mes LTR
+ a| 
+Mensual
+ a| 
+120
+
+|===
+* Pasos*
+
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. En el menú desplegable Configuración, haga clic en *Directivas* > *Crear directiva*.
+. En la sección Policy Details, especifique el nombre de la política.
+. En la sección Retention, seleccione uno de los tipos de retención y especifique la cantidad de backups que desea retener.
+. Seleccione Primary o Secondary como origen de almacenamiento de backup.
+. (Opcional) Si desea mover copias de seguridad del almacén de objetos al almacenamiento de archivado después de un determinado número de días para la optimización de costes, seleccione la casilla de verificación *copias de seguridad de nivel a archivado*.
++
+Es posible mover backups de un almacén de objetos a un almacenamiento de archivado solo si utiliza ONTAP 9.10.1 o una versión posterior, y Amazon Web Services o Azure como proveedor de cloud. Debe configurar el nivel de acceso de archivado para cada proveedor de cloud.
+
+. Haga clic en *Crear*.
++
+Puede editar, copiar y eliminar las políticas personalizadas.
+
++
+
+NOTE: No se puede editar ni eliminar una directiva asociada a una aplicación.
+
+

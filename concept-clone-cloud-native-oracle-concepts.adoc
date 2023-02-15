@@ -1,0 +1,368 @@
+---
+sidebar: sidebar 
+permalink: concept-clone-cloud-native-oracle-concepts.html 
+keywords: cloud native, application data, clone, Cloud Manager, BlueXP, Oracle database, Oracle, clone limitations, clone methods, clone naming scheme, requirements, clone specification file 
+summary: Comprender los conceptos de clon antes de clonar la base de datos. 
+---
+= Conceptos y requisitos de los clones
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Es posible clonar una base de datos de Oracle con el backup de la base de datos en el host de la base de datos de origen o en un host alternativo. Puede clonar el backup de sistemas de almacenamiento primarios.
+
+Antes de clonar la base de datos, debe comprender los conceptos de clon y asegurarse de que se cumplen todos los requisitos.
+
+
+
+== Requisitos para clonar una base de datos de Oracle
+
+Antes de clonar una base de datos de Oracle, debe asegurarse de que se hayan completado los requisitos previos.
+
+* Debe tener creado un backup de la base de datos. Debe haber creado correctamente el backup en línea y del registro para que la operación de clonado se complete correctamente.
+* En el parámetro asm_diskstring, debe configurar AFD:* si está utilizando ASMFD o configurar ORCL:* si está utilizando ASMLIB.
+* Si crea el clon en un host alternativo, este host debe cumplir los siguientes requisitos:
++
+** El plugin debe estar instalado en el host alternativo.
+** El host del clon debe poder detectar LUN del almacenamiento si se clona una base de datos que resida en un almacenamiento SAN iSCSI. Si clona en un host alternativo, asegúrese de que se establezca una sesión iSCSI entre el almacenamiento y el host alternativo.
+** Si la base de datos de origen es una base de datos ASM:
++
+*** La instancia de ASM debe estar activa y en ejecución en el host donde se realizará el clon.
+*** El grupo de discos de ASM debe aprovisionarse antes de la operación de clonado si desea colocar los archivos de registro de archivos de la base de datos clonada en un grupo de discos de ASM dedicado.
+*** Puede configurarse el nombre del grupo de discos de datos, pero asegúrese de que ningún otro grupo de discos ASM use el nombre en el host donde se realizará la clonado.
+*** Los archivos de datos que residen en el grupo de discos de ASM se aprovisionan como parte del flujo de trabajo del clon.
+
+
+
+
+
+
+
+
+== Limitaciones de clones
+
+* No se admiten los clones programados (gestión del ciclo de vida de clones).
+* No se admite la clonado de una base de datos clonada.
+* No se admite la clonado de bases de datos que residen en Qtree.
+* No se admite la clonado de backups de registros de archivos.
+* No se admite el backup de una base de datos clonada.
+
+
+
+
+== Métodos de clonado
+
+Puede crear un clon con el método básico o con el archivo de especificación del clon.
+
+
+
+=== Clonación mediante un método básico
+
+Puede crear el clon con las configuraciones predeterminadas según la base de datos de origen y el backup seleccionado.
+
+* Los parámetros de la base de datos, el usuario inicial y el usuario de sistema operativo se establecen de forma predeterminada en la base de datos de origen.
+* Las rutas de acceso al archivo de datos se nombran según el esquema de nomenclatura seleccionado.
+* No se pueden especificar las sentencias pre-script, post-script y SQL.
+* La opción de recuperación es de forma predeterminada *hasta cancelar* y utiliza la copia de seguridad de registro asociada con la copia de seguridad de datos para la recuperación
+
+
+
+
+=== Clonar utilizando archivo de especificación
+
+Puede definir las configuraciones en el archivo de especificación del clon y usarlas para clonar la base de datos. Puede descargar el archivo de especificación, modificarlo según sus necesidades y, a continuación, cargar el archivo. link:task-clone-cloud-native-oracle-data.html["Leer más"].
+
+Los diferentes parámetros definidos en el archivo de especificación y que se pueden modificar son los siguientes:
+
+|===
+| Parámetro | Descripción 
+
+
+ a| 
+archivos_control
+ a| 
+Ubicación de los archivos de control de la base de datos del clon.
+
+La cantidad de archivos de control será la misma que la de la base de datos de origen. Si desea anular la ruta de acceso del archivo de control, puede proporcionar otra ruta de acceso al archivo de control. El sistema de archivos o el grupo de discos ASM deben existir en el host.
+
+
+
+ a| 
+redo_logs
+ a| 
+Ubicación, tamaño, número de redo logs del grupo de redo logs.
+
+Se requiere un mínimo de dos grupos de registros de recuperación para clonar la base de datos. Si desea anular la ruta de acceso del archivo de registro de recuperación, puede personalizarla en otro sistema de archivos que no sea el de la base de datos de origen.el sistema de archivos o el grupo de discos ASM deben existir en el host.
+
+
+
+ a| 
+versión_de_oracle
+ a| 
+La versión de Oracle en el host de destino.
+
+
+
+ a| 
+oracle_home
+ a| 
+Directorio raíz de Oracle en el host de destino.
+
+
+
+ a| 
+enable_archive_log_mode
+ a| 
+Controla el modo de registro de archivos para la base de datos clonada
+
+
+
+ a| 
+parámetros_base_datos
+ a| 
+Parámetros de la base de datos clonada
+
+
+
+ a| 
+sentencias sql
+ a| 
+Las sentencias SQL que se ejecutarán en la base de datos después del clonado
+
+
+
+ a| 
+detalles_usuario_so
+ a| 
+Usuario del sistema operativo Oracle en la base de datos del clon de destino
+
+
+
+ a| 
+puerto_base_datos
+ a| 
+Puerto que se utiliza para comunicarse con la base de datos si la autenticación del sistema operativo está deshabilitada en el host.
+
+
+
+ a| 
+asm_port
+ a| 
+Puerto que se utiliza para comunicarse con la base de datos de ASM si las credenciales se proporcionan en la entrada de creación de clon.
+
+
+
+ a| 
+saltar_recuperación
+ a| 
+No realiza la operación de recuperación.
+
+
+
+ a| 
+until_scn
+ a| 
+Recupera la base de datos hasta el scn especificado.
+
+
+
+ a| 
+hasta_hora
+ a| 
+Recupera la base de datos hasta la fecha y la hora especificadas.
+
+El formato aceptado es _mm/dd/yyyy hh:mm:ss_.
+
+
+
+ a| 
+until_cancel
+ a| 
+Recupera mediante el montaje del backup de registros asociado con el backup de datos que se seleccionó para la clonación.
+
+La base de datos clonada se recupera hasta el archivo de registro faltante o dañado.
+
+
+
+ a| 
+rutas_log
+ a| 
+Ubicaciones adicionales de las rutas de acceso de registros de archivos que se usarán para recuperar la base de datos clonada.
+
+
+
+ a| 
+ubicación_origen
+ a| 
+Ubicación del grupo de discos o punto de montaje en el host de la base de datos de origen.
+
+
+
+ a| 
+ubicación_del_clon
+ a| 
+Ubicación del grupo de discos o punto de montaje que se debe crear en el host de destino correspondiente a la ubicación de origen.
+
+
+
+ a| 
+tipo_ubicación
+ a| 
+Puede ser ASM_Diskgroup o mountpoint.
+
+Los valores se completan automáticamente en el momento de descargar el archivo. No debe editar este parámetro.
+
+
+
+ a| 
+script previo
+ a| 
+El script que se ejecutará en el host de destino antes de crear el clon.
+
+
+
+ a| 
+post_script
+ a| 
+El script que se ejecutará en el host de destino después de crear el clon.
+
+
+
+ a| 
+ruta
+ a| 
+Ruta absoluta del script en el host del clon.
+
+Debe almacenar el script en /var/opt/snapcenter/spl/scripts o en cualquier carpeta dentro de esta ruta de acceso.
+
+
+
+ a| 
+tiempo de espera
+ a| 
+El tiempo de espera especificado para el script que se ejecuta en el host de destino.
+
+
+
+ a| 
+argumentos
+ a| 
+Argumentos especificados para los scripts.
+
+|===
+
+
+== Esquema de nomenclatura de los clones
+
+El esquema de nomenclatura de los clones define la ubicación de los puntos de montaje y el nombre de los grupos de discos de la base de datos clonada. Puede seleccionar *idéntico* o *generado automáticamente*.
+
+
+
+=== Esquema de nomenclatura idéntico
+
+Si selecciona el esquema de nomenclatura de clones como *idéntico*, la ubicación de los puntos de montaje y el nombre de los grupos de discos de la base de datos clonada serán los mismos que la base de datos de origen.
+
+Por ejemplo, si el punto de montaje de la base de datos de origen es _/netapp_sourcedb/data_1 , +DATA1_DG_, en la base de datos clonada, el punto de montaje permanece igual tanto para NFS como para ASM en SAN.
+
+* Las configuraciones como el número y la ruta de acceso de los archivos de control y los archivos de recuperación serán las mismas que las del origen.
++
+
+NOTE: Si los registros de recuperación o las rutas de los archivos de control se encuentran en los volúmenes que no son de datos, el usuario debería haber aprovisionado el grupo de discos ASM o el punto de montaje en el host de destino.
+
+* El usuario de Oracle OS y la versión de Oracle serán los mismos que la base de datos de origen.
+* El nombre del volumen de almacenamiento del clon tendrá el siguiente formato sourceVolNameSCS_Clone_CurrentTimeStampNumber.
++
+Por ejemplo, si el nombre del volumen en la base de datos de origen es _sourceVolName_, el nombre del volumen clonado será _sourceVolNameSCS_Clone_1661420020304608825_.
+
++
+
+NOTE: El _CurrentTimeStampNumber_ proporciona la singularidad en el nombre del volumen.
+
+
+
+
+
+=== Esquema de nomenclatura generado automáticamente
+
+Si selecciona el esquema de clonación como *generado automáticamente*, la ubicación de los puntos de montaje y el nombre de los grupos de discos de la base de datos clonada se adjuntarán con un sufijo. * Si ha seleccionado el método básico de clonación, el sufijo será el *SID de clon*. * Si ha seleccionado el método de archivo de especificación, el sufijo será el *sufijo* que se especificó al descargar el archivo de especificación del clon.
+
+Por ejemplo, si el punto de montaje de la base de datos de origen es _/netapp_sourcedb/data_1_ y el *SID de clon* o el *sufijo* es _HR_, el punto de montaje de la base de datos clonada será _/netapp_sourcedb/data_1_HR_.
+
+* La cantidad de archivos de control y los archivos de registro de recuperación serán los mismos que el origen.
+* Todos los archivos de registro de recuperación y los archivos de control se ubicarán en uno de los puntos de montaje de datos clonados o los grupos de discos ASM de datos.
+* El nombre del volumen de almacenamiento del clon tendrá el siguiente formato sourceVolNameSCS_Clone_CurrentTimeStampNumber.
++
+Por ejemplo, si el nombre del volumen en la base de datos de origen es _sourceVolName_, el nombre del volumen clonado será _sourceVolNameSCS_Clone_1661420020304608825_.
+
++
+
+NOTE: El _CurrentTimeStampNumber_ proporciona la singularidad en el nombre del volumen.
+
+* El formato del punto de montaje NAS será _SourceNASMountPoint_suffix_.
+* El formato del grupo de discos de ASM será _SourceDiskgroup_suffix_.
++
+
+NOTE: Si el número de caracteres del grupo de discos del clon es mayor que 25, tendrá _SC_hashCode_suffix_.
+
+
+
+
+
+== Parámetros de la base de datos
+
+El valor de los siguientes parámetros de la base de datos será el mismo que el de la base de datos de origen, independientemente del esquema de nomenclatura de los clones.
+
+* formato_archivo_registro
+* pista_auditoría
+* procesos
+* pga_aggregate_target
+* remote_login_passwordfile
+* deshacer_tablespace
+* open_cursors
+* sga_target
+* db_block_size
+
+
+El valor de los siguientes parámetros de la base de datos se añadirá con un sufijo basado en el SID del clon.
+
+* audit_file_dest = {sourcedatabase_parametervalue}_suffix
+* log_archive_dest_1 = {sourcedatabase_oraclehome}_suffix
+
+
+
+
+== Variables de entorno predefinidas compatibles para el script previo y script posterior específicos de clon
+
+Puede utilizar las variables de entorno predefinidas compatibles al ejecutar el script previo y el script posterior mientras se clona una base de datos.
+
+* SC_ORIGINAL_SID especifica el SID de la base de datos de origen. Este parámetro se rellenará para los volúmenes de aplicaciones. Ejemplo: NFSB32
+* SC_ORIGINAL_HOST especifica el nombre del host de origen. Este parámetro se rellenará para los volúmenes de aplicaciones. Ejemplo: asmrac1.gdl.englab.netapp.com
+* SC_ORACLE_HOME especifica la ruta de acceso del directorio inicial de Oracle de la base de datos de destino. Ejemplo: /Ora01/app/oracle/product/18.1.0/dB_1
+* SC_BACKUP_NAME" especifica el nombre del backup. Este parámetro se rellenará para los volúmenes de aplicaciones. Ejemplos:
++
+** Si la base de datos no se está ejecutando en modo ARCHIVELOG: DATA@RG2_sspr2417819002_07-20- 2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20-2021_12.16.48.9267_1
+** Si la base de datos se está ejecutando en modo ARCHIVELOG: DATA@RG2_sspr2417819002_07-20- 2021_12.16.48.9267_0|LOG@RG2_sspr24819002_07-20- 2021_12.16.48.9267_1,RG2_sspr2417819002_07-21- 2021_12.16.48.9267_07_22_2021_sspr241_12.16.48.9267__R17819002___R172242-__R172242
+
+
+* SC_ORIGINAL_OS_USER especifica el propietario del sistema operativo de la base de datos de origen. Ejemplo: oracle
+* SC_ORIGINAL_OS_GROUP especifica el grupo de sistemas operativos de la base de datos de origen. Ejemplo: Oinstall
+* SC_TARGET_SID" especifica el SID de la base de datos clonada. Para el flujo de trabajo de clonado de PDB, el valor de este parámetro no estará predefinido. Este parámetro se rellenará para los volúmenes de aplicaciones. Ejemplo: Clonedb
+* SC_TARGET_HOST especifica el nombre del host donde se clonará la base de datos. Este parámetro se rellenará para los volúmenes de aplicaciones. Ejemplo: asmrac1.gdl.englab.netapp.com
+* SC_TARGET_OS_USER especifica el propietario del sistema operativo de la base de datos clonada. Para el flujo de trabajo de clonado de PDB, el valor de este parámetro no estará predefinido. Ejemplo: oracle
+* SC_TARGET_OS_GROUP especifica el grupo del sistema operativo de la base de datos clonada. Para el flujo de trabajo de clonado de PDB, el valor de este parámetro no estará predefinido. Ejemplo: Oinstall
+* SC_TARGET_DB_PORT especifica el puerto de la base de datos de la base de datos clonada. Para el flujo de trabajo de clonado de PDB, el valor de este parámetro no estará predefinido. Ejemplo: 1521
+
+
+
+
+=== Delimitadores compatibles
+
+* @ se utiliza para separar los datos de su nombre de base de datos y separar el valor de su clave. Ejemplo: DATA@RG2_scspr2417819002_07-20- 2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20-2021_12.16.48.9267_1
+* | se utiliza para separar los datos entre dos entidades diferentes para el parámetro SC_BACKUP_NAME. Ejemplo: DATA@RG2_scspr2417819002_07-20-2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20-2021_12.16.48.9267_1
+* , se utiliza para separar el conjunto de variables para la misma clave. Ejemplo: DATA@RG2_scspr2417819002_07-20- 2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20- 2021_12.16.48.9267_1,RG2_scspr2417819002_07-21- 2021_12.16.48.9267_07,RG2_scspr2417819002_12.16.48.9267_22-2021_-
+
