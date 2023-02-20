@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head class="at-element-marker">
+  <title>Administrar backups para sus sistemas ONTAP | NetApp Documentation</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta http-equiv="language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Administrar backups para sus sistemas ONTAP | NetApp Documentation" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://docs.netapp.com/es-es/cloud-manager-backup-restore/task-manage-backups-ontap.html" />
+	<meta property="og:description" content="Puede gestionar backups para sus sistemas Cloud Volumes ONTAP y ONTAP en las instalaciones cambiando la programación de backups, creando nuevas políticas de ..." />
+  <meta property="og:image" content="https://docs.netapp.com/es-es/cloud-manager-backup-restore/images/logo-tophat-social.png" />
+  <meta property="og:image:alt" content="NetApp Logo" />
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="encoding" content="utf-8">
+  <meta http-equiv="nss-type" content="Product Documentation"/>
+  <meta http-equiv="nss-subtype" content="User Guide"/><meta name="description" content="Puede gestionar backups para sus sistemas Cloud Volumes ONTAP y ONTAP en las instalaciones cambiando la programación de backups, creando nuevas políticas de ...">
+  <meta name="keywords" content=" cloud backup, cloud backup service, backup schedule, change schedule, change backup schedule, modify schedule, modify backup schedule, retention, backup retention, delete, delete backups, deleting, deleting backups, disable, disable backups, turn off backups, disable cloud backup, turn off cloud backup"><!-- Icons -->
+  <link rel="icon" href="/es-es/cloud-manager-backup-restore/images/favicon.ico" type="image/x-icon">
+
+  <!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="NetApp Documentation" href="/es-es/cloud-manager-backup-restore/feed.xml"><!-- CSS Definitions: NetApp CSS should be defined after generic css -->
+
+  <!-- Elastic Search -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/searchkit/0.10.0/theme.css">
+
+  <!-- Combined CSS -->
+  <link rel="stylesheet" type="text/css" href="/es-es/cloud-manager-backup-restore/css/netappdocs.css">
+
+  
+  <link rel="stylesheet" href="/es-es/cloud-manager-backup-restore/css/landing-page.css" type="text/css">
+  <link rel="stylesheet" href="/es-es/cloud-manager-backup-restore/css/tabbed-blocks.css" type="text/css">
+  <!-- Canonical url -->
+  
+    
+    <link rel="canonical" href="https://docs.netapp.com/es-es/cloud-manager-backup-restore/task-manage-backups-ontap.html" />
+  <link rel='stylesheet' href='/es-es/cloud-manager-backup-restore/css/na-feature.css' type='text/css'><!-- Top level site integrations --><script>
+    function addAdobeLaunch(adobeId) {
+      var head = document.getElementsByTagName('head')[0];
+      var adobe = document.createElement("script");
+      adobe.type = "text/plain";
+      adobe.className = "optanon-category-C0002";
+      adobe.src = "//assets.adobedtm.com/60287eadf1ee/c284da483c83/"+adobeId+".min.js";
+      head.appendChild(adobe);
+    }
+
+    function addGoogleAnalytics(gtagId) {
+      var google = document.createElement("script");
+      google.type = "text/plain";
+      google.className = "optanon-category-C0002";
+      google.src = "https://www.googletagmanager.com/gtag/js?id="+gtagId;
+      var head = document.getElementsByTagName('head')[0];
+      head.appendChild(google);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', gtagId);
+    }
+
+    function addConsent(consentId) {
+      var head = document.getElementsByTagName('head')[0];
+      var onetrustConsent = document.createElement("script");
+      onetrustConsent.type = "text/javascript";
+      onetrustConsent.src = "https://cdn.cookielaw.org/consent/"+consentId+"/OtAutoBlock.js";
+      head.appendChild(onetrustConsent);
+
+      var onetrustScript = document.createElement("script");
+      onetrustScript.type = "text/javascript";
+      onetrustScript.src = "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js";
+      onetrustScript.charset = "UTF-8";
+      onetrustScript.dataset.documentLanguage = "true";
+      onetrustScript.dataset.domainScript = consentId;
+      head.appendChild(onetrustScript);
+    }addConsent("72570c5c-fe30-465f-b0e0-b77f7fb4ae34");
+    addAdobeLaunch("launch-e9ff3acac59f");
+    addGoogleAnalytics("UA-81697994-3");function OptanonWrapper() { }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <!-- Used for Product Family Page Sidebar Visibility --><!-- Used to import Promise for IE. Required for SearchKit -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script><script src='/es-es/cloud-manager-backup-restore/js/na-search.js'></script><script src='/es-es/cloud-manager-backup-restore/js/na-pagenav.js'></script><script src='/es-es/cloud-manager-backup-restore/js/na-utility.js'></script>
+  <script src='/es-es/cloud-manager-backup-restore/js/clouddocs.js'></script>
+  <script src='/es-es/cloud-manager-backup-restore/js/jquery.navgoco.min.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src='/es-es/cloud-manager-backup-restore/js/toc.js'></script>
+  <script src='/es-es/cloud-manager-backup-restore/js/customscripts.js'></script><script>
+      $(document).ready(function() {
+          
+          var collapseOnInit = true;
+          
+
+          var navSettings = {
+              "caretHtml": '',
+              "accordion": collapseOnInit,
+              "openClass": 'active', // open
+              "save": false, // leave false or nav highlighting doesn't work right
+              "cookie": {
+                  "name": 'navgoco',
+                  "expires": false,
+                  "path": '/'
+              },
+              "slide": {
+                  "duration": 400,
+                  "easing": 'swing'
+              }
+          };
+
+          // Initialize navgoco with default options
+          $("#mysidebar").navgoco(navSettings);
+          
+
+          $("#collapseAll").click(function(e) {
+              e.preventDefault();
+              $("#mysidebar").navgoco('toggle', false);
+          });
+
+          $("#expandAll").click(function(e) {
+              e.preventDefault();
+              $("#mysidebar").navgoco('toggle', true);
+          });
+
+          $(".sidebar-nav-container").on("scroll", function() {
+            $.cookie("sidebarScroll", $(".sidebar-nav-container").scrollTop(), {
+              path    : "/es-es/cloud-manager-backup-restore"  
+            });
+          });
+          $(function() {
+            if ($.cookie("sidebarScroll")) {
+              $(".sidebar-nav-container").scrollTop($.cookie("sidebarScroll"));
+            }
+          });
+
+      });
+
+  </script>
+  <script>
+      $(document).ready(function() {
+          $("#tg-sb-link").click(function() {
+              $("#tg-sb-sidebar").toggle();
+              $("#tg-sb-content").toggleClass('col-md-9');
+              $("#tg-sb-content").toggleClass('col-md-12');
+              $("#tg-sb-icon").toggleClass('fa-toggle-on');
+              $("#tg-sb-icon").toggleClass('fa-toggle-off');
+          });
+      });
+  </script>
+  <script src='/es-es/cloud-manager-backup-restore/js/custom-dropdown.js'></script>
+  <script src='/es-es/cloud-manager-backup-restore/js/FileSaver.min.js'></script>
+  <script src='/es-es/cloud-manager-backup-restore/js/jszip-utils.min.js'></script>
+  <script src='/es-es/cloud-manager-backup-restore/js/jszip.min.js'></script>
+  <script src='/es-es/cloud-manager-backup-restore/js/pdf-ux.js'></script>
+</head>
+
+
+  <body class role="document" data-flavor="aws">
+    <div id="page" class="n-off-canvas-menu">
+      <div class="n-off-canvas-menu__menu"><!--TODO: Add offcanvas code --></div>
+      <div class="n-off-canvas-menu__content-wrap">
+        <header class="site-header" id="banner">
+  
+  <!-- Start Page Toolbar -->
+  
+  <div class="page-nav-toolbar">
+<div id="flavor-dropdown" class="custom-dropdown" data-url="/es-es/cloud-manager-backup-restore/task-manage-backups-ontap.html">
+  
+  
+  <div class="custom-dropdown-select selected" title="AWS">
+    <label>Proveedor de cloud</label>
+    <div>AWS</div>  
+    <img src="/es-es/cloud-manager-backup-restore/images/filter.svg" class="custom-icon selected" alt="" />
+    <img src="/es-es/cloud-manager-backup-restore/images/dismiss.svg" class="custom-icon selected" id="remove-flavor" alt="" />
+  </div>
+  
+
+  <ul class="custom-dropdown-menu">
+    
+    
+    <li data-value="aws" data-url="/es-es/cloud-manager-backup-restore/aws/task-manage-backups-ontap.html">
+      <img alt="" src="/es-es/cloud-manager-backup-restore/images/aws-ico.svg" onerror="this.src='/es-es/cloud-manager-backup-restore/images/blank-ico.png'" class="custom-icon" />Amazon Web Services
+    </li>
+    
+    
+    
+    <li data-value="gcp" data-url="/es-es/cloud-manager-backup-restore/gcp/task-manage-backups-ontap.html">
+      <img alt="" src="/es-es/cloud-manager-backup-restore/images/gcp-ico.svg" onerror="this.src='/es-es/cloud-manager-backup-restore/images/blank-ico.png'" class="custom-icon" />Google Cloud
+    </li>
+    
+    
+    
+    <li data-value="azure" data-url="/es-es/cloud-manager-backup-restore/azure/task-manage-backups-ontap.html">
+      <img alt="" src="/es-es/cloud-manager-backup-restore/images/azure-ico.svg" onerror="this.src='/es-es/cloud-manager-backup-restore/images/blank-ico.png'" class="custom-icon" />Microsoft Azure
+    </li>
+    
+    
+  </ul>
+</div>
+<div class="page-nav-contribute"><a target="_blank" href="https://github.com/NetAppDocs/cloud-manager-backup-restore/issues/new?body=Page%3A%20[Administrar backups para sus sistemas ONTAP](https://docs.netapp.com/es-es/cloud-manager-backup-restore/task-manage-backups-ontap.html)&template=public-issue-template.md" class="page-nav-contribute-link" role="button"><img src="/es-es/cloud-manager-backup-restore/images/discuss-sm.svg" alt="" class="github-icon" />Solicitar cambios en el documento</a><a target="_blank" href="https://github.com/NetAppDocs/cloud-manager-backup-restore/blob/main/task-manage-backups-ontap.adoc" class="page-nav-contribute-link" role="button"><img src="/es-es/cloud-manager-backup-restore/images/edit-sm.svg" alt="" class="github-icon" />Editar en GitHub</a><a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  ><img src="/es-es/cloud-manager-backup-restore/images/article-sm.svg" alt="" class="github-icon" />Guía del colaborador</a></div>
+    <div class="page-nav-container">
+      <nav class="page-nav-fixed">
+        <div class="page-nav-title">EN ESTA PÁGINA</div>
+        <div class="page-nav-links">
+          <ul class="page-nav-inner" id="page-menu"></ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+  
+  
+  <!-- Start top_hat -->
+  <div class="n-top-hat">
+    <div class="n-container">
+      <div class="n-top-hat__cross-property-nav">
+        <ul class="n-top-hat__list">
+          <li class="n-top-hat__list-item">
+            <a href="https://www.netapp.com/products-a-z/" class="n-top-hat__link">Producto y soluciones</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://www.netapp.com/support-and-training/netapp-university/" class="n-top-hat__link">Asistencia y capacitación</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://cloud.netapp.com" class="n-top-hat__link">Cloud Central</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://community.netapp.com/" class="n-top-hat__link">Comunidad</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://blog.netapp.com/" class="n-top-hat__link">Blog</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://customers.netapp.com/en/" class="n-top-hat__link">Historias de clientes</a>
+          </li>
+        </ul>
+      </div>
+      <div class="n-top-hat__utils">
+        <ul class="n-top-hat__list">
+          <li class="n-top-hat__list-item">
+            <a href="https://www.netapp.com/company/contact-us/" target="_self" class="n-top-hat__link" data-ntap-ui="contact-us">Contacto</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- End top_hat -->
+
+  <!-- Start property bar -->
+  <style>
+    .n-property-navigation-bar__menus--desktop-experience .n-menu--mega__default-content__heading span {
+    color: #34B0FF;
+    }
+  </style>
+  <div class="n-property-bar " data-ntap-ui="sticky-nav">
+    <div class="n-property-bar__inner-wrap">
+      <div class="n-property-bar__menu-toggle">
+        <a href="#" class="n-property-bar__menu-toggle-link">
+          <span class="n-property-bar__menu-toggle-text">Menu</span>
+          <svg class="n-icon-bars n-property-bar__menu-toggle-icon" aria-labelledby="title">
+            <title>bars</title>
+            <use xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#bars"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="n-property-bar__property-mark ">
+        <a href="https://www.netapp.com" class="n-property-bar__property-link">
+          <div class="n-property-bar__logo">
+            <svg class="n-icon-netapp-mark n-icon-netapp-mark n-property-bar__netapp-mark-icon" aria-labelledby="title">
+              <title>netapp-mark</title>
+              <use xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#netapp-mark"></use>
+            </svg>
+            <svg class="n-icon-netapp-logo n-property-bar__logo-svg" aria-labelledby="title">
+              <title>netapp-logo</title>
+              <use xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#netapp-logo"></use>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      
+      
+      
+      <div class="search-property-bar">
+        <div id="search-demo-container" class="searchbox n-property-bar__search">
+          <div id="react-search" 
+          data-search-html="/es-es/cloud-manager-backup-restore/aws/search.html"
+          data-type="widget" 
+          data-placeholder="Buscar documentación"
+          data-no-results-found="No se encontraron resultados para {query}"
+          data-did-you-mean="Buscar {suggestion}."
+          data-no-results-found-did-you-mean="No se encontraron resultados para {query}. ¿Quiso decir {suggestion}?"
+          data-results-found="{hitCount} resultados encontrados"
+          data-error-message="We're sorry, an issue occurred when fetching your results. Please try again."
+          data-error-reset="Reset Search"
+          data-sk-es-pf-indexes=""
+          data-flavor="aws"></div>
+          <button class="n-property-bar__search-toggle-button" type="button">
+            <svg class="n-icon-search n-property-bar__search-toggle-button-icon" aria-labelledby="title">
+              <title>search</title>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#search"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <div class="n-property-bar__toolbar">
+    <!-- Start Language Selector --><div id="language-dropdown" class="custom-dropdown custom-dropdown-lang">
+      <div class="custom-dropdown-select custom-dropdown-select-lang">
+      <span class="lang-name">Español</span>
+          <svg class="n-globe__icon" aria-labelledby="title">
+            <title>globe</title>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#globe"></use>
+          </svg>
+        </button>
+      </div>
+
+      <ul class="custom-dropdown-menu"><li>
+          <a href="https://docs.netapp.com/es-es/cloud-manager-backup-restore/task-manage-backups-ontap.html" target="_self"><span translate="no" class="notranslate">Español</span></a>
+        </li><li>
+          <a href="https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-manage-backups-ontap.html" target="_self"><span translate="no" class="notranslate">English</span></a>
+        </li><li>
+          <a href="https://docs.netapp.com/ja-jp/cloud-manager-backup-restore/task-manage-backups-ontap.html" target="_self"><span translate="no" class="notranslate">日本語</span></a>
+        </li><li>
+          <a href="https://docs.netapp.com/ko-kr/cloud-manager-backup-restore/task-manage-backups-ontap.html" target="_self"><span translate="no" class="notranslate">한국어</span></a>
+        </li><li>
+          <a href="https://docs.netapp.com/zh-cn/cloud-manager-backup-restore/task-manage-backups-ontap.html" target="_self"><span translate="no" class="notranslate">简体中文</span></a>
+        </li><li>
+          <a href="https://docs.netapp.com/zh-tw/cloud-manager-backup-restore/task-manage-backups-ontap.html" target="_self"><span translate="no" class="notranslate">繁體中文</span></a>
+        </li><li>
+          <a href="https://docs.netapp.com/de-de/cloud-manager-backup-restore/task-manage-backups-ontap.html" target="_self"><span translate="no" class="notranslate">Deutsch</span></a>
+        </li><li>
+          <a href="https://docs.netapp.com/fr-fr/cloud-manager-backup-restore/task-manage-backups-ontap.html" target="_self"><span translate="no" class="notranslate">Français</span></a>
+        </li></ul>
+    </div><!-- End Language Selector -->
+
+    <div class="n-property-bar__cta"></div>
+  </div>
+  <!-- End property bar -->
+</header>
+
+
+        <main id="n-main-content" class="n-main-content">
+          <!-- Start Documentation Content -->
+<div class="ie-main">
+  <!-- Sidebar Column -->
+  
+  <div class="col-md-3" id="sidebar-height">
+      <button id="btn-sidebar-collapse" onclick="hideSidebar()"><img src="/es-es/cloud-manager-backup-restore/images/collapse.png" alt="Contraer panel de navegación"></button>
+      <div class="n-pdf-header">
+  <a id="toggleButtonPdf" class="n-pdf-button" type="button">
+    <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>PDFs disponibles<span>
+    </span>
+  </a>
+</div>
+<div class="n-pdf-body-container">
+  <ul id="toggleContainerPdf" class="n-pdf-body" style="display:none;"><li class="pdf-ux-container">
+        
+        
+        
+        <a target="_blank" href="/es-es/cloud-manager-backup-restore/pdfs/aws/fullsite-sidebar/Documentación_de_Cloud_Backup.pdf" >
+          <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>PDF de este sitio de documentos</a>
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Manos_a_la_obra.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Manos a la obra
+          </a>
+          
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Realice_backups_y_restauraciones_de_datos_de_ONTAP.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Realice backups y restauraciones de datos de ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <ul class="subfolders" id="pdf-remove" style="display:none;"><li class="active"></li></ul>
+  
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Cree_backups_y_restaure_datos_de_Kubernetes.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Cree backups y restaure datos de Kubernetes
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Proteja_los_datos_de_las_aplicaciones.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Proteja los datos de las aplicaciones
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Proteja_los_datos_de_las_aplicaciones_en_las_instalaciones.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Proteja los datos de las aplicaciones en las instalaciones
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Restaure_los_datos_de_las_aplicaciones_en_las_instalaciones.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Restaure los datos de las aplicaciones en las instalaciones
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Proteja_los_datos_de_aplicaciones_nativas_en_el_cloud.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Proteja los datos de aplicaciones nativas en el cloud
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Realice_backups_de_datos_de_aplicaciones_nativas_en_el_cloud.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Realice backups de datos de aplicaciones nativas en el cloud
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Realice_backup_de_bases_de_datos_de_Oracle_nativas_en_el_cloud.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Realice backup de bases de datos de Oracle nativas en el cloud
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Realice_backup_de_la_base_de_datos_SAP_HANA_nativa_del_cloud.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Realice backup de la base de datos SAP HANA nativa del cloud
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Restaure_los_datos_de_aplicaciones_nativas_en_el_cloud.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Restaure los datos de aplicaciones nativas en el cloud
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Clone_datos_de_aplicaciones_nativas_en_el_cloud.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Clone datos de aplicaciones nativas en el cloud
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Clone_la_base_de_datos_de_Oracle_nativa_en_el_cloud.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Clone la base de datos de Oracle nativa en el cloud
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Copia_de_seguridad_y_restauración_de_datos_de_máquinas_virtuales.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Copia de seguridad y restauración de datos de máquinas virtuales
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Referencia.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Referencia
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/es-es/cloud-manager-backup-restore/pdfs/aws/sidebar/Conocimiento_y_apoyo.pdf" 
+            
+          >
+            <img src="/es-es/cloud-manager-backup-restore/images/pdf.png" alt="" width="16" height="16"/>
+            Conocimiento y apoyo
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+</li></ul>
+  <div class="zip-pdf-link-container" style="display: none;">   
+    <a href="#" id="zipPdf">
+      <img src="/es-es/cloud-manager-backup-restore/images/pdf-zip.png" alt="" width="16" height="16"/>
+      <pre>Colección de documentos PDF separados<span class="zip-size"></span></pre>
+    </a><div id="zip-link-popup" class="hide">
+    <div class="inner-modal">
+        <div class="downloading-progress">
+            <div class="spinner"></div>
+            <h1>Creating your file...</h1>
+            <div>This may take a few minutes. Thanks for your patience.</div>
+            <button class="cancel-download-btn" type="button">Cancel</button>
+        </div>
+        <div class="download-complete hide">
+            <div class="done-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+            </div>
+            <div>Your file is ready</div>
+            <button class="cancel-download-btn" type="button">OK</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(".cancel-download-btn").click(function(){
+        $("#zip-link-popup").addClass("hide");
+        $("#zip-link-popup .downloading-progress").removeClass("hide");
+        $("#zip-link-popup .download-complete").addClass("hide");
+    });
+</script></div>
+</div>
+<script>
+  $("#toggleContainerPdf li.active:last-child").parents('ul.subfolders').toggle('display');
+  $("#toggleButtonPdf").click(function () {
+    $("#toggleContainerPdf").toggle('display');
+    $(".n-pdf-body-container .zip-pdf-link-container").toggle('display');
+  });
+</script><div class="prod-nav" id="product-nav">
+  <a target="_self" class="prod-fam-nav" href="https://docs.netapp.com/es-es/cloud-manager-family/"><img src="/es-es/cloud-manager-backup-restore/images/left_arrow.png" alt=""><pre>Toda la documentación de BlueXP</pre></a>
+</div><div class="sidebar-nav-container" id="mysidebardiv">
+  <ul id="mysidebar" class="nav"><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Documentos de Cloud Backup"
+      data-li-level="1#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/index.html">
+        Documentos de Cloud Backup
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Notas de la versión"
+      data-li-level="1#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/whats-new.html">
+        Notas de la versión
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Manos a la obra"
+      data-li-level="1" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Manos a la obra</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Más información acerca de Cloud Backup"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/concept-backup-to-cloud.html">
+        Más información acerca de Cloud Backup
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Configurar la licencia"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-licensing-cloud-backup.html">
+        Configurar la licencia
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Supervisar el estado de los trabajos de backup y restauración"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-monitor-backup-jobs.html">
+        Supervisar el estado de los trabajos de backup y restauración
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice backups y restauraciones de datos de ONTAP"
+      data-li-level="1" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Realice backups y restauraciones de datos de ONTAP</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Proteja sus datos de ONTAP"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/concept-ontap-backup-to-cloud.html">
+        Proteja sus datos de ONTAP
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice el backup de Cloud Volumes ONTAP en Amazon S3"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-to-s3.html">
+        Realice el backup de Cloud Volumes ONTAP en Amazon S3
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice backup de la ONTAP local en Amazon S3"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-onprem-to-aws.html">
+        Realice backup de la ONTAP local en Amazon S3
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice backup en las instalaciones de ONTAP en StorageGRID"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-onprem-private-cloud.html">
+        Realice backup en las instalaciones de ONTAP en StorageGRID
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Gestión de backups de ONTAP"
+      data-li-level="2#" 
+      class="  active "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-manage-backups-ontap.html">
+        Gestión de backups de ONTAP
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Gestione la configuración de backup en el nivel del clúster"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-manage-backup-settings-ontap.html">
+        Gestione la configuración de backup en el nivel del clúster
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Restaurar desde backups de ONTAP"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-restore-backups-ontap.html">
+        Restaurar desde backups de ONTAP
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Cree backups y restaure datos de Kubernetes"
+      data-li-level="1" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Cree backups y restaure datos de Kubernetes</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Proteja sus datos de Kubernetes"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/concept-kubernetes-backup-to-cloud.html">
+        Proteja sus datos de Kubernetes
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice el backup en Amazon S3"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-kubernetes-to-s3.html">
+        Realice el backup en Amazon S3
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Gestione los backups de Kubernetes"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-manage-backups-kubernetes.html">
+        Gestione los backups de Kubernetes
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Restauración desde backups de Kubernetes"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-restore-backups-kubernetes.html">
+        Restauración desde backups de Kubernetes
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Proteja los datos de las aplicaciones"
+      data-li-level="1" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Proteja los datos de las aplicaciones</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Proteja los datos de las aplicaciones en las instalaciones"
+      data-li-level="2" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Proteja los datos de las aplicaciones en las instalaciones</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Proteja los datos de las aplicaciones locales"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/concept-protect-app-data-to-cloud.html">
+        Proteja los datos de las aplicaciones locales
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Registre el servidor SnapCenter"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-register-snapcenter-server.html">
+        Registre el servidor SnapCenter
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Crear una política para realizar backups de aplicaciones"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-create-policies-apps.html">
+        Crear una política para realizar backups de aplicaciones
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice backup de los datos de las aplicaciones en las instalaciones en Amazon Web Services"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-app-data-to-aws.html">
+        Realice backup de los datos de las aplicaciones en las instalaciones en Amazon Web Services
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice backups de los datos de las aplicaciones en las instalaciones en StorageGRID"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-app-data-to-storagegrid.html">
+        Realice backups de los datos de las aplicaciones en las instalaciones en StorageGRID
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Gestione la protección de aplicaciones"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-manage-app-backups.html">
+        Gestione la protección de aplicaciones
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Restaure los datos de las aplicaciones en las instalaciones"
+      data-li-level="3" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Restaure los datos de las aplicaciones en las instalaciones</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Restaurar base de datos de Oracle"
+      data-li-level="4#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-restore-oracle-data.html">
+        Restaurar base de datos de Oracle
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Restaurar base de datos de SQL Server"
+      data-li-level="4#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-restore-sql-data.html">
+        Restaurar base de datos de SQL Server
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Montar backups de aplicaciones"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-mount-app-backup.html">
+        Montar backups de aplicaciones
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Proteja los datos de aplicaciones nativas en el cloud"
+      data-li-level="2" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Proteja los datos de aplicaciones nativas en el cloud</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Proteja los datos de aplicaciones nativas del cloud"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/concept-protect-cloud-app-data-to-cloud.html">
+        Proteja los datos de aplicaciones nativas del cloud
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice backups de datos de aplicaciones nativas en el cloud"
+      data-li-level="3" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Realice backups de datos de aplicaciones nativas en el cloud</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice backup de bases de datos de Oracle nativas en el cloud"
+      data-li-level="4" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Realice backup de bases de datos de Oracle nativas en el cloud</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Acceda a BlueXP"
+      data-li-level="5#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/reference-access-bluexp.html">
+        Acceda a BlueXP
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Configure FSX para ONTAP"
+      data-li-level="5#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/reference-configure-fsx-for-ontap.html">
+        Configure FSX para ONTAP
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Configure Cloud Volumes ONTAP"
+      data-li-level="5#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/reference-configure-cloud-volumes-ontap.html">
+        Configure Cloud Volumes ONTAP
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Añadir host y detectar bases de datos de Oracle"
+      data-li-level="5#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-add-host-discover-oracle-databases.html">
+        Añadir host y detectar bases de datos de Oracle
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice backup de la base de datos de Oracle"
+      data-li-level="5#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-cloud-native-oracle-data.html">
+        Realice backup de la base de datos de Oracle
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Restaure los datos de aplicaciones nativas en el cloud"
+      data-li-level="3" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Restaure los datos de aplicaciones nativas en el cloud</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Restaurar base de datos de Oracle nativa en cloud"
+      data-li-level="4#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-restore-cloud-native-oracle-data.html">
+        Restaurar base de datos de Oracle nativa en cloud
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Clone datos de aplicaciones nativas en el cloud"
+      data-li-level="3" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Clone datos de aplicaciones nativas en el cloud</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Clone la base de datos de Oracle nativa en el cloud"
+      data-li-level="4" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Clone la base de datos de Oracle nativa en el cloud</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Conceptos y requisitos de los clones"
+      data-li-level="5#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/concept-clone-cloud-native-oracle-concepts.html">
+        Conceptos y requisitos de los clones
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Clone la base de datos de Oracle nativa en el cloud"
+      data-li-level="5#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-clone-cloud-native-oracle-data.html">
+        Clone la base de datos de Oracle nativa en el cloud
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Gestione la protección de datos de aplicaciones nativas en el cloud"
+      data-li-level="3#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-manage-cloud-native-app-data.html">
+        Gestione la protección de datos de aplicaciones nativas en el cloud
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Copia de seguridad y restauración de datos de máquinas virtuales"
+      data-li-level="1" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Copia de seguridad y restauración de datos de máquinas virtuales</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Proteja sus datos de equipos virtuales"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/concept-protect-vm-data.html">
+        Proteja sus datos de equipos virtuales
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Registre el plugin de SnapCenter para VMware vSphere"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-register-snapCenter-plug-in-for-vmware-vsphere.html">
+        Registre el plugin de SnapCenter para VMware vSphere
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Cree una política para realizar backups de equipos virtuales"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-create-policies-vms.html">
+        Cree una política para realizar backups de equipos virtuales
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Backup de almacenes de datos en Amazon Web Services"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-vm-data-to-aws.html">
+        Backup de almacenes de datos en Amazon Web Services
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realizar backup de almacenes de datos en StorageGRID"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-backup-vm-data-to-storagegrid.html">
+        Realizar backup de almacenes de datos en StorageGRID
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Gestione la protección de máquinas virtuales"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-manage-vm-data-in-cloud.html">
+        Gestione la protección de máquinas virtuales
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Restaurar datos de máquinas virtuales"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-restore-vm-data.html">
+        Restaurar datos de máquinas virtuales
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Automatización con la API DE REST"
+      data-li-level="1#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/api-backup-restore.html">
+        Automatización con la API DE REST
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Referencia"
+      data-li-level="1" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Referencia</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Configuración de la política de backup en cloud"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/concept-cloud-backup-policies.html">
+        Configuración de la política de backup en cloud
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Niveles de almacenamiento de archivado compatibles con AWS"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/reference-aws-backup-tiers.html">
+        Niveles de almacenamiento de archivado compatibles con AWS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Niveles de acceso de archivado de Azure compatibles"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/reference-azure-backup-tiers.html">
+        Niveles de acceso de archivado de Azure compatibles
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Compatibilidad con niveles de almacenamiento de archivado de Google"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/reference-google-backup-tiers.html">
+        Compatibilidad con niveles de almacenamiento de archivado de Google
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Realice un backup de la base de datos de Cloud Backup en un sitio oscuro"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/reference-backup-cbs-db-in-dark-site.html">
+        Realice un backup de la base de datos de Cloud Backup en un sitio oscuro
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Configure Backup para el acceso de varias cuentas en Azure"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/reference-backup-multi-account-azure.html">
+        Configure Backup para el acceso de varias cuentas en Azure
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Conocimiento y apoyo"
+      data-li-level="1" 
+      class="subfolders "
+    ><a href="#">
+        <div class="na-navbar-padding"> Conocimiento y apoyo</div>
+      </a>
+      <ul style="display: none;">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Regístrese para recibir soporte"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-support-registration.html">
+        Regístrese para recibir soporte
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Obtenga ayuda"
+      data-li-level="2#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-get-help.html">
+        Obtenga ayuda
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Avisos legales"
+      data-li-level="1#" 
+      class=" "
+    ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/legal-notices.html">
+        Avisos legales
+      </a></li></ul>
+</div>
+<script>
+  window.onscroll = () => {
+    const value = -40 - (document.body.scrollHeight - (window.innerHeight + document.scrollingElement.scrollTop));
+    
+    document.getElementById("sidebar-height").style.bottom = Math.max(0,value) + "px";
+};
+</script>
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+<script>$("#mysidebar li.active").parents('ul').css("display","block");</script>
+
+
+  </div>
+  
+
+  <div class="ie-content-pane n-doc__component-detail-content n-doc__component-detail-content--show-code">
+    <!-- Begin of page container --><article class="page-content" id="main">
+      <div class="ie-utility">
+  <button id="btn-sidebar-expand" onclick="showSidebar()"><img src="/es-es/cloud-manager-backup-restore/images/expand.png" alt="Expandir panel de navegación"></button>
+  <div class="ie-menu">
+    <div class="n-breadcrumb">
+      <ul class="n-breadcrumb__list">
+        <li class="n-breadcrumb__list-item">
+          <a href="https://docs.netapp.com">docs.netapp.com</a>
+        </li>
+        
+        <li class="n-breadcrumb__list-item">
+          <a href="https://docs.netapp.com/us-en/cloud/">Cloud Docs</a>
+        </li>
+        
+
+        
+        <li class="n-breadcrumb__list-item">
+          <a href="https://docs.netapp.com/es-es/cloud-manager-family/">BlueXP</a>
+        </li>
+        
+
+        <li class="n-breadcrumb__list-item">
+          <a href="/es-es/cloud-manager-backup-restore/">Cloud&nbsp;Backup</a>
+        </li>
+
+      </ul>
+    </div>
+    <div style="clear: both"></div><!-- Main needs to have height -->
+  </div>
+</div>
+
+      <div class="ie-nmt-disclaimer">
+  <span>
+    <div class="ie-nmt-disclaimer-container">
+      <div class="ie-nmt-disclaimer-icon">
+        <svg class="luci-icon" aria-hidden="true">
+          <use xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#circle-info">
+        </svg>
+      </div>
+      <div class="ie-nmt-disclaimer-content">
+        <span> Se proporciona el idioma español mediante traducción automática para su comodidad. En caso de alguna inconsistencia, el inglés precede al español. </span>
+      </div>
+      <div style="clear:both;"></div>
+    </div>
+  </span>
+</div><div class="n-doc__component-detail-heading-wrap">
+  <h1 class="n-doc__component-detail-heading">Administrar backups para sus sistemas ONTAP</h1>
+</div>
+
+
+<p class="page-details">
+  
+    
+    <time datetime="2023-02-20 14:40:40 +0000">02/20/2023</time>
+    
+  
+
+<span>Colaboradores
+</span>
+
+
+</p>
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph lead">
+<p>Puede gestionar backups para sus sistemas Cloud Volumes ONTAP y ONTAP en las instalaciones cambiando la programación de backups, creando nuevas políticas de backup, habilitando/deshabilitando backups de volúmenes, haciendo una pausa en los backups, eliminando backups, etc.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/caution.svg" alt="Precaución">
+</td>
+<td class="content">
+No gestione ni modifique los archivos de backup directamente desde su entorno de proveedor de cloud. Esto puede dañar los archivos y dar como resultado una configuración no compatible.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ver-los-volúmenes-de-los-que-se-está-realizando-backup">Ver los volúmenes de los que se está realizando backup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Es posible ver una lista de todos los volúmenes de los que se está haciendo backup en la consola de backup.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En el menú BlueXP, seleccione <strong>Protección &gt; copia de seguridad y recuperación</strong>.</p>
+</li>
+<li>
+<p>Haga clic en la ficha <strong>Volumes</strong> para ver la lista de volúmenes de los que se ha realizado una copia de seguridad para sistemas Cloud Volumes ONTAP y ONTAP locales.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_dashboard.png" alt="Una captura de pantalla que muestra todos los entornos y volúmenes de trabajo que tienen archivos de copia de seguridad."></span></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Si está buscando volúmenes específicos en ciertos entornos de trabajo, puede refinar la lista según el entorno y el volumen de trabajo, o puede utilizar el filtro de búsqueda.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="habilitar-y-deshabilitar-backups-de-volúmenes">Habilitar y deshabilitar backups de volúmenes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Puede activar los backups de cualquier volumen nuevo si no se están realizando backups en ese momento. También es posible activar backups para cualquier volumen que haya desactivado previamente.</p>
+</div>
+<div class="paragraph">
+<p>Es posible desactivar los backups para volúmenes de forma que no se generen backups adicionales. Esto también deshabilita la capacidad para restaurar datos de volúmenes desde un archivo de backup. Esto permite básicamente poner en pausa toda la actividad de backup y restauración durante un periodo de tiempo. Cualquier backup existente no se eliminará, por lo que su proveedor de cloud seguirá cargando en los costes de almacenamiento de objetos de la capacidad que sus backups utilizan, a menos que usted <a href="#eliminación-de-todos-los-archivos-de-backup-de-un-volumen">eliminar los backups</a>.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, seleccione <strong>Configuración de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_settings_button.png" alt="Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Backup Settings</em>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el entorno de trabajo y seleccione <strong>gestionar volúmenes</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_manage_volumes.png" alt="Captura de pantalla que muestra el botón gestionar volúmenes de la página Configuración de copia de seguridad."></span></p>
+</div>
+</li>
+<li>
+<p>Seleccione la casilla de verificación para un volumen o volúmenes que desee cambiar y, a continuación, haga clic en <strong>Activar</strong> o <strong>Desactivar</strong> dependiendo de si desea iniciar o detener copias de seguridad para el volumen.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_manage_volumes_page.png" alt="En la página gestionar volúmenes, donde puede seleccionar o anular la selección de volúmenes."></span></p>
+</div>
+</li>
+<li>
+<p>Haga clic en <strong>Guardar</strong> para confirmar los cambios.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="editar-una-política-de-backup-existente">Editar una política de backup existente</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Puede cambiar los atributos de una política de backup que se aplique actualmente a los volúmenes en un entorno de trabajo. Los cambios que se aplican en la política de backup afectan a todos los volúmenes existentes que usan la política.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Si ha activado <em>DataLock y Protección de ransomware</em> en la directiva inicial al activar Cloud Backup para este clúster, las directivas que edite deben configurarse con la misma configuración DataLock (Gobierno o cumplimiento). Y si no ha activado <em>DataLock y la protección de ransomware</em> al activar Cloud Backup, no puede habilitar DataLock ahora.</p>
+</li>
+<li>
+<p>Al crear backups en AWS, si eligió <em>S3 Glacier</em> o <em>S3 Glacier Deep Archive</em> en la primera política de backup al activar Cloud Backup, ese nivel será el único nivel de archivado disponible al editar las políticas de backup. Si no ha seleccionado ningún nivel de archivado en su primera política de copia de seguridad, <em>S3 Glacier</em> será la única opción de archivado al editar una directiva.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, seleccione <strong>Configuración de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_settings_button.png" alt="Captura de pantalla que muestra el botón Configuración de copia de seguridad de la ficha volúmenes."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Backup Settings</em>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el entorno de trabajo en el que desea cambiar la configuración de la directiva y seleccione <strong>Administrar directivas</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_modify_policy.png" alt="Captura de pantalla que muestra la opción Administrar políticas de la página Configuración de copia de seguridad."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Manage Policies</em>, haga clic en <strong>Edit</strong> para la política de copia de seguridad que desea cambiar en ese entorno de trabajo.</p>
+<div class="paragraph">
+<p>Nota en la que puede hacer clic <span class="image"><img src="./media/button_down_caret.png" alt=""></span> para ver todos los detalles de la política.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_manage_policy_page_edit.png" alt="Captura de pantalla que muestra el botón Editar directiva de la página Administrar directivas."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Edit Policy</em>, haga clic en <span class="image"><img src="./media/button_down_caret.png" alt=""></span> Para ampliar la sección <em>Labels &amp; Retention</em> para cambiar la programación y/o la retención de copia de seguridad, y haga clic en <strong>Guardar</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_edit_policy.png" alt="Captura de pantalla que muestra la configuración de la política de copia de seguridad en la que puede modificar la programación de copia de seguridad y la configuración de retención de copia de seguridad."></span></p>
+</div>
+<div class="paragraph">
+<p>Si el clúster ejecuta ONTAP 9.10.1 o más, también tendrá la opción de habilitar o deshabilitar la clasificación por niveles de los backups en el almacenamiento de archivado después de un cierto número de días.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a href="reference-aws-backup-tiers.html">"Obtenga más información sobre el uso del almacenamiento de archivado de AWS"</a>.</p>
+</div>
+<div class="paragraph">
+<p>+<span class="image"><img src="./media/screenshot_backup_modify_policy_page2.png" alt="Una captura de pantalla que muestra la configuración de almacenamiento por niveles en archivado para Cloud Backup."></span></p>
+</div>
+<div class="paragraph">
+<p>+ tenga en cuenta que todos los archivos de backup organizados en niveles para el almacenamiento de archivado se dejan en ese nivel si se detienen los backups por niveles en el archivado; no se vuelven a transferir automáticamente al nivel estándar. Solo los nuevos backups de volúmenes permanecerán en el nivel estándar.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="adición-de-una-nueva-política-de-backup">Adición de una nueva política de backup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Al habilitar Cloud Backup para un entorno de trabajo, se realizan backups de todos los volúmenes que seleccione inicialmente con la política de backup predeterminada que haya definido. Si desea asignar diferentes políticas de backup a ciertos volúmenes que tienen diferentes objetivos de punto de recuperación (RPO), puede crear políticas adicionales para ese clúster y asignar dichas políticas a otros volúmenes.</p>
+</div>
+<div class="paragraph">
+<p>Si desea aplicar una nueva política de backup a ciertos volúmenes en un entorno de trabajo, primero debe añadir la política de backup al entorno de trabajo. Ahora puede <a href="#cambiar-la-política-asignada-a-los-volúmenes-existentes">aplique la política a los volúmenes en ese entorno de trabajo</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Si ha activado <em>DataLock y Protección de ransomware</em> en la directiva inicial al activar Cloud Backup para este clúster, cualquier política adicional que cree debe configurarse con la misma configuración DataLock (Gobierno o cumplimiento). Y si no ha activado <em>DataLock y la protección de ransomware</em> al activar Cloud Backup, no puede crear nuevas políticas que utilicen DataLock.</p>
+</li>
+<li>
+<p>Al crear backups en AWS, si eligió <em>S3 Glacier</em> o <em>S3 Glacier Deep Archive</em> en la primera política de backup al activar Cloud Backup, ese nivel será el único nivel de archivado disponible para las futuras políticas de backup para ese clúster. Si ha seleccionado ningún nivel de archivado en su primera política de copia de seguridad, <em>S3 Glacier</em> será la única opción de archivado para futuras políticas.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, seleccione <strong>Configuración de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_settings_button.png" alt="Captura de pantalla que muestra el botón Configuración de copia de seguridad de la ficha volúmenes."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Backup Settings</em>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el entorno de trabajo en el que desea agregar la nueva directiva y seleccione <strong>Administrar directivas</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_modify_policy.png" alt="Captura de pantalla que muestra la opción Administrar políticas de la página Configuración de copia de seguridad."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Manage Policies</em>, haga clic en <strong>Add New Policy</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_manage_policy_page_add.png" alt="Captura de pantalla que muestra el botón Agregar nueva directiva de la página Administrar directivas."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Add New Policy</em>, haga clic en <span class="image"><img src="./media/button_down_caret.png" alt=""></span> Para ampliar la sección <em>Labels &amp; Retention</em> para definir la programación y la retención de copias de seguridad, y haga clic en <strong>Guardar</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_add_new_policy.png" alt="Captura de pantalla que muestra la configuración de la política de copia de seguridad en la que puede agregar la programación de copia de seguridad y la configuración de retención de copia de seguridad."></span></p>
+</div>
+<div class="paragraph">
+<p>Si el clúster ejecuta ONTAP 9.10.1 o más, también tendrá la opción de habilitar o deshabilitar la clasificación por niveles de los backups en el almacenamiento de archivado después de un cierto número de días.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a href="reference-aws-backup-tiers.html">"Obtenga más información sobre el uso del almacenamiento de archivado de AWS"</a>.</p>
+</div>
+<div class="paragraph">
+<p>+<span class="image"><img src="./media/screenshot_backup_modify_policy_page2.png" alt="Una captura de pantalla que muestra la configuración de almacenamiento por niveles en archivado para Cloud Backup."></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cambiar-la-política-asignada-a-los-volúmenes-existentes">Cambiar la política asignada a los volúmenes existentes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Es posible cambiar la política de backup asignada a los volúmenes existentes si se desea cambiar la frecuencia de los backups o si desea cambiar el valor de retención.</p>
+</div>
+<div class="paragraph">
+<p>Tenga en cuenta que la política que desea aplicar a los volúmenes ya debe existir. <a href="#adición-de-una-nueva-política-de-backup">Descubra cómo añadir una nueva normativa de backup para un entorno de trabajo</a>.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, seleccione <strong>Configuración de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_settings_button.png" alt="Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Backup Settings</em>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el entorno de trabajo en el que existen los volúmenes, seleccione <strong>gestionar volúmenes</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_manage_volumes.png" alt="Captura de pantalla que muestra el botón gestionar volúmenes de la página Configuración de copia de seguridad."></span></p>
+</div>
+</li>
+<li>
+<p>Seleccione la casilla de verificación para un volumen o volúmenes para los que desea cambiar la directiva y, a continuación, haga clic en <strong>Política de cambio</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_manage_volumes_page_change.png" alt="En la página gestionar volúmenes, donde puede seleccionar o anular la selección de volúmenes."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Change Policy</em>, seleccione la directiva que desea aplicar a los volúmenes y haga clic en <strong>Change Policy</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_change_policy.png" alt="Una captura de pantalla que muestra cómo seleccionar una nueva política para aplicarla a los volúmenes seleccionados."></span></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+Si ha activado <em>DataLock y Protección de ransomware</em> en la directiva inicial al activar Cloud Backup para este clúster, solo verá otras directivas que se hayan configurado con DataLock. Y si no ha activado <em>DataLock y Protección de ransomware</em> al activar Cloud Backup, solo verá otras directivas que no tengan DataLock configurado.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Haga clic en <strong>Guardar</strong> para confirmar los cambios.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creación-de-un-backup-de-volumen-manual-en-cualquier-momento">Creación de un backup de volumen manual en cualquier momento</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Es posible crear un backup bajo demanda en cualquier momento para capturar el estado actual del volumen. Esto puede resultar útil si se han realizado cambios muy importantes en un volumen y no desea esperar a que se realice la siguiente copia de seguridad programada para proteger esos datos, o si actualmente el volumen no se está haciendo copia de seguridad y se desea capturar su estado actual.</p>
+</div>
+<div class="paragraph">
+<p>El nombre de backup incluye la Marca de hora para poder identificar el backup bajo demanda desde otros backups programados.</p>
+</div>
+<div class="paragraph">
+<p>Si ha activado <em>DataLock y la protección de ransomware</em> al activar Cloud Backup para este clúster, la copia de seguridad bajo demanda también se configurará con DataLock y el período de retención será de 30 días. Los análisis de ransomware no se admiten para backups ad hoc. <a href="concept-cloud-backup-policies.html#datalock-and-ransomware-protection" target="_blank" rel="noopener">"Más información sobre la protección de DataLock y Ransomware"</a>.</p>
+</div>
+<div class="paragraph">
+<p>Es preciso tener en cuenta que al crear un backup ad hoc, se crea una Snapshot en el volumen de origen. Dado que esta instantánea no forma parte de una programación normal de instantánea, no se girará. Puede eliminar manualmente esta snapshot del volumen de origen una vez completado el backup. De este modo, se podrán liberar los bloques relacionados con esta snapshot. El nombre de la snapshot comenzará con <code>cbs-snapshot-adhoc-</code>. <a href="https://docs.netapp.com/us-en/ontap/san-admin/delete-all-existing-snapshot-copies-volume-task.html" target="_blank" rel="noopener">"Consulte cómo eliminar una snapshot con la CLI de ONTAP"</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+No se admite el backup de volúmenes bajo demanda en los volúmenes de protección de datos.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el volumen y seleccione <strong>copia de seguridad ahora</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_now_button.png" alt="Captura de pantalla que muestra el botón copia de seguridad ahora que está disponible después de seleccionar un volumen."></span></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>La columna Backup Status de ese volumen muestra "in progress" hasta que se crea el backup.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ver-la-lista-de-backups-de-cada-volumen">Ver la lista de backups de cada volumen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Es posible ver la lista de todos los archivos de backup que existen para cada volumen. Esta página muestra detalles sobre el volumen de origen, la ubicación de destino y los detalles de backup, como el último backup realizado, la política actual de backup, el tamaño del archivo de backup y mucho más.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el volumen de origen y seleccione <strong>Detalles y lista de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_view_backups_button.png" alt="Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."></span></p>
+</div>
+<div class="paragraph">
+<p>Se muestra la lista de todos los archivos de backup junto con detalles sobre el volumen de origen, la ubicación de destino y los detalles de la copia de seguridad.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_view_backups.png" alt="Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."></span></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ejecuta-un-análisis-de-ransomware-en-un-backup-de-volumen">Ejecuta un análisis de ransomware en un backup de volumen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El software de protección ransomware de NetApp analiza sus archivos de backup para buscar pruebas de un ataque de ransomware cuando se crea un archivo de backup y cuando se restauran los datos de un archivo de backup. También puede ejecutar un análisis de protección contra ransomware bajo demanda en cualquier momento para verificar la facilidad de uso de un archivo de backup específico. Esto puede resultar útil si tuvo un problema de ransomware en un volumen en particular y desea verificar que los backups de ese volumen no se vean afectados.</p>
+</div>
+<div class="paragraph">
+<p>Esta función solo está disponible si el backup de volumen se creó a partir de un sistema con ONTAP 9.11.1 o posterior y si se habilitó <em>DataLock y Protección de ransomware</em> en la política de backup.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el volumen de origen y seleccione <strong>Detalles y lista de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_view_backups_button.png" alt="Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."></span></p>
+</div>
+<div class="paragraph">
+<p>Se muestra la lista de todos los archivos de copia de seguridad.</p>
+</div>
+</li>
+<li>
+<p>Haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el archivo de copia de seguridad de volumen que desea analizar y haga clic en <strong>Análisis de ransomware</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_scan_one_backup.png" alt="Una captura de pantalla que muestra cómo ejecutar un escaneado de ransomware en un único archivo de copia de seguridad."></span></p>
+</div>
+<div class="paragraph">
+<p>La columna Análisis de ransomware mostrará que la exploración está en curso.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="eliminar-backups">Eliminar backups</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cloud Backup le permite eliminar un único archivo de backup, eliminar todos los backups del volumen o eliminar todos los backups de todos los volúmenes en un entorno de trabajo. Es posible eliminar todos los backups si ya no se necesitan los backups o si se eliminó el volumen de origen y se desean quitar todos los backups.</p>
+</div>
+<div class="paragraph">
+<p>Tenga en cuenta que no puede eliminar los archivos de copia de seguridad bloqueados mediante la protección DataLock y Ransomware. La opción "Eliminar" no estará disponible en la interfaz de usuario si ha seleccionado uno o más archivos de backup bloqueados.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/caution.svg" alt="Precaución">
+</td>
+<td class="content">
+Si piensa eliminar un entorno de trabajo o clúster que tiene copias de seguridad, debe eliminar las copias de seguridad <strong>antes de</strong> eliminando el sistema. Cloud Backup no elimina automáticamente las copias de seguridad cuando se elimina un sistema y no hay compatibilidad actual en la interfaz de usuario para eliminar las copias de seguridad después de que el sistema se haya eliminado. Seguirá cobrándose los costes de almacenamiento de objetos por los backups restantes.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="eliminar-todos-los-archivos-de-copia-de-seguridad-de-un-entorno-de-trabajo">Eliminar todos los archivos de copia de seguridad de un entorno de trabajo</h3>
+<div class="paragraph">
+<p>La eliminación de todos los backups de un entorno de trabajo no deshabilita los futuros backups de los volúmenes en este entorno de trabajo. Si desea detener la creación de backups de todos los volúmenes en un entorno de trabajo, puede desactivar los backups <a href="#desactivación-de-cloud-backup-en-un-entorno-de-trabajo">como se describe aquí</a>.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, seleccione <strong>Configuración de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_settings_button.png" alt="Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>Haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el entorno de trabajo en el que desea eliminar todas las copias de seguridad y seleccione <strong>Eliminar todas las copias de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_delete_all_backups.png" alt="Una captura de pantalla de selección del botón Delete All backups para eliminar todas las copias de seguridad de un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>En el cuadro de diálogo de confirmación, introduzca el nombre del entorno de trabajo y haga clic en <strong>Eliminar</strong>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="eliminación-de-todos-los-archivos-de-backup-de-un-volumen">Eliminación de todos los archivos de backup de un volumen</h3>
+<div class="paragraph">
+<p>La eliminación de todos los backups de un volumen también deshabilita los futuros backups para ese volumen.</p>
+</div>
+<div class="paragraph">
+<p>Puede hacerlo <a href="#habilitar-y-deshabilitar-backups-de-volúmenes">reinicie haciendo backups para el volumen</a> En cualquier momento desde la página Manage backups.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el volumen de origen y seleccione <strong>Detalles y lista de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_view_backups_button.png" alt="Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."></span></p>
+</div>
+<div class="paragraph">
+<p>Se muestra la lista de todos los archivos de copia de seguridad.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_view_backups.png" alt="Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."></span></p>
+</div>
+</li>
+<li>
+<p>Haga clic en <strong>acciones</strong> &gt; <strong>Eliminar todas las copias de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_delete_we_backups.png" alt="Una captura de pantalla que muestra cómo eliminar todos los archivos de copia de seguridad de un volumen."></span></p>
+</div>
+</li>
+<li>
+<p>En el cuadro de diálogo de confirmación, introduzca el nombre del volumen y haga clic en <strong>Eliminar</strong>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="eliminar-un-único-archivo-de-backup-para-un-volumen">Eliminar un único archivo de backup para un volumen</h3>
+<div class="paragraph">
+<p>Puede eliminar un único archivo de copia de seguridad. Esta función solo está disponible si el backup de volumen se creó a partir de un sistema con ONTAP 9.8 o posterior.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el volumen de origen y seleccione <strong>Detalles y lista de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_view_backups_button.png" alt="Una captura de pantalla que muestra el botón Detalles  lista de copias de seguridad que está disponible para un único volumen."></span></p>
+</div>
+<div class="paragraph">
+<p>Se muestra la lista de todos los archivos de copia de seguridad.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_view_backups.png" alt="Captura de pantalla que muestra la Lista de todos los archivos de copia de seguridad de un único volumen."></span></p>
+</div>
+</li>
+<li>
+<p>Haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el archivo de copia de seguridad de volumen que desea eliminar y haga clic en <strong>Eliminar</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_delete_one_backup.png" alt="Una captura de pantalla que muestra cómo eliminar un único archivo de copia de seguridad."></span></p>
+</div>
+</li>
+<li>
+<p>En el cuadro de diálogo de confirmación, haga clic en <strong>Eliminar</strong>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="eliminación-de-relaciones-de-backup-de-volumen">Eliminación de relaciones de backup de volumen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Eliminar la relación de backup de un volumen ofrece un mecanismo de archivado si desea detener la creación de nuevos archivos de backup y eliminar el volumen de origen, pero conservar todos los archivos de backup existentes. Esto le permite restaurar el volumen desde el archivo de backup en el futuro, si es necesario, a la vez que se borra espacio del sistema de almacenamiento de origen.</p>
+</div>
+<div class="paragraph">
+<p>No es necesario eliminar el volumen de origen. Es posible eliminar la relación de backup de un volumen y conservar el volumen de origen. En este caso, es posible "activar" el backup en el volumen más adelante. En este caso se sigue utilizando la copia de backup base original: No se crea ni exporta una nueva copia de backup de referencia al cloud. Tenga en cuenta que si se reactivará una relación de backup, se asignará el volumen la política de backup predeterminada.</p>
+</div>
+<div class="paragraph">
+<p>Esta función solo está disponible si el sistema ejecuta ONTAP 9.12.1 o posterior.</p>
+</div>
+<div class="paragraph">
+<p>No se puede eliminar el volumen de origen de la interfaz de usuario de Cloud Backup. Sin embargo, puede abrir la página Detalles de volumen en el lienzo y. <a href="https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-manage-volumes.html#manage-volumes">"elimine el volumen desde allí"</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+No se pueden eliminar archivos de backup de volúmenes individuales una vez que se ha eliminado la relación. Sin embargo, usted puede <a href="task-manage-backups-ontap.html#deleting-all-backup-files-for-a-volume">"elimine todos los backups del volumen"</a> si desea quitar todos los archivos de backup.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, seleccione <strong>Configuración de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_settings_button.png" alt="Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Backup Settings</em>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el entorno de trabajo y seleccione <strong>gestionar volúmenes</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_manage_volumes.png" alt="Captura de pantalla que muestra el botón gestionar volúmenes de la página Configuración de copia de seguridad."></span></p>
+</div>
+</li>
+<li>
+<p>Seleccione la casilla de verificación de un volumen o volúmenes que desee eliminar la relación de copia de seguridad y, a continuación, haga clic en <strong>Eliminar relación</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_delete_relationship.png" alt="Una captura de pantalla que muestra cómo eliminar la relación de backup de varios volúmenes."></span></p>
+</div>
+</li>
+<li>
+<p>Haga clic en <strong>Guardar</strong> para confirmar los cambios.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Tenga en cuenta que también puede eliminar la relación de backup para un único volumen de la página Volumes.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_delete_relationship_single.png" alt="Una captura de pantalla que muestra cómo eliminar la relación de backup de un único volumen."></span></p>
+</div>
+<div class="paragraph">
+<p>Cuando vea la lista de copias de seguridad para cada volumen, verá el "Estado de la relación" que aparece como <strong>relación eliminada</strong>.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_view_no_relationship.png" alt="Una captura de pantalla que muestra el estado de la relación eliminada después de eliminar una relación de backup de volumen."></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="desactivación-de-cloud-backup-en-un-entorno-de-trabajo">Desactivación de Cloud Backup en un entorno de trabajo</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Al desactivar Cloud Backup en un entorno en funcionamiento se deshabilitan los backups de cada volumen del sistema, y también se deshabilita la capacidad de restaurar un volumen. No se eliminarán los backups existentes. Esto no anula el registro del servicio de backup de este entorno de trabajo y básicamente le permite pausar toda la actividad de backup y restauración durante un periodo de tiempo.</p>
+</div>
+<div class="paragraph">
+<p>Tenga en cuenta que su proveedor de cloud seguirá facturando los costes del almacenamiento de objetos por la capacidad que utilicen sus backups a menos que usted <a href="#eliminar-todos-los-archivos-de-copia-de-seguridad-de-un-entorno-de-trabajo">eliminar los backups</a>.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, seleccione <strong>Configuración de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_settings_button.png" alt="Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Backup Settings</em>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el entorno de trabajo en el que desea desactivar las copias de seguridad y seleccione <strong>Desactivar copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_disable_backups.png" alt="Captura de pantalla del botón Desactivar copia de seguridad para un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>En el cuadro de diálogo de confirmación, haga clic en <strong>Desactivar</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+Aparece un botón <strong>Activar copia de seguridad</strong> para ese entorno de trabajo mientras la copia de seguridad está desactivada. Haga clic en este botón para volver a habilitar la funcionalidad de backup para ese entorno de trabajo.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cancelación-del-registro-de-cloud-backup-para-un-entorno-de-trabajo">Cancelación del registro de Cloud Backup para un entorno de trabajo</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Es posible cancelar el registro de Cloud Backup para un entorno de trabajo si ya no desea usar la funcionalidad de backup y quiere dejar de estar cargado por backups en ese entorno de trabajo. Normalmente, esta función se utiliza cuando se planea eliminar un entorno de trabajo y se desea cancelar el servicio de backup.</p>
+</div>
+<div class="paragraph">
+<p>También puede usar esta función si desea cambiar el almacén de objetos de destino donde se almacenan los backups del clúster. Después de cancelar el registro de Cloud Backup para el entorno laboral, puede habilitar Cloud Backup para ese clúster mediante la nueva información del proveedor de cloud.</p>
+</div>
+<div class="paragraph">
+<p>Para poder cancelar el registro de Cloud Backup, debe realizar los siguientes pasos en el siguiente orden:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Desactivar Cloud Backup en el entorno de trabajo</p>
+</li>
+<li>
+<p>Eliminar todos los backups de ese entorno de trabajo</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>La opción cancelar el registro no estará disponible hasta que se completen estas dos acciones.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Pasos</div>
+<ol class="arabic">
+<li>
+<p>En la ficha <strong>Volumes</strong>, seleccione <strong>Configuración de copia de seguridad</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_settings_button.png" alt="Captura de pantalla que muestra el botón Configuración de copia de seguridad que está disponible después de seleccionar un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>En la página <em>Backup Settings</em>, haga clic en <span class="image"><img src="./media/screenshot_horizontal_more_button.gif" alt="Icono más"></span> Para el entorno de trabajo en el que desea cancelar el registro del servicio de copia de seguridad y seleccionar <strong>Unregister</strong>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_unregister.png" alt="Captura de pantalla del botón Unregister backup para un entorno de trabajo."></span></p>
+</div>
+</li>
+<li>
+<p>En el cuadro de diálogo de confirmación, haga clic en <strong>Unregister</strong>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+    </article>
+    <!-- Page Container -->
+  </div>
+
+  <div style="clear: both"></div><!-- Main needs to have height --></div>
+
+        </main>
+
+        <footer class="n-footer">
+  <div class="n-footer__bottom">
+    <div class="n-container">
+      <div class="n-footer__bottom-left">
+        <div class="n-footer__copyright">
+          <ul class="n-footer__copyright-list">
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/copyright/">© 2023 NetApp, Inc.</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/terms-of-use/">Términos y condiciones</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/privacy-policy/">Política de privacidad</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/cookie-policy/">Política de Cookies</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a class="ot-sdk-show-settings">Configuración de cookies</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="n-footer__bottom-right">
+        <div class="n-footer__copyright">
+          <ul class="n-footer__copyright-list">
+            <li class="n-footer__copyright-link">
+              <a target="_self" href="javascript:netapp_mailto()">Enviar comentarios sobre esta página</a>
+            </li>
+          </ul>
+        </div>
+        <div class="n-footer__social-links">
+          <ul class="n-footer__social-link-list">
+            <li class="n-footer__social-link-list-item">
+              <a class="n-footer__social-link" data-ntap-social="follow-blog" href="https://blog.netapp.com"
+                target="_blank" title="blog" alt="blog">
+                <span class="n-footer__social-link-text">blog</span>
+                <svg class="n-icon-blog n-footer__social-link-icon" aria-labelledby="title">
+                  <title>blog@</title>
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#blog"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="n-footer__social-link-list-item">
+              <a class="n-footer__social-link" data-ntap-social="follow-community" href="https://community.netapp.com/"
+                target="_blank" title="community" alt="community">
+                <span class="n-footer__social-link-text">community</span>
+                <svg class="n-icon-community n-footer__social-link-icon" aria-labelledby="title">
+                  <title>community@</title>
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#comments"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="n-footer__social-link-list-item">
+              <a class="n-footer__social-link" data-ntap-social="follow-twitter" href="https://twitter.com/netapp"
+                target="_blank" title="twitter" alt="twitter">
+                <span class="n-footer__social-link-text">twitter</span>
+                <svg class="n-icon-twitter n-footer__social-link-icon" aria-labelledby="title">
+                  <title>twitter@</title>
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#twitter"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="n-footer__social-link-list-item">
+              <a class="n-footer__social-link" data-ntap-social="follow-facebook" href="https://www.facebook.com/NetApp"
+                target="_blank" title="facebook" alt="facebook">
+                <span class="n-footer__social-link-text">facebook</span>
+                <svg class="n-icon-facebook n-footer__social-link-icon" aria-labelledby="title">
+                  <title>facebook@</title>
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#facebook"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="n-footer__social-link-list-item">
+              <a class="n-footer__social-link" data-ntap-social="follow-linkedin"
+                href="https://www.linkedin.com/company/netapp" target="_blank" title="linkedin" alt="linkedin">
+                <span class="n-footer__social-link-text">linkedin</span>
+                <svg class="n-icon-linkedin n-footer__social-link-icon" aria-labelledby="title">
+                  <title>linkedin@</title>
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#linkedin"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="n-footer__social-link-list-item">
+              <a class="n-footer__social-link" data-ntap-social="follow-youtube"
+                href="https://www.youtube.com/user/NetAppTV" target="_blank" title="youtube" alt="youtube">
+                <span class="n-footer__social-link-text">youtube</span>
+                <svg class="n-icon-youtube n-footer__social-link-icon" aria-labelledby="title">
+                  <title>youtube@</title>
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#youtube"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="n-footer__social-link-list-item">
+              <a class="n-footer__social-link" data-ntap-social="follow-slideshare"
+                href="https://www.slideshare.net/NetApp" target="_blank" title="slideshare" alt="slideshare">
+                <span class="n-footer__social-link-text">slideshare</span>
+                <svg class="n-icon-slideshare n-footer__social-link-icon" aria-labelledby="title">
+                  <title>slideshare@</title>
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#slideshare"></use>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div><!-- Elasticsearch JS -->
+      <script type="text/javascript" src='/es-es/cloud-manager-backup-restore/js/bundle.js'></script>
+
+      <!-- Syntax Highlighting -->
+      <script type="text/javascript" src='/es-es/cloud-manager-backup-restore/js/prism.js'></script>
+      <script type="text/javascript" src='/es-es/cloud-manager-backup-restore/js/prism-curl.js'></script>
+    </div>
+    <script>
+      document.body.offsetWidth=1903;
+      cookieLaw = {}
+      cookieLaw.euCountry = "US";
+      cookieLaw.invoke = function(){return false;}
+    </script>
+    <script src='/es-es/cloud-manager-backup-restore/js/www-ntap.js'></script>
+    <script src='/es-es/cloud-manager-backup-restore/js/tabbed-blocks.js'></script>
+    <script src='/es-es/cloud-manager-backup-restore/js/sidebar.js'></script>
+  </body></html>
