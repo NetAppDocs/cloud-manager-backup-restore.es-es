@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
   <head class="at-element-marker">
-  <title>Añadir host y detectar bases de datos de Oracle | NetApp Documentation</title>
+  <title>Ponga en marcha el plugin de SnapCenter para Oracle y añada hosts de base de datos | NetApp Documentation</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
   <meta http-equiv="language" content="en">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:title" content="Añadir host y detectar bases de datos de Oracle | NetApp Documentation" />
+  <meta property="og:title" content="Ponga en marcha el plugin de SnapCenter para Oracle y añada hosts de base de datos | NetApp Documentation" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://docs.netapp.com/es-es/cloud-manager-backup-restore/task-add-host-discover-oracle-databases.html" />
 	<meta property="og:description" content="Implemente el plugin de SnapCenter para Oracle en cada uno de los hosts de bases de datos Oracle." />
@@ -82,11 +82,17 @@
 
   <!-- Used for Product Family Page Sidebar Visibility --><!-- Used to import Promise for IE. Required for SearchKit -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script><script src='/es-es/cloud-manager-backup-restore/js/na-search.js'></script><script src='/es-es/cloud-manager-backup-restore/js/na-pagenav.js'></script><script src='/es-es/cloud-manager-backup-restore/js/na-utility.js'></script>
+ <!--  
+  <link rel='stylesheet' href='/es-es/cloud-manager-backup-restore/css/prism.css' type='text/css'>
+  <link rel='stylesheet' href='/es-es/cloud-manager-backup-restore/css/prism-netapp.css' type='text/css'>
+ -->
+
+  <!-- <script src='/es-es/cloud-manager-backup-restore/js/na-utility.js'></script> -->
   <script src='/es-es/cloud-manager-backup-restore/js/clouddocs.js'></script>
   <script src='/es-es/cloud-manager-backup-restore/js/jquery.navgoco.min.js'></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src='/es-es/cloud-manager-backup-restore/js/toc.js'></script>
-  <script src='/es-es/cloud-manager-backup-restore/js/customscripts.js'></script><script>
+  <!-- <script src='/es-es/cloud-manager-backup-restore/js/toc.js'></script> -->
+  <!-- <script src='/es-es/cloud-manager-backup-restore/js/customscripts.js'></script> --><script>
       $(document).ready(function() {
           
           var collapseOnInit = true;
@@ -151,7 +157,7 @@
   <script src='/es-es/cloud-manager-backup-restore/js/FileSaver.min.js'></script>
   <script src='/es-es/cloud-manager-backup-restore/js/jszip-utils.min.js'></script>
   <script src='/es-es/cloud-manager-backup-restore/js/jszip.min.js'></script>
-  <script src='/es-es/cloud-manager-backup-restore/js/pdf-ux.js'></script>
+  <!-- <script src='/es-es/cloud-manager-backup-restore/js/pdf-ux.js'></script> -->
 </head>
 
 
@@ -197,7 +203,7 @@
     
   </ul>
 </div>
-<div class="page-nav-contribute"><a target="_blank" href="https://github.com/NetAppDocs/cloud-manager-backup-restore/issues/new?body=Page%3A%20[Añadir host y detectar bases de datos de Oracle](https://docs.netapp.com/es-es/cloud-manager-backup-restore/task-add-host-discover-oracle-databases.html)&template=public-issue-template.md" class="page-nav-contribute-link" role="button"><img src="/es-es/cloud-manager-backup-restore/images/discuss-sm.svg" alt="" class="github-icon" />Solicitar cambios en el documento</a><a target="_blank" href="https://github.com/NetAppDocs/cloud-manager-backup-restore/blob/main/task-add-host-discover-oracle-databases.adoc" class="page-nav-contribute-link" role="button"><img src="/es-es/cloud-manager-backup-restore/images/edit-sm.svg" alt="" class="github-icon" />Editar en GitHub</a><a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  ><img src="/es-es/cloud-manager-backup-restore/images/article-sm.svg" alt="" class="github-icon" />Guía del colaborador</a></div>
+<div class="page-nav-contribute"><a target="_blank" href="https://github.com/NetAppDocs/cloud-manager-backup-restore/issues/new?body=Page%3A%20[Ponga en marcha el plugin de SnapCenter para Oracle y añada hosts de base de datos](https://docs.netapp.com/es-es/cloud-manager-backup-restore/task-add-host-discover-oracle-databases.html)&template=public-issue-template.md" class="page-nav-contribute-link" role="button"><img src="/es-es/cloud-manager-backup-restore/images/discuss-sm.svg" alt="" class="github-icon" />Solicitar cambios en el documento</a><a target="_blank" href="https://github.com/NetAppDocs/cloud-manager-backup-restore/blob/main/task-add-host-discover-oracle-databases.adoc" class="page-nav-contribute-link" role="button"><img src="/es-es/cloud-manager-backup-restore/images/edit-sm.svg" alt="" class="github-icon" />Editar en GitHub</a><a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  ><img src="/es-es/cloud-manager-backup-restore/images/article-sm.svg" alt="" class="github-icon" />Guía del colaborador</a></div>
     <div class="page-nav-container">
       <nav class="page-nav-fixed">
         <div class="page-nav-title">EN ESTA PÁGINA</div>
@@ -258,7 +264,7 @@
           <span class="n-property-bar__menu-toggle-text">Menu</span>
           <svg class="n-icon-bars n-property-bar__menu-toggle-icon" aria-labelledby="title">
             <title>bars</title>
-            <use xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#bars"></use>
+            <use xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#bars"></use>
           </svg>
         </a>
       </div>
@@ -267,11 +273,11 @@
           <div class="n-property-bar__logo">
             <svg class="n-icon-netapp-mark n-icon-netapp-mark n-property-bar__netapp-mark-icon" aria-labelledby="title">
               <title>netapp-mark</title>
-              <use xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#netapp-mark"></use>
+              <use xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#netapp-mark"></use>
             </svg>
             <svg class="n-icon-netapp-logo n-property-bar__logo-svg" aria-labelledby="title">
               <title>netapp-logo</title>
-              <use xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#netapp-logo"></use>
+              <use xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#netapp-logo"></use>
             </svg>
           </div>
         </a>
@@ -297,7 +303,7 @@
           <button class="n-property-bar__search-toggle-button" type="button">
             <svg class="n-icon-search n-property-bar__search-toggle-button-icon" aria-labelledby="title">
               <title>search</title>
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#search"></use>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#search"></use>
             </svg>
           </button>
         </div>
@@ -311,7 +317,7 @@
       <span class="lang-name">Español</span>
           <svg class="n-globe__icon" aria-labelledby="title">
             <title>globe</title>
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#globe"></use>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#globe"></use>
           </svg>
         </button>
       </div>
@@ -1189,11 +1195,11 @@
         Configure Cloud Volumes ONTAP
       </a></li><li 
       data-pdf-exists="true" 
-      data-pdf-filename="Añadir host y detectar bases de datos de Oracle"
+      data-pdf-filename="Ponga en marcha el plugin de SnapCenter para Oracle y añada hosts de base de datos"
       data-li-level="5#" 
       class="  active "
     ><a class="na-navbar-padding" href="/es-es/cloud-manager-backup-restore/aws/task-add-host-discover-oracle-databases.html">
-        Añadir host y detectar bases de datos de Oracle
+        Ponga en marcha el plugin de SnapCenter para Oracle y añada hosts de base de datos
       </a></li><li 
       data-pdf-exists="true" 
       data-pdf-filename="Realice backup de la base de datos de Oracle"
@@ -1456,7 +1462,7 @@
     <div class="ie-nmt-disclaimer-container">
       <div class="ie-nmt-disclaimer-icon">
         <svg class="luci-icon" aria-hidden="true">
-          <use xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#circle-info">
+          <use xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#circle-info">
         </svg>
       </div>
       <div class="ie-nmt-disclaimer-content">
@@ -1466,14 +1472,14 @@
     </div>
   </span>
 </div><div class="n-doc__component-detail-heading-wrap">
-  <h1 class="n-doc__component-detail-heading">Añadir host y detectar bases de datos de Oracle</h1>
+  <h1 class="n-doc__component-detail-heading">Ponga en marcha el plugin de SnapCenter para Oracle y añada hosts de base de datos</h1>
 </div>
 
 
 <p class="page-details">
   
     
-    <time datetime="2023-02-20 14:40:40 +0000">02/20/2023</time>
+    <time datetime="2023-03-06 08:40:01 +0000">03/06/2023</time>
     
   
 
@@ -1486,7 +1492,27 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph lead">
-<p>Debe añadir el host y detectar las bases de datos en el host para asignar políticas y crear backups. Es posible añadir el host manualmente cuando ya ha implementado el plugin o añadir el host mediante SSH.</p>
+<p>Es necesario implementar el plugin de SnapCenter para Oracle en cada uno de los hosts de la base de datos Oracle, añadir los hosts de la base de datos y detectar las bases de datos en el host para asignar políticas y crear backups.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Si SSH está habilitado para el host de base de datos, es posible implementar el plugin mediante uno de los métodos:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Implemente el plugin y añada el host de la interfaz de usuario mediante la opción SSH. <a href="#implemente-el-plugin-y-añada-el-host-desde-la-interfaz-de-usuario-mediante-la-opción-ssh">Leer más</a>.</p>
+</li>
+<li>
+<p>Ponga en marcha el plugin mediante script y añada el host desde la interfaz de usuario mediante la opción manual. <a href="#ponga-en-marcha-el-plugin-mediante-script-y-añada-el-host-desde-la-interfaz-de-usuario-mediante-la-opción-manual">Leer más</a>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Si SSH está deshabilitado, implemente el plugin manualmente y añada el host desde la interfaz de usuario mediante la opción manual. <a href="#implemente-el-plugin-manualmente-y-añada-el-host-desde-la-interfaz-de-usuario-mediante-la-opción-manual">Leer más</a>.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1511,20 +1537,20 @@
 <p>Asegúrese de que Java 11 (64 bits) Oracle Java u OpenJDK estén instalados en cada uno de los hosts de la base de datos de Oracle y QUE LA variable JAVA_HOME esté configurada correctamente.</p>
 </li>
 <li>
-<p>Debe haber creado el usuario que no es raíz. Para obtener más información, consulte <a href="#configurar-un-usuario-que-no-sea-raíz">Configurar un usuario que no sea raíz</a>.</p>
+<p>Debe haber creado el usuario de SnapCenter y configurado sudo para el usuario de SnapCenter. Para obtener más información, consulte <a href="#configure-sudo-para-el-usuario-de-snapcenter">Configure sudo para el usuario de SnapCenter</a>.</p>
 </li>
 <li>
-<p>Si desea añadir el host manualmente, primero debe implementar el plugin. Puede implementar el plugin <a href="#implemente-el-plugin-manualmente">manualmente</a> o. <a href="#implemente-el-plugin-mediante-script">con el script</a>.</p>
-<div class="paragraph">
-<p>Debe implementar el plugin en cada uno de los hosts de las bases de datos de Oracle.</p>
-</div>
+<p>Asegúrese de que el conector tiene activada la comunicación al puerto SSH (valor predeterminado: 22) si se utiliza la implementación basada en SSH.</p>
+</li>
+<li>
+<p>Asegúrese de que el conector tiene la comunicación habilitada para el puerto del plug-in (valor predeterminado: 8145) para que funcionen las operaciones.</p>
 </li>
 </ul>
 </div>
 <div class="sect2">
-<h3 id="configurar-un-usuario-que-no-sea-raíz">Configurar un usuario que no sea raíz</h3>
+<h3 id="configure-sudo-para-el-usuario-de-snapcenter">Configure sudo para el usuario de SnapCenter</h3>
 <div class="paragraph">
-<p>Debe configurar un usuario que no sea raíz para implementar el plugin.</p>
+<p>Debe crear un usuario de SnapCenter y configurar sudo para el usuario.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1551,126 +1577,16 @@
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Cree la cuenta de usuario que no sea raíz, el par de claves privadas y asigne los permisos. Para obtener más información, consulte <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account" target="_blank" rel="noopener">"Cree una cuenta de usuario"</a>.</p>
+<p>Cree la cuenta de usuario de SnapCenter, el par de claves privadas y asigne los permisos. Para obtener más información, consulte <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account" target="_blank" rel="noopener">"Cree una cuenta de usuario"</a>.</p>
 </li>
 <li>
 <p>Pegue las líneas copiadas en el paso 4 al archivo <em>/etc/sudoers</em> mediante la función visudo de Linux.</p>
 <div class="paragraph">
-<p>En las líneas anteriores, reemplace el &lt;LINUXUSER&gt; por el usuario no raíz que ha creado y guarde el archivo en la función visudo.</p>
+<p>En las líneas anteriores, reemplace &lt;LINUXUSER&gt; por el usuario de SnapCenter que ha creado y guarde el archivo en la función visudo.</p>
 </div>
 </li>
 </ol>
 </div>
-</li>
-</ol>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="implemente-el-plugin-mediante-script">Implemente el plugin mediante script</h3>
-<div class="paragraph">
-<p>Si la autenticación basada en claves SSH está habilitada en el host de Oracle para el usuario no raíz, puede realizar los siguientes pasos para implementar el plugin. Antes de realizar los pasos, asegúrese de que la conexión SSH al conector está activada.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Pasos*</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Inicie sesión en el conector VM.</p>
-</li>
-<li>
-<p>Obtenga la ruta de montaje base.<br>
-<code>sudo docker volume ls | grep scs_cloud_volume | awk {'print $2'} | xargs sudo docker volume inspect | grep Mountpoint</code></p>
-</li>
-<li>
-<p>Despliegue el complemento mediante el script de ayuda incluido en el conector.<br>
-<code>sudo &lt;base_mount_path&gt;/scripts/oracle_plugin_copy_and_install.sh --host &lt;host_name&gt; --sshkey &lt;ssh_key_file&gt; --username &lt;user_name&gt; --port &lt;ssh_port&gt; --pluginport &lt;plugin_port&gt; --installdir &lt;install_dir&gt;</code></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Nombre_host es el nombre del host de Oracle y éste es un parámetro obligatorio.</p>
-</li>
-<li>
-<p>ssh_key_file es la clave SSH del usuario no raíz y se usa para conectarse al host Oracle. Este es un parámetro obligatorio.</p>
-</li>
-<li>
-<p>User_name: Usuario no raíz con privilegios SSH en el host Oracle y este es un parámetro opcional. El valor predeterminado es ec2-user.</p>
-</li>
-<li>
-<p>ssh_Port: Puerto SSH en el host de Oracle y este es un parámetro opcional. El valor predeterminado es 22</p>
-</li>
-<li>
-<p>Plugin_Port: Puerto que utiliza el plugin y este es un parámetro opcional. El valor predeterminado es 8145</p>
-</li>
-<li>
-<p>Directorio_de_instalación: Directorio donde se va a implementar el complemento y éste es un parámetro opcional. El valor predeterminado es /opt.</p>
-</li>
-</ul>
-</div>
-</li>
-</ol>
-</div>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Por ejemplo:<br>
-<code>sudo /var/lib/docker/volumes/service-manager-2_cloudmanager_scs_cloud_volume/_data/scripts/oracle_plugin_copy_and_install.sh --host xxx.xx.x.x --sshkey /keys/netapp-ssh.ppk</code></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="implemente-el-plugin-manualmente">Implemente el plugin manualmente</h3>
-<div class="paragraph">
-<p>Si la autenticación basada en claves SSH no está habilitada en el host de Oracle, debe realizar los siguientes pasos manuales para implementar el plugin.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Pasos*</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Inicie sesión en el conector VM.</p>
-</li>
-<li>
-<p>Descargue el binario del plugin del host Linux de SnapCenter.<br>
-<code>sudo docker exec -it cloudmanager_scs_cloud curl -X GET 'http://127.0.0.1/deploy/downloadLinuxPlugin'</code></p>
-</li>
-<li>
-<p>Obtenga la ruta de montaje base.<br>
-<code>sudo docker volume ls | grep scs_cloud_volume | awk {'print $2'} | xargs sudo docker volume inspect | grep Mountpoint</code></p>
-</li>
-<li>
-<p>Obtenga la ruta binaria del plug-in descargado.<br>
-<code>sudo ls &lt;base_mount_path&gt; $(sudo docker ps|grep -Po "cloudmanager_scs_cloud:.*? "|sed -e 's/ *$//'|cut -f2 -d":")/sc-linux-host-plugin/snapcenter_linux_host_plugin_scs.bin</code></p>
-</li>
-<li>
-<p>Copie <em>snapcenter_linux_host_plugin_scs.bin</em> a cada uno de los hosts de la base de datos Oracle con scp u otros métodos alternativos.</p>
-<div class="paragraph">
-<p>El <em>snapcenter_linux_host_plugin_scs.bin</em> debe copiarse a una ubicación a la que el usuario que no sea raíz puede acceder.</p>
-</div>
-</li>
-<li>
-<p>Inicie sesión en el host de la base de datos Oracle utilizando la cuenta de usuario no raíz y ejecute el comando siguiente para habilitar los permisos de ejecución para el binario.<br>
-<code>chmod +x snapcenter_linux_host_plugin_scs.bin</code></p>
-</li>
-<li>
-<p>Implemente el plugin de Oracle como usuario sudo que no sea raíz.<br>
-<code>./snapcenter_linux_host_plugin_scs.bin -i silent -DSPL_USER=&lt;non-root-user&gt;</code></p>
-</li>
-<li>
-<p>Copie <em>certificate.p12</em> de <em>&lt;base_mount_path&gt;/client/certificate/</em> la ruta del conector VM a <em>/var/opt/snapcenter/spl/etc/</em> en el host del plugin.</p>
-</li>
-<li>
-<p>Desplácese hasta <em>/var/opt/snapcenter/spl/etc</em> y ejecute el comando keytool para importar el certificado.<br>
-<code>keytool -v -importkeystore -srckeystore certificate.p12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS -srcstorepass snapcenter -deststorepass snapcenter -srcalias agentcert -destalias agentcert -noprompt</code></p>
-</li>
-<li>
-<p>Reinicie SPL: <code>systemctl restart spl</code></p>
 </li>
 </ol>
 </div>
@@ -1681,15 +1597,8 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="añadir-host">Añadir host</h2>
+<h2 id="implemente-el-plugin-y-añada-el-host-desde-la-interfaz-de-usuario-mediante-la-opción-ssh">Implemente el plugin y añada el host desde la interfaz de usuario mediante la opción SSH</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Debe añadir el host y detectar las bases de datos de Oracle.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Pasos*</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1724,57 +1633,8 @@ La cuenta de servicio (<em>SnapCenter-account-&lt;accountid&gt;</em>) se utiliza
 </div>
 </li>
 <li>
-<p>En la página Add Host, realice una de las siguientes acciones:</p>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Si&#8230;&#8203;</th>
-<th class="tableblock halign-left valign-top">Realice lo siguiente&#8230;&#8203;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Ya haya implementado el plugin <a href="#implemente-el-plugin-manualmente">manualmente</a> o. <a href="#implemente-el-plugin-mediante-script">con el script</a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Seleccione <strong>Manual</strong>.</p>
-</li>
-<li>
-<p>Especifique el FQDN o la dirección IP del host donde se implementó el plugin.</p>
-<div class="paragraph">
-<p>Asegúrese de que con el FQDN o la dirección IP, el conector puede comunicarse con el host de la base de datos.</p>
-</div>
-</li>
-<li>
-<p>Especifique el puerto del plugin.</p>
-<div class="paragraph">
-<p>El puerto predeterminado es 8145.</p>
-</div>
-</li>
-<li>
-<p>Seleccione el conector.</p>
-</li>
-<li>
-<p>Seleccione la casilla de comprobación para confirmar que el plugin está instalado en el host</p>
-</li>
-<li>
-<p>Haga clic en <strong>detectar aplicaciones</strong>.</p>
-</li>
-</ol>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Desea poner en marcha el plugin de forma automática</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="olist loweralpha">
+<p>En la página Add Host, realice lo siguiente:</p>
+<div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
 <p>Seleccione <strong>usando SSH</strong>.</p>
@@ -1783,17 +1643,21 @@ La cuenta de servicio (<em>SnapCenter-account-&lt;accountid&gt;</em>) se utiliza
 <p>Especifique el FQDN o la dirección IP del host en el que desea instalar el plugin.</p>
 </li>
 <li>
-<p>Especifique el nombre de usuario (<a href="#configurar-un-usuario-que-no-sea-raíz">usuario no raíz</a>) mediante el cual se copiará el paquete de plugins en el host.</p>
+<p>Especifique el nombre de usuario (<a href="#Configure a sudo for SnapCenter user">Usuario sudo SnapCenter</a>) mediante el cual se copiará el paquete de plugins en el host.</p>
 </li>
 <li>
 <p>Especifique el SSH y el puerto del plugin.</p>
 <div class="paragraph">
 <p>El puerto SSH predeterminado es 22 y el puerto del plugin es 8145.</p>
 </div>
+</li>
+</ol>
+</div>
 <div class="paragraph">
 <p>Puede cerrar el puerto SSH en el host de la aplicación después de instalar el plugin. El puerto SSH no es necesario para ninguna otra operación de plugin.</p>
 </div>
-</li>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
 <li>
 <p>Seleccione el conector.</p>
 </li>
@@ -1814,12 +1678,6 @@ La clave privada SSH no se almacena en ningún lugar de la aplicación y no se u
 </li>
 <li>
 <p>Haga clic en <strong>Siguiente</strong>.</p>
-</li>
-</ol>
-</div></div></td>
-</tr>
-</tbody>
-</table>
 <div class="ulist">
 <ul>
 <li>
@@ -1844,6 +1702,298 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
 <p>Haga clic en <strong>Configuración</strong> y seleccione <strong>Directivas</strong> para ver las directivas preparadas previamente. Revise las directivas predefinidas y, si desea, puede editarlas para cumplir sus requisitos o crear una nueva directiva.</p>
 </li>
 </ul>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ponga-en-marcha-el-plugin-mediante-script-y-añada-el-host-desde-la-interfaz-de-usuario-mediante-la-opción-manual">Ponga en marcha el plugin mediante script y añada el host desde la interfaz de usuario mediante la opción manual</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Si la autenticación basada en claves SSH está habilitada en el host de Oracle para el usuario de SnapCenter, puede realizar los siguientes pasos para implementar el plugin. Antes de realizar los pasos, asegúrese de que la conexión SSH al conector está activada.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pasos*</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inicie sesión en el conector VM.</p>
+</li>
+<li>
+<p>Obtenga la ruta de montaje base.<br>
+<code>sudo docker volume ls | grep scs_cloud_volume | awk {'print $2'} | xargs sudo docker volume inspect | grep Mountpoint</code></p>
+</li>
+<li>
+<p>Despliegue el complemento mediante el script de ayuda incluido en el conector.<br>
+<code>sudo &lt;base_mount_path&gt;/scripts/oracle_plugin_copy_and_install.sh --host &lt;host_name&gt; --sshkey &lt;ssh_key_file&gt; --username &lt;user_name&gt; --port &lt;ssh_port&gt; --pluginport &lt;plugin_port&gt; --installdir &lt;install_dir&gt;</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Nombre_host es el nombre del host de Oracle y éste es un parámetro obligatorio.</p>
+</li>
+<li>
+<p>ssh_key_file es la clave SSH del usuario SnapCenter y se utiliza para conectarse al host Oracle. Este es un parámetro obligatorio.</p>
+</li>
+<li>
+<p>User_name: Usuario de SnapCenter con privilegios SSH en el host de Oracle y este es un parámetro opcional. El valor predeterminado es ec2-user.</p>
+</li>
+<li>
+<p>ssh_Port: Puerto SSH en el host de Oracle y este es un parámetro opcional. El valor predeterminado es 22</p>
+</li>
+<li>
+<p>Plugin_Port: Puerto que utiliza el plugin y este es un parámetro opcional. El valor predeterminado es 8145</p>
+</li>
+<li>
+<p>Directorio_de_instalación: Directorio donde se va a implementar el complemento y éste es un parámetro opcional. El valor predeterminado es /opt.</p>
+<div class="paragraph">
+<p>Por ejemplo:<br>
+<code>sudo /var/lib/docker/volumes/service-manager-2_cloudmanager_scs_cloud_volume/_data/scripts/oracle_plugin_copy_and_install.sh --host xxx.xx.x.x --sshkey /keys/netapp-ssh.ppk</code></p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>En la interfaz de usuario de BlueXP, haga clic en <strong>Protección</strong> &gt; <strong>copia de seguridad y recuperación</strong> &gt; <strong>aplicaciones</strong>.</p>
+</li>
+<li>
+<p>Haga clic en detectar aplicaciones.</p>
+</li>
+<li>
+<p>Seleccione <strong>nativo de la nube</strong> y haga clic en <strong>Siguiente</strong>.</p>
+<div class="paragraph">
+<p>Se crea una cuenta de servicio con el rol <em>SnapCenter System</em> para realizar operaciones de protección de datos programadas para todos los usuarios de esta cuenta.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Haga clic en <strong>cuenta</strong> &gt; <strong>Administrar cuenta</strong> &gt; <strong>Miembros</strong> para ver la cuenta de servicio.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+La cuenta de servicio (<em>SnapCenter-account-&lt;accountid&gt;</em>) se utiliza para ejecutar las operaciones de backup programadas. Nunca debe eliminar la cuenta de servicio.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>En la página Add Host, realice lo siguiente:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Seleccione <strong>Manual</strong>.</p>
+</li>
+<li>
+<p>Especifique el FQDN o la dirección IP del host donde se implementó el plugin.</p>
+<div class="paragraph">
+<p>Asegúrese de que con el FQDN o la dirección IP, el conector puede comunicarse con el host de la base de datos.</p>
+</div>
+</li>
+<li>
+<p>Especifique el puerto del plugin.</p>
+<div class="paragraph">
+<p>El puerto predeterminado es 8145.</p>
+</div>
+</li>
+<li>
+<p>Seleccione el conector.</p>
+</li>
+<li>
+<p>Seleccione la casilla de comprobación para confirmar que el plugin está instalado en el host</p>
+</li>
+<li>
+<p>Haga clic en <strong>detectar aplicaciones</strong>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Muestra todas las bases de datos en el host. Si la autenticación del sistema operativo está desactivada para la base de datos, debe configurar la autenticación de la base de datos haciendo clic en <strong>Configurar</strong>. Para obtener más información, consulte <a href="#configurar-las-credenciales-de-la-base-de-datos-de-oracle">Configurar las credenciales de la base de datos de Oracle</a>.</p>
+</li>
+<li>
+<p>Haga clic en <strong>Configuración</strong> y seleccione <strong>hosts</strong> para ver todos los hosts. Haga clic en <strong>Eliminar</strong> para eliminar un host de base de datos.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+El filtro para ver un host específico no funciona. Cuando se especifica un nombre de host en el filtro, se muestran todos los hosts.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Haga clic en <strong>Configuración</strong> y seleccione <strong>Directivas</strong> para ver las directivas preparadas previamente. Revise las directivas predefinidas y, si desea, puede editarlas para cumplir sus requisitos o crear una nueva directiva.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="implemente-el-plugin-manualmente-y-añada-el-host-desde-la-interfaz-de-usuario-mediante-la-opción-manual">Implemente el plugin manualmente y añada el host desde la interfaz de usuario mediante la opción manual</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Si la autenticación basada en claves SSH no está habilitada en el host de la base de datos de Oracle, debe realizar los siguientes pasos manuales para poner en marcha el plugin y luego añadir el host desde la interfaz de usuario con la opción manual.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pasos*</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inicie sesión en el conector VM.</p>
+</li>
+<li>
+<p>Descargue el binario del plugin del host Linux de SnapCenter.<br>
+<code>sudo docker exec -it cloudmanager_scs_cloud curl -X GET 'http://127.0.0.1/deploy/downloadLinuxPlugin'</code></p>
+</li>
+<li>
+<p>Obtenga la ruta de montaje base.<br>
+<code>sudo docker volume ls | grep scs_cloud_volume | awk {'print $2'} | xargs sudo docker volume inspect | grep Mountpoint</code></p>
+</li>
+<li>
+<p>Obtenga la ruta binaria del plug-in descargado.<br>
+<code>sudo ls &lt;base_mount_path&gt; $(sudo docker ps|grep -Po "cloudmanager_scs_cloud:.*? "|sed -e 's/ *$//'|cut -f2 -d":")/sc-linux-host-plugin/snapcenter_linux_host_plugin_scs.bin</code></p>
+</li>
+<li>
+<p>Copie <em>snapcenter_linux_host_plugin_scs.bin</em> a cada uno de los hosts de la base de datos Oracle con scp u otros métodos alternativos.</p>
+<div class="paragraph">
+<p>El <em>snapcenter_linux_host_plugin_scs.bin</em> debe copiarse a una ubicación a la que el usuario de SnapCenter puede acceder.</p>
+</div>
+</li>
+<li>
+<p>Inicie sesión en el host de la base de datos Oracle utilizando la cuenta de usuario de SnapCenter y ejecute el siguiente comando para habilitar los permisos de ejecución para el archivo binario.<br>
+<code>chmod +x snapcenter_linux_host_plugin_scs.bin</code></p>
+</li>
+<li>
+<p>Implemente el plugin de Oracle como usuario sudo SnapCenter.<br>
+<code>./snapcenter_linux_host_plugin_scs.bin -i silent -DSPL_USER=&lt;snapcenter-user&gt;</code></p>
+</li>
+<li>
+<p>Copie <em>certificate.p12</em> de <em>&lt;base_mount_path&gt;/client/certificate/</em> la ruta del conector VM a <em>/var/opt/snapcenter/spl/etc/</em> en el host del plugin.</p>
+</li>
+<li>
+<p>Desplácese hasta <em>/var/opt/snapcenter/spl/etc</em> y ejecute el comando keytool para importar el certificado.<br>
+<code>keytool -v -importkeystore -srckeystore certificate.p12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS -srcstorepass snapcenter -deststorepass snapcenter -srcalias agentcert -destalias agentcert -noprompt</code></p>
+</li>
+<li>
+<p>Reinicie SPL: <code>systemctl restart spl</code></p>
+</li>
+<li>
+<p>Valide que es posible acceder al plugin desde el conector ejecutando el comando siguiente desde el conector.<br>
+<code>docker exec -it cloudmanager_scs_cloud curl -ik https://&lt;FQDN or IP of the plug-in host&gt;:&lt;plug-in port&gt;/getVersion --cert /config/client/certificate/certificate.pem --key /config/client/certificate/key.pem</code></p>
+</li>
+<li>
+<p>En la interfaz de usuario de BlueXP, haga clic en <strong>Protección</strong> &gt; <strong>copia de seguridad y recuperación</strong> &gt; <strong>aplicaciones</strong>.</p>
+</li>
+<li>
+<p>Haga clic en detectar aplicaciones.</p>
+</li>
+<li>
+<p>Seleccione <strong>nativo de la nube</strong> y haga clic en <strong>Siguiente</strong>.</p>
+<div class="paragraph">
+<p>Se crea una cuenta de servicio con el rol <em>SnapCenter System</em> para realizar operaciones de protección de datos programadas para todos los usuarios de esta cuenta.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Haga clic en <strong>cuenta</strong> &gt; <strong>Administrar cuenta</strong> &gt; <strong>Miembros</strong> para ver la cuenta de servicio.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+La cuenta de servicio (<em>SnapCenter-account-&lt;accountid&gt;</em>) se utiliza para ejecutar las operaciones de backup programadas. Nunca debe eliminar la cuenta de servicio.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>En la página Add Host, realice lo siguiente:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Seleccione <strong>Manual</strong>.</p>
+</li>
+<li>
+<p>Especifique el FQDN o la dirección IP del host donde se implementó el plugin.</p>
+<div class="paragraph">
+<p>Asegúrese de que con el FQDN o la dirección IP, el conector puede comunicarse con el host de la base de datos.</p>
+</div>
+</li>
+<li>
+<p>Especifique el puerto del plugin.</p>
+<div class="paragraph">
+<p>El puerto predeterminado es 8145.</p>
+</div>
+</li>
+<li>
+<p>Seleccione el conector.</p>
+</li>
+<li>
+<p>Seleccione la casilla de comprobación para confirmar que el plugin está instalado en el host</p>
+</li>
+<li>
+<p>Haga clic en <strong>detectar aplicaciones</strong>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Muestra todas las bases de datos en el host. Si la autenticación del sistema operativo está desactivada para la base de datos, debe configurar la autenticación de la base de datos haciendo clic en <strong>Configurar</strong>. Para obtener más información, consulte <a href="#configurar-las-credenciales-de-la-base-de-datos-de-oracle">Configurar las credenciales de la base de datos de Oracle</a>.</p>
+</li>
+<li>
+<p>Haga clic en <strong>Configuración</strong> y seleccione <strong>hosts</strong> para ver todos los hosts. Haga clic en <strong>Eliminar</strong> para eliminar un host de base de datos.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+El filtro para ver un host específico no funciona. Cuando se especifica un nombre de host en el filtro, se muestran todos los hosts.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Haga clic en <strong>Configuración</strong> y seleccione <strong>Directivas</strong> para ver las directivas preparadas previamente. Revise las directivas predefinidas y, si desea, puede editarlas para cumplir sus requisitos o crear una nueva directiva.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
 </div>
 </li>
 </ol>
@@ -1941,7 +2091,7 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
                 <svg class="n-icon-blog n-footer__social-link-icon" aria-labelledby="title">
                   <title>blog@</title>
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#blog"></use>
+                    xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#blog"></use>
                 </svg>
               </a>
             </li>
@@ -1952,7 +2102,7 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
                 <svg class="n-icon-community n-footer__social-link-icon" aria-labelledby="title">
                   <title>community@</title>
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#comments"></use>
+                    xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#comments"></use>
                 </svg>
               </a>
             </li>
@@ -1963,7 +2113,7 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
                 <svg class="n-icon-twitter n-footer__social-link-icon" aria-labelledby="title">
                   <title>twitter@</title>
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#twitter"></use>
+                    xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#twitter"></use>
                 </svg>
               </a>
             </li>
@@ -1974,7 +2124,7 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
                 <svg class="n-icon-facebook n-footer__social-link-icon" aria-labelledby="title">
                   <title>facebook@</title>
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#facebook"></use>
+                    xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#facebook"></use>
                 </svg>
               </a>
             </li>
@@ -1985,7 +2135,7 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
                 <svg class="n-icon-linkedin n-footer__social-link-icon" aria-labelledby="title">
                   <title>linkedin@</title>
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#linkedin"></use>
+                    xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#linkedin"></use>
                 </svg>
               </a>
             </li>
@@ -1996,7 +2146,7 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
                 <svg class="n-icon-youtube n-footer__social-link-icon" aria-labelledby="title">
                   <title>youtube@</title>
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#youtube"></use>
+                    xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#youtube"></use>
                 </svg>
               </a>
             </li>
@@ -2007,7 +2157,7 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
                 <svg class="n-icon-slideshare n-footer__social-link-icon" aria-labelledby="title">
                   <title>slideshare@</title>
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="/es-es/cloud-manager-backup-restore/common/svg/sprite.svg#slideshare"></use>
+                    xlink:href="/es-es/cloud-manager-backup-restore/images/sprite.svg#slideshare"></use>
                 </svg>
               </a>
             </li>
@@ -2031,7 +2181,6 @@ El filtro para ver un host específico no funciona. Cuando se especifica un nomb
       cookieLaw.euCountry = "US";
       cookieLaw.invoke = function(){return false;}
     </script>
-    <script src='/es-es/cloud-manager-backup-restore/js/www-ntap.js'></script>
     <script src='/es-es/cloud-manager-backup-restore/js/tabbed-blocks.js'></script>
     <script src='/es-es/cloud-manager-backup-restore/js/sidebar.js'></script>
   </body></html>
