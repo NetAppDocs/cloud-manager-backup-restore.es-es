@@ -4,7 +4,7 @@ permalink: task-deploy-snapcenter-plugin-for-sap-hana.html
 keywords: Cloud Manager, BlueXP, SnapCenter Plug-in for SAP HANA, SAP HANA, database, host, deploy 
 summary: Implemente el plugin de SnapCenter para SAP HNAN en cada uno de los hosts de bases de datos SAP HANA. 
 ---
-= Implemente el complemento de SnapCenter para SAP HANA
+= Ponga en marcha el plugin de SnapCenter para SAP HANA y añada hosts de base de datos
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -17,13 +17,26 @@ summary: Implemente el plugin de SnapCenter para SAP HNAN en cada uno de los hos
 Debe implementar el plugin de SnapCenter para SAP HANA en cada uno de los hosts de bases de datos SAP HANA. Según si el host SAP HANA tiene una autenticación basada en clave SSH habilitada, puede seguir uno de los métodos para implementar el plugin.
 
 
-NOTE: Compruebe que Oracle Java 11 (64 bits) u OpenJDK estén instalados en cada uno de los hosts de bases de datos SAP HANA.
+
+== Requisitos previos
+
+* Compruebe que Oracle Java 11 (64 bits) u OpenJDK estén instalados en cada uno de los hosts de bases de datos SAP HANA.
+* Debe haber agregado el entorno de trabajo y creado el conector.
+* Asegúrese de que el conector tiene conectividad con el entorno de trabajo
+* Asegúrese de que el usuario de BlueXP tiene la función “Administrador de cuentas”.
+* Debe haber creado el usuario de SnapCenter y configurado sudo para el usuario de SnapCenter. Para obtener más información, consulte link:task-deploy-snapcenter-plugin-for-sap-hana.html#configure-sudo-for-snapcenter-user["Configure sudo para el usuario de SnapCenter."]
+* Debe haber implementado el plugin de SnapCenter para SAP HANA antes de añadir el host de base de datos.
+* Al añadir los hosts de la base de datos SAP HANA, debe añadir las claves de almacenamiento de usuario HDB. La clave de almacenamiento de usuario seguro HDB se utiliza para almacenar la información de conexión de los hosts de la base de datos SAP HANA de forma segura en el cliente, y el cliente HDBSQL utiliza la clave de almacenamiento de usuario segura para conectarse con el host de la base de datos SAP HANA.
+* Para la replicación de sistemas HANA (HSR), para proteger los sistemas HANA, debe registrar manualmente los sistemas HANA primarios y secundarios.
+* El conector debe tener activada la comunicación al puerto SSH (predeterminado: 22) si se utiliza la implementación basada en SSH.
+* El conector debe tener la comunicación activada al puerto del plug-in (valor predeterminado: 8145) para que funcionen las operaciones.
 
 
 
-== Configurar un usuario que no sea raíz
 
-Debe crear un usuario que no sea raíz para implementar el plugin.
+== Configure sudo para el usuario de SnapCenter
+
+Debe crear un usuario de SnapCenter para implementar el plugin.
 
 * Pasos*
 
@@ -35,10 +48,10 @@ Debe crear un usuario que no sea raíz para implementar el plugin.
 . Copie las líneas 1 a 16 de la `oracle_checksum_scs.txt` archivo ubicado en `base_mount_path/version/sc-linux-host-plugin/`
 . Inicie sesión en el host de la base de datos SAP HANA y realice los pasos siguientes:
 +
-.. Cree la cuenta de usuario que no sea raíz, el par de claves privadas y asigne los permisos.
+.. Cree la cuenta de usuario de SnapCenter, el par de claves privadas y asigne los permisos.
 .. Pegue las líneas copiadas en el paso 4 en el `/etc/sudoers` Archivo mediante la función visudo Linux.
 +
-En las líneas anteriores, sustituya <LINUXUSER> por el usuario no raíz que ha creado y guardado en la función visuod.
+En las líneas anteriores, reemplace <LINUXUSER> por el usuario de SnapCenter que ha creado y guardado en la función visuod.
 
 
 
@@ -68,6 +81,8 @@ Si la autenticación basada en clave SSH está habilitada en el host HANA, puede
 
 
 
+Después de implementar el plugin, debe añadir el link:task-deploy-snapcenter-plugin-for-sap-hana.html#add-sap-hana-database-hosts["Hosts de bases de datos SAP HANA."]
+
 
 
 == Implemente el plugin manualmente
@@ -86,13 +101,106 @@ Si la autenticación basada en clave SSH no está habilitada en el host HANA, de
 . Copiar `snapcenter_linux_host_plugin_scs.bin` A cada uno de los hosts de la base de datos SAP HANA mediante scp u otros métodos alternativos.
 . En el host de la base de datos SAP HANA, ejecute el comando siguiente para habilitar permisos de ejecución para el binario.
 `chmod +x snapcenter_linux_host_plugin_scs.bin`
-. Implemente el complemento SAP HANA como usuario sudo que no es raíz.
+. Implemente el complemento SAP HANA como usuario sudo SnapCenter.
 `./snapcenter_linux_host_plugin_scs.bin -i silent -DSPL_USER=<non-root-user>`
 . Copiar `certificate.p12` de `<base_mount_path>/client/certificate/` Ruta del conector VM a. `/var/opt/snapcenter/spl/etc/` en el host del plugin.
 +
 .. Vaya a. `/var/opt/snapcenter/spl/etc` y ejecute el comando keytool para importar el certificado.
 `keytool -v -importkeystore -srckeystore certificate.p12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS -srcstorepass snapcenter -deststorepass snapcenter -srcalias agentcert -destalias agentcert -noprompt`
 .. Reinicie SPL: `systemctl restart spl`
+
+
+. Valide que es posible acceder al plugin desde el conector ejecutando el comando siguiente desde el conector:
++
+`docker exec -it cloudmanager_scs_cloud curl -ik \https://<FQDN or IP of the plug-in host>:<plug-in port>/getVersion --cert /config/client/certificate/certificate.pem --key /config/client/certificate/key.pem`
+
+
+
+
+
+== Añada hosts de base de datos SAP HANA
+
+Debe añadir manualmente hosts de base de datos SAP HANA para asignar políticas y crear backups. No se admite la detección automática del host de la base de datos SAP HANA.
+
+* Pasos*
+
+. En la interfaz de usuario de *BlueXP*, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en *detectar aplicaciones*.
+. Seleccione *Cloud Native* > *SAP HANA* y haga clic en *Siguiente*.
+. En la página *aplicaciones*, haga clic en *Agregar sistema*.
+. En la página *Detalles del sistema*, realice las siguientes acciones:
++
+.. Seleccione el Tipo de sistema como contenedor de base de datos multi-tenant o contenedor único.
+.. Introduzca el nombre del sistema SAP HANA.
+.. Especifique el SID del sistema SAP HANA.
+.. (Opcional) especifique el usuario de sistema operativo de HDBSQL.
+.. Seleccione el host del plugin. (Opcional) Si el host no está agregado o si desea agregar varios hosts, haga clic en *Agregar host del plugin*.
+.. Si el sistema HANA está configurado con la replicación del sistema HANA, habilite *sistema de replicación del sistema HANA (HSR)*.
+.. Haga clic en el cuadro de texto *HDB Secure User Store Keys* para agregar los detalles de las claves de almacenamiento de usuario.
++
+Especifique el nombre de la clave, los detalles del sistema, el nombre de usuario y la contraseña y haga clic en *Agregar clave*.
+
++
+Puede eliminar o modificar las claves de almacenamiento de usuario.
+
+
+
+. Haga clic en *Siguiente*.
+. En la página *Storage Footprint*, haga clic en *Add Storage* y realice lo siguiente:
++
+.. Seleccione el entorno de trabajo y especifique la cuenta de NetApp.
++
+Vaya a la página *Canvas* para añadir un nuevo entorno de trabajo
+
+.. Seleccione los volúmenes requeridos.
+.. Haga clic en *Agregar almacenamiento*.
+
+
+. Revise todos los detalles y haga clic en *Agregar sistema*.
+
+
+
+NOTE: El filtro para ver un host específico no funciona. Cuando se especifica un nombre de host en el filtro, se muestran todos los hosts
+
+Puede modificar y quitar los sistemas SAP HANA mediante la API DE REST. Antes de quitar el sistema HANA, debe eliminar todos los backups asociados y quitar la protección.
+
+
+
+=== Añada volúmenes no Data
+
+Después de añadir el contenedor de base de datos multitenant o el sistema SAP HANA de un solo tipo de contenedor, puede añadir los volúmenes que no son de datos del sistema HANA.
+
+* Pasos*
+
+. En la interfaz de usuario de *BlueXP*, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en *detectar aplicaciones*.
+. Seleccione *Cloud Native* > *SAP HANA* y haga clic en *Siguiente*.
+. En la página *aplicaciones*, haga clic en image:icon-action.png["para seleccionar la acción"] Corresponde al sistema para el que desea agregar los volúmenes no Data y seleccione *gestionar sistema* > *volumen no Data*.
+
+
+
+
+=== Añada volúmenes no Data globales
+
+Después de añadir el contenedor de base de datos multitenant o el sistema SAP HANA de un solo contenedor, puede añadir los volúmenes globales de Non-Data del sistema HANA.
+
+* Pasos*
+
+. En la interfaz de usuario de *BlueXP*, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en *detectar aplicaciones*.
+. Seleccione *Cloud Native* > *SAP HANA* y haga clic en *Siguiente*.
+. En la página *aplicaciones*, haga clic en *Agregar sistema*.
+. En la página *Detalles del sistema*, realice las siguientes acciones:
++
+.. En el menú desplegable Tipo de sistema, seleccione *volumen no Data global*.
+.. Introduzca el nombre del sistema SAP HANA.
+.. Especifique el SIDS asociado del sistema SAP HANA.
+.. Seleccione el host del plugin
++
+(Opcional) para agregar varios hosts, haga clic en *Agregar host Plug-in* y especifique el nombre de host y el puerto y haga clic en *Agregar host*.
+
+.. Haga clic en *Siguiente*.
+.. Revise todos los detalles y haga clic en *Agregar sistema*.
 
 
 

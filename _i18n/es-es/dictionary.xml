@@ -652,7 +652,6 @@
   <block id="2d401a77c81793a9ece97156d2f30373" category="list-text">Debe haber agregado el entorno de trabajo y creado el conector.</block>
   <block id="fdb89fa76e003bcdaa62dc781c75080d" category="list-text">Asegúrese de que el conector tiene conectividad con el entorno de trabajo</block>
   <block id="ca8f6fdf6612f39d01c4ba19ddfa9742" category="list-text">Asegúrese de que el usuario de BlueXP tiene la función “Administrador de cuentas”.</block>
-  <block id="0c6caad59b974bed7b5a027d2727752f" category="list-text">Debe haber implementado el plugin de SnapCenter para SAP HANA. <block ref="4495130e78dd5770e2665c50d9b867ed" category="inline-link-macro-rx"></block></block>
   <block id="19ba3d8b0889a939f5ec8733d64f1d60" category="list-text">Al añadir los hosts de la base de datos SAP HANA, debe añadir las claves de almacenamiento de usuario HDB. La clave de almacenamiento de usuario seguro HDB se utiliza para almacenar la información de conexión de los hosts de la base de datos SAP HANA de forma segura en el cliente, y el cliente HDBSQL utiliza la clave de almacenamiento de usuario segura para conectarse con el host de la base de datos SAP HANA.</block>
   <block id="eb8c7136dc3f88489deecb383a3e2159" category="list-text">Para la replicación de sistemas HANA (HSR), para proteger los sistemas HANA, debe registrar manualmente los sistemas HANA primarios y secundarios.</block>
   <block id="8b0c466fdb979630c3d45c5c1cdb2441" category="list-text">En la interfaz de usuario de *BlueXP*, haga clic en *Protección* &gt; *copia de seguridad y recuperación* &gt; *aplicaciones*.</block>
@@ -680,16 +679,13 @@
   <block id="718c7b6c3378e6331dfacc19082eceda" category="section-title">Añada volúmenes no Data</block>
   <block id="c1d37ffb98838b18cccda19785198d15" category="paragraph">Después de añadir el contenedor de base de datos multitenant o el sistema SAP HANA de un solo tipo de contenedor, puede añadir los volúmenes que no son de datos del sistema HANA.</block>
   <block id="70ece8b209ed1c9476f13c0fa00e2a77" category="list-text">En la página *aplicaciones*, haga clic en <block ref="2231c326e067595aca2fb0545475acf4" category="inline-image-macro-rx" type="image"></block> Corresponde al sistema para el que desea agregar los volúmenes no Data y seleccione *gestionar sistema* &gt; *volumen no Data*.</block>
-  <block id="1c5bc62ec06d77a94bd950001c20bf5c" category="section-title">Añada volúmenes no Data globales</block>
   <block id="e84d0cbc8756fa7ba2af158f670486a8" category="paragraph">Después de añadir el contenedor de base de datos multitenant o el sistema SAP HANA de un solo contenedor, puede añadir los volúmenes globales de Non-Data del sistema HANA.</block>
   <block id="01f13da2dfcf737f54346ebf7f44db6f" category="list-text">En el menú desplegable Tipo de sistema, seleccione *volumen no Data global*.</block>
   <block id="5d9b8dbd580deb48e76c53d62ab7c6f3" category="list-text">Especifique el SIDS asociado del sistema SAP HANA.</block>
   <block id="9c40bb6f28c1548e2bec94c55bf9bf96" category="list-text">Seleccione el host del plugin</block>
   <block id="b5e87b76d37fdb904487f6bc0c10bef7" category="paragraph">(Opcional) para agregar varios hosts, haga clic en *Agregar host Plug-in* y especifique el nombre de host y el puerto y haga clic en *Agregar host*.</block>
   <block id="7322146fa0278b7076d42a67da3ca68f" category="section-title">Scripts previos y posteriores</block>
-  <block id="b3716aa17e229f5a48546a80e870a997" category="paragraph">Es posible proporcionar scripts previos, posteriores y de salida mientras se crea una política. Estas secuencias de comandos se ejecutan en el host HANA mientras se crean backups.</block>
   <block id="6185a8cfc72f93e3f8af600e5e7f9606" category="paragraph">El formato admitido para scripts es .sh, script python, script perl, etc.</block>
-  <block id="d36dcc27103f15cf7156e649498bba14" category="paragraph">El script previo y el script posterior deben ser registrados por el administrador del host en<block ref="198c786822c306ff1d8e3ae0098bbf6c" prefix=" " category="inline-code"></block></block>
   <block id="3c91acc7806c6fcfd2da29720998df5d" category="paragraph"><block ref="8a0444f402186e75dfce312a113251e3" prefix="" category="inline-code"></block></block>
   <block id="50283e8d57278ed79d15d9dbb7c56561" category="section-title">Variables ambientales</block>
   <block id="3e2882dbce286b81b8650600aa1d8086" category="paragraph">Para el flujo de trabajo de restauración, las siguientes variables de entorno están disponibles como parte del script previo y posterior.</block>
@@ -713,7 +709,6 @@
   <block id="78ba2f5b165a9466c243c7ee05da78ac" category="list-text">(Opcional) edite el formato del nombre de la copia Snapshot.</block>
   <block id="808bacecc5ae86450915402dea0afd9a" category="list-text">Seleccione el tipo de política.</block>
   <block id="241958803b06afbd6f6eb3ef7dbbe9d8" category="list-text">Especifique los detalles de programación y retención.</block>
-  <block id="d47a69e45ac10064eed780e92117e540" category="list-text">(Opcional) especifique los scripts.</block>
   <block id="01ca810bd15c48e8c9ab7589db8498ca" category="section-title">Cree un backup de la base de datos SAP HANA</block>
   <block id="64fdd98c3f2496dfbbb2e63478269d01" category="paragraph">Puede asignar una directiva predefinida o crear una directiva y, a continuación, asignarla a la base de datos. Una vez asignada la política, los backups se crean según la programación definida en la política.</block>
   <block id="78166ce4ccceeedfbf6aeb8682851072" category="paragraph">*Acerca de esta tarea*</block>
@@ -902,7 +897,6 @@
   <block id="c9df4195a305212ffd7b56d24f67129d" category="summary">NetApp ofrece soporte para BlueXP de diversas maneras. Hay disponibles amplias opciones de auto soporte gratuito las 24 horas del día, los 7 días de la semana, como artículos de la base de conocimiento (KB) y un foro de la comunidad. Su registro de soporte incluye soporte técnico remoto a través de tickets web.</block>
   <block id="fabfc25ef8996fd90836e58a4c0b26b6" category="doc">Obtenga ayuda</block>
   <block id="7c5661ab6b39ee901cea00a6e7020a49" category="paragraph">NetApp ofrece soporte para BlueXP y sus servicios cloud de diversas maneras. Hay disponibles amplias opciones de auto soporte gratuito las 24 horas del día, los 7 días de la semana, como artículos de la base de conocimiento (KB) y un foro de la comunidad. Su registro de soporte incluye soporte técnico remoto a través de tickets web.</block>
-  <block id="07d41912a6ab6b97216f8cf89e93205c" category="section-title">Autoasistencia</block>
   <block id="5e4b821a1a82558dead1ef6961e90666" category="paragraph">Estas opciones están disponibles de forma gratuita, las 24 horas del día, los 7 días de la semana:</block>
   <block id="19111351b69b6b15668130b38b7f6038" category="inline-link">Base de conocimientos</block>
   <block id="fd6bb4fa1ad0caeedd6782d92cc54ea3" category="list-text"><block ref="fd6bb4fa1ad0caeedd6782d92cc54ea3" category="inline-link-rx"></block></block>
@@ -914,15 +908,12 @@
   <block id="a4a6c2ea0078252eac2d74ef3e6c917c" category="paragraph">La documentación de BlueXP que está viendo actualmente.</block>
   <block id="80b1b0d2b1ebf2b3cba2d25759801afd" category="list-text">Correo:ng-cloudmanager-feedback@netapp.com[correo electrónico de comentarios]</block>
   <block id="6702efec14563f45f1ee2f8c613b8ad8" category="paragraph">Apreciamos sus opiniones. Envíe sus comentarios para ayudarnos a mejorar BlueXP.</block>
-  <block id="0659d428df833a806e29e65e632d380a" category="section-title">Soporte de NetApp</block>
   <block id="82812db645b6ff5e9c2a24ddfb66c8d6" category="paragraph">Además de las opciones de autosoporte anteriores, puede trabajar con un especialista de soporte de NetApp para resolver cualquier problema después de activar el soporte de.</block>
   <block id="8fece025a1a8fef7018449bf104a2527" category="paragraph-title">Antes de empezar</block>
   <block id="e2a733504c4088b809813bbb35a3ddfd" category="inline-link-macro">Aprenda a registrarse para obtener soporte</block>
   <block id="1012a287397c66025d7748edf06a36e2" category="paragraph">Para utilizar la capacidad *Crear un caso*, primero debe realizar un registro único del número de serie de su ID de cuenta de BlueXP (p. ej. 960xxxx) con NetApp. <block ref="3349e4b3d05f646f2f1421bee7c2ad26" category="inline-link-macro-rx"></block>.</block>
   <block id="6254a4afeeb76765a127fe74d31c1b3d" category="list-text">En BlueXP, haga clic en *Ayuda &gt; Soporte*.</block>
-  <block id="f5052c65917d7341726235d4d4941461" category="list-text">Seleccione una de las opciones disponibles en Soporte técnico:</block>
   <block id="383133cb6f7207b1c65c3ace94aa5e95" category="list-text">Haga clic en *Llame a nosotros* si desea hablar con alguien en el teléfono. Se le dirigirá a una página de netapp.com que enumera los números de teléfono a los que puede llamar.</block>
-  <block id="bf5bc6ab0f95f17f4e98c9d766b8c11d" category="list-text">Haga clic en *Crear un caso* para abrir una incidencia con los especialistas de soporte de NetApp:</block>
   <block id="b53e0a259f4a0c8e7da80d6c94e26c84" category="list-text">*Cuenta del sitio de soporte de NetApp*: Seleccione la cuenta de NSS correspondiente asociada con la persona que abre el caso de soporte. Esta persona será el contacto principal con NetApp para contactar con ella, además de los correos electrónicos adicionales que se proporcionan a continuación.</block>
   <block id="d950fb930d7f7e6bfdda1b91b4639a02" category="paragraph">Si no ve su cuenta NSS, puede ir a la pestaña *NSS Management* de la sección Soporte de BlueXP para agregarla allí.</block>
   <block id="d63bf50426f4c712554faec55b30c548" category="list-text">*Servicio*: Seleccione el servicio con el que está asociado el problema. Por ejemplo, cuando BlueXP es específico de un problema de soporte técnico con flujos de trabajo o funcionalidades dentro del servicio.</block>
@@ -946,7 +937,6 @@
   <block id="eb5668f5c3459c84cc715cf197e7c91a" category="doc">Proteja los datos de aplicaciones nativas del cloud</block>
   <block id="7105ab20f187c4c6345342e06cd1748d" category="paragraph">Cloud Backup para aplicaciones es un servicio basado en SaaS que proporciona funcionalidades de protección de datos para aplicaciones que se ejecutan en el almacenamiento en cloud de NetApp. Cloud Backup para aplicaciones habilitado en BlueXP (anteriormente Cloud Manager) ofrece protección eficiente, coherente con las aplicaciones y basada en políticas de las siguientes aplicaciones:</block>
   <block id="9b029537d0b8df0bfe13af02e2f4b676" category="list-text">Bases de datos de Oracle que residen en Amazon FSX para ONTAP y Cloud Volumes ONTAP de NetApp</block>
-  <block id="0fb238fbf40ffb66b4fc526838e26664" category="list-text">Sistemas SAP HANA que residen en Azure NetApp Files (ANF).</block>
   <block id="2d242bb36ec91b32005f9296ff03a912" category="section-title">Arquitectura</block>
   <block id="5e106a25aff8402c9cb720536f4f9763" category="paragraph">La arquitectura Cloud Backup para aplicaciones incluye los siguientes componentes.</block>
   <block id="c50c64e55455dd7f429be9192a7ad6a2" category="list-text">Cloud Backup para aplicaciones es un conjunto de servicios de protección de datos alojados en NetApp como servicio SaaS y se basa en la plataforma SaaS de BlueXP.</block>
@@ -1003,7 +993,6 @@
   <block id="9317a56cfedd80231a539c42f44d9c8d" category="section-title">Proteja la base de datos SAP HANA</block>
   <block id="494c3084e3990387ac3b46cb5749bb65" category="list-text">RHEL 7.5 o posterior, plataformas 8.x certificadas por SAP HANA</block>
   <block id="504d22b0e020e0b365851eef08a1e4ca" category="list-text">SLES 12 SP5 o posteriores y 15 plataformas SPX certificadas por SAP HANA</block>
-  <block id="bf8209cf9b7524db25e82e107aec699b" category="list-text">Sistema de almacenamiento: Azure NetApp Files (ANF)</block>
   <block id="4181f6e16bb30e02b42299eaabaccd5e" category="list-text">Disposiciones de almacenamiento: Para datos y registros, Azure solo admite NFSv4.1.</block>
   <block id="c7325743e6b1be5853672e4ed19d279b" category="list-text">Diseños de base de datos:</block>
   <block id="4f3c431044df2a4101e620b1add959d6" category="list-text">Contenedor único versión 1.0SPS12</block>
@@ -1248,19 +1237,14 @@
   <block id="88912c71cafd61e4eff373e99ff882b2" category="inline-link">Estas preguntas frecuentes de Azure</block>
   <block id="198c941b68b959d876c1fe884654eb0f" category="paragraph">Para obtener más información sobre las opciones de recuperación de Azure Archive, consulte<block ref="932993244834a73e92c6a33c0a2e980e" category="inline-link-rx"></block>.</block>
   <block id="367df4ef9103973813086656b7424c40" category="summary">Implemente el plugin de SnapCenter para SAP HNAN en cada uno de los hosts de bases de datos SAP HANA.</block>
-  <block id="d5df46302dfdd7579521694fb4b06495" category="doc">Implemente el complemento de SnapCenter para SAP HANA</block>
   <block id="0aa4c98c108fd4eb123ca5d3e22561e8" category="paragraph">Debe implementar el plugin de SnapCenter para SAP HANA en cada uno de los hosts de bases de datos SAP HANA. Según si el host SAP HANA tiene una autenticación basada en clave SSH habilitada, puede seguir uno de los métodos para implementar el plugin.</block>
   <block id="dd115af180e43b9284746f0724f2e436" category="admonition">Compruebe que Oracle Java 11 (64 bits) u OpenJDK estén instalados en cada uno de los hosts de bases de datos SAP HANA.</block>
-  <block id="16ca5309d737224096c304c6dff4de3a" category="section-title">Configurar un usuario que no sea raíz</block>
-  <block id="fd80eea6ceaa6f2785bf097c10501f77" category="paragraph">Debe crear un usuario que no sea raíz para implementar el plugin.</block>
   <block id="e67d4d64b1a45fd340729c74de84b847" category="list-text">Inicie sesión en el conector VM.</block>
   <block id="2023b702229269846bc6ab1d33834e02" category="list-text">Descargue el binario del plugin del host Linux.<block ref="2109844ce6213da69b1227dc07554bb8" prefix=" " category="inline-code"></block></block>
   <block id="da60bfd3c8edf7a67f3978209e164121" category="list-text">Obtenga la ruta de montaje base.<block ref="22ab9e84fb8aba7e93d8b90366ddca59" prefix=" " category="inline-code"></block></block>
   <block id="fa4308d3f9fdcd01f05ba58ff69b9dd5" category="list-text">Copie las líneas 1 a 16 de la<block ref="5fc8e5db28f79a3512344717eb75a2f3" prefix=" " category="inline-code"></block> archivo ubicado en<block ref="dca5cd789ecd3e8ac3b24e72d56f2c0f" prefix=" " category="inline-code"></block></block>
   <block id="3ebdbfe737c7aead22c3f4a0051261a7" category="list-text">Inicie sesión en el host de la base de datos SAP HANA y realice los pasos siguientes:</block>
-  <block id="089e0745e03208bd82005bf60f52e3c2" category="list-text">Cree la cuenta de usuario que no sea raíz, el par de claves privadas y asigne los permisos.</block>
   <block id="bdacf8a8beaec8b190c600a860c2b532" category="list-text">Pegue las líneas copiadas en el paso 4 en el<block ref="6c109d6e94c97fb519007c1f06880582" prefix=" " category="inline-code"></block> Archivo mediante la función visudo Linux.</block>
-  <block id="e3092b913d71bf2b71c0b3838c675913" category="paragraph">En las líneas anteriores, sustituya &lt;LINUXUSER&gt; por el usuario no raíz que ha creado y guardado en la función visuod.</block>
   <block id="4b2f93895b0dedb56a23d712ea814846" category="section-title">Implemente el plugin mediante autenticación basada en clave SSH</block>
   <block id="7a62668b5fa6466acb8d9535915852a1" category="paragraph">Si la autenticación basada en clave SSH está habilitada en el host HANA, puede realizar los siguientes pasos para implementar el plugin. Antes de realizar los pasos, asegúrese de que la conexión SSH al conector está activada.</block>
   <block id="e0fee89e5366ab3052030779fe81997d" category="list-text">Obtenga la ruta de montaje base.<block ref="f3835e30f35d2401357edbf1ae1edad1" prefix=" " category="inline-code"></block></block>
@@ -1277,20 +1261,16 @@
   <block id="5f46deee08d4b3d1d62d6ffaf5f1db1c" category="list-text">Obtenga la ruta binaria del plug-in descargado.<block ref="f051661bb5d887ff1ad2db41b197db9d" prefix=" " category="inline-code"></block></block>
   <block id="1333b695230748772732811a4dce8133" category="list-text">Copiar<block ref="4f97ae2a0dc11c8ac2f61e73bbd23cd8" prefix=" " category="inline-code"></block> A cada uno de los hosts de la base de datos SAP HANA mediante scp u otros métodos alternativos.</block>
   <block id="ec3a94350310fa8818e0df3a82aa2b54" category="list-text">En el host de la base de datos SAP HANA, ejecute el comando siguiente para habilitar permisos de ejecución para el binario.<block ref="4cd88a831fa940d7f40686837061308c" prefix=" " category="inline-code"></block></block>
-  <block id="f21f4c2a14663fba17fd663498932188" category="list-text">Implemente el complemento SAP HANA como usuario sudo que no es raíz.<block ref="a9b0283be469b80a16d7090f132ac831" prefix=" " category="inline-code"></block></block>
   <block id="8125c29989803ad0a7a3fcd80763904a" category="list-text">Copiar<block ref="7730e5c2e030df9de4e60d7586534d1d" prefix=" " category="inline-code"></block> de<block ref="6a722c9070d74bb0503ce0417b0cad70" prefix=" " category="inline-code"></block> Ruta del conector VM a.<block ref="b99636c9e34de318e385a63d2cb037a1" prefix=" " category="inline-code"></block> en el host del plugin.</block>
   <block id="ef1e764c716d2aa5406d3d434b9c8614" category="list-text">Vaya a.<block ref="0dc0b955539cf9119a9695bb3312c8cb" prefix=" " category="inline-code"></block> y ejecute el comando keytool para importar el certificado.<block ref="0d48a0d1a6daee261d59f76e1ce65f98" prefix=" " category="inline-code"></block></block>
   <block id="5cca45bd52ac035de73ec0e76f0e5043" category="summary">Restaure los archivos de datos y, a continuación, recupere la base de datos.</block>
   <block id="e648f70e1fb5d17870bf65097e43c5a6" category="doc">Restaure la base de datos SAP HANA nativa del cloud</block>
   <block id="26661dc24144ed594be15c07b300db39" category="paragraph">En caso de pérdida de datos, es posible restaurar los datos y los archivos que no son de datos, para luego recuperar la base de datos.</block>
-  <block id="209bbbd2ef26cf13ac9d3e2ab4a48795" category="paragraph">Es posible proporcionar scripts previos, posteriores y de salida mientras se crea una política. Estos scripts se ejecutan en el host HANA mientras se realiza la operación de restauración.</block>
-  <block id="8e193dde313806673c3561148f67d074" category="paragraph">El script previo y el script posterior deben ser registrados por el administrador del host en<block ref="3b233c9e75b7e3c86773366e24bbc002" prefix=" " category="inline-code"></block></block>
   <block id="43b21c00ad4299ac7f4d7e1dafb5f387" category="paragraph">*Lo que necesita*</block>
   <block id="f8988e398a707101924ea388677409fc" category="list-text">El sistema SAP HANA debe estar en estado detenido.</block>
   <block id="e7112ed1470e71e600498d1a4b34ac26" category="list-text">Puede proporcionar un script previo para detener el sistema SAP HANA.</block>
   <block id="878f99c91be407d0f28af03c6c58cc11" category="list-text">Haga clic en <block ref="2231c326e067595aca2fb0545475acf4" category="inline-image-macro-rx" type="image"></block> Corresponde a la base de datos que desea restaurar y haga clic en *Ver detalles*.</block>
   <block id="0b666df245a6202aced91c7640467d2f" category="list-text">Haga clic en <block ref="2231c326e067595aca2fb0545475acf4" category="inline-image-macro-rx" type="image"></block> Corresponde a la copia de seguridad de datos que desea utilizar para restaurar y haga clic en *Restaurar*.</block>
-  <block id="864ef826ca9afa5b1d7e1e3468c6f957" category="list-text">En la página *Restore System*, introduzca los scripts.</block>
   <block id="357a35aedd0c37deb3a881df778a9bb4" category="list-text">Haga clic en *Restaurar*.</block>
   <block id="8f0f4ecd6bb49079fb488435d58bf611" category="list-text">Una vez realizada la restauración, recupere manualmente el sistema SAP HANA o proporcione un script posterior, que realiza la recuperación del sistema SAP HANA.</block>
   <block id="aafa017aee26c3860dee1aac06cc22e5" category="section-title">Restaurar volumen no almacenado en datos</block>
@@ -1481,9 +1461,7 @@
   <block id="c6927bf583958e84094bc7e9d4328c6f" category="section-title">Crear el entorno de trabajo de Azure NetApp Files</block>
   <block id="8b53faee27870b72e0be69261d54a7ee" category="inline-link-macro">Más información sobre Azure NetApp Files</block>
   <block id="c5c12e22be965b4ae0e9fc5e1618bdbe" category="inline-link-macro">Crear un entorno de trabajo de Azure NetApp Files</block>
-  <block id="bf91af894eb3580afdb33ab6ce5ab06f" category="paragraph">Debe crear entornos de trabajo Azure NetApp Files (ANF) donde se alojan las bases de datos. Para obtener más información, consulte <block ref="e42252aa263ed60f84feb7fdedc741c2" category="inline-link-macro-rx"></block> y.. <block ref="08189a1662d35a0f6c5c7b20dd7f30c3" category="inline-link-macro-rx"></block>.</block>
   <block id="e7a9cd1dc4bf0c230d0684e18369d70d" category="section-title">Cree un conector</block>
-  <block id="7c258ce888390955a0508e6bf64eec18" category="paragraph">Un administrador de cuentas debe poner en marcha un conector en ANF que permita a BlueXP gestionar recursos y procesos dentro de su entorno de nube pública.</block>
   <block id="bca25b5056d8715db55e6e28a72ddea0" category="admonition">No puede actualizar el nuevo Connector_id desde la interfaz de usuario.</block>
   <block id="e12fb4f30abef516bf6f5e0e9a5b72b7" category="inline-link-macro">Cree un conector en Azure desde BlueXP</block>
   <block id="3717a56f9d9c162dfd0127cd325c0a2f" category="paragraph">Para obtener más información, consulte <block ref="88ddfb8e0cf0e729a2d90f978111b93e" category="inline-link-macro-rx"></block>.</block>
@@ -2455,7 +2433,6 @@
   <block id="e29eef6ae64d545134f2b42984845a94" category="section-title">19 de diciembre de 2022</block>
   <block id="89d500a3ace67f6d47edb61231336589" category="section-title">Mejoras en Cloud Backup para aplicaciones</block>
   <block id="0a286ad90f3a25f45e443367036a8789" category="list-text">Bases de datos SAP HANA</block>
-  <block id="feb69ad1d8975111fe86bbc94b823a7f" category="list-text">Admite backup y restauración basadas en políticas de bases de datos SAP HANA que residen en Azure NetApp Files (ANF).</block>
   <block id="d5a365014bbbc5172b423043fb2a2501" category="list-text">Admite directivas personalizadas</block>
   <block id="5ffbe0deb5b41148dc58e63a20df8411" category="list-text">Bases de datos de Oracle</block>
   <block id="aa6dc7e308fa4a4875c447c8e7fa4a19" category="list-text">Añada hosts e implemente el plugin automáticamente</block>
@@ -2736,53 +2713,31 @@
   <block id="e1bba09cbe5efe3bebe61f9c17015ce4" category="paragraph"><block ref="e1bba09cbe5efe3bebe61f9c17015ce4" category="inline-image-macro-rx" type="image"></block></block>
   <block id="1b023ff169abba0d2ae3b5eda4b0662e" category="list-text">También puede hacerlo <block ref="691b942cd3d613931fde06fad7da9248" category="inline-link-macro-rx"></block> En un sistema ONTAP en las instalaciones.</block>
   <block id="33519237272d7d2506e4b23467569d7f" category="summary">Implemente el plugin de SnapCenter para Oracle en cada uno de los hosts de bases de datos Oracle.</block>
-  <block id="5513c7a4fb1a461c9910fea9e8c7a3df" category="doc">Añadir host y detectar bases de datos de Oracle</block>
-  <block id="0046bf9daf0e3a3d63572328eb09710c" category="paragraph">Debe añadir el host y detectar las bases de datos en el host para asignar políticas y crear backups. Es posible añadir el host manualmente cuando ya ha implementado el plugin o añadir el host mediante SSH.</block>
   <block id="ee68e5b99222bbc29a480fcb0d1d6ee2" category="section-title">Requisitos previos</block>
   <block id="031ed57adfb7acf180fc66b9bac25dcf" category="paragraph">Antes de añadir el host, debe asegurarse de que se cumplan los requisitos previos.</block>
   <block id="00346be4bfc4c310cf2dbead933dff7c" category="list-text">Debe haber creado el entorno de trabajo y el conector.</block>
   <block id="150cd80aa8da7e8a0e1532db17acbab2" category="list-text">Asegúrese de que el conector tiene conectividad con el entorno de trabajo y los hosts de bases de datos Oracle.</block>
   <block id="b3a8552d8ed438ec3ca2f066908ea2d4" category="list-text">Asegúrese de que Java 11 (64 bits) Oracle Java u OpenJDK estén instalados en cada uno de los hosts de la base de datos de Oracle y QUE LA variable JAVA_HOME esté configurada correctamente.</block>
-  <block id="5206371c2969f80deb7370081781fc8b" category="list-text">Debe haber creado el usuario que no es raíz. Para obtener más información, consulte <block ref="218c9ff3f0827d13a63195c67e07e241" category="inline-xref-macro-rx"></block>.</block>
-  <block id="419e9f180bcb9992797f0d63e5108d02" category="inline-xref">manualmente</block>
-  <block id="6082f779360f7aa7eae37c198973c6a2" category="inline-xref">con el script</block>
-  <block id="a0b4d571b248f50b94b7633e3babe462" category="list-text">Si desea añadir el host manualmente, primero debe implementar el plugin. Puede implementar el plugin <block ref="71f9c0626648fc2ad6935845122647e8" category="inline-xref-macro-rx"></block> o. <block ref="d5731cdfa534d1a5d7ccf2070fa3f2fc" category="inline-xref-macro-rx"></block>.</block>
-  <block id="9528b4fc4cc8c4ea29cdf1b307031b98" category="paragraph">Debe implementar el plugin en cada uno de los hosts de las bases de datos de Oracle.</block>
-  <block id="882fd9db70a37f6582163f4e6d1c4fde" category="paragraph">Debe configurar un usuario que no sea raíz para implementar el plugin.</block>
   <block id="274f1ac526644b363a1660f91b59759a" category="list-text">Descargue el binario del plugin del host Linux de SnapCenter.<block ref="2109844ce6213da69b1227dc07554bb8" prefix=" " category="inline-code"></block></block>
   <block id="c3af1031c174f35d8fbd1d63764549d3" category="list-text">Copie las líneas 1 a 16 del archivo *oracle_checksum_scs.txt* ubicado en *_base_Mount_path_/_version_/sc-linux-host-plugin/*.</block>
   <block id="941c84084e1d6a473d4b06951513646e" category="list-text">Inicie sesión en el host de la base de datos Oracle y realice los siguientes pasos:</block>
   <block id="20ba94819b2688b9ce1be17cd8c67f00" category="inline-link">Cree una cuenta de usuario</block>
-  <block id="dc77642a9db95bfa3d7cfad2feac68d7" category="list-text">Cree la cuenta de usuario que no sea raíz, el par de claves privadas y asigne los permisos. Para obtener más información, consulte<block ref="fda0d36f41d4c9e30e06c472b1bf9e0c" category="inline-link-rx"></block>.</block>
   <block id="e0a6bb364ca10aed658b56d5c7220ce6" category="list-text">Pegue las líneas copiadas en el paso 4 al archivo _/etc/sudoers_ mediante la función visudo de Linux.</block>
-  <block id="e0ec6c3418190a65b388f2ec3b545b73" category="paragraph">En las líneas anteriores, reemplace el &lt;LINUXUSER&gt; por el usuario no raíz que ha creado y guarde el archivo en la función visudo.</block>
-  <block id="d00dc5124d9367c0c08e4ba45796fdd4" category="section-title">Implemente el plugin mediante script</block>
-  <block id="7f4f03eee9cd1fb77b091d1f31a63e75" category="paragraph">Si la autenticación basada en claves SSH está habilitada en el host de Oracle para el usuario no raíz, puede realizar los siguientes pasos para implementar el plugin. Antes de realizar los pasos, asegúrese de que la conexión SSH al conector está activada.</block>
   <block id="5db771567067dd09af5564e02cf7ed87" category="list-text">Despliegue el complemento mediante el script de ayuda incluido en el conector.<block ref="1d1dd7c5683a80bd4fd769dadbf81b09" prefix=" " category="inline-code"></block></block>
   <block id="d633b044fd8a9ca45f4d615327cbf109" category="list-text">Nombre_host es el nombre del host de Oracle y éste es un parámetro obligatorio.</block>
-  <block id="0fe1e69c4c87559df8ff5fba40419445" category="list-text">ssh_key_file es la clave SSH del usuario no raíz y se usa para conectarse al host Oracle. Este es un parámetro obligatorio.</block>
-  <block id="d9997864ce67719ea93cc0b0cff9c006" category="list-text">User_name: Usuario no raíz con privilegios SSH en el host Oracle y este es un parámetro opcional. El valor predeterminado es ec2-user.</block>
   <block id="3dbc2a858555e80cf398377571556499" category="list-text">ssh_Port: Puerto SSH en el host de Oracle y este es un parámetro opcional. El valor predeterminado es 22</block>
   <block id="e5a8e97642efe29ef958c3cafde091c8" category="list-text">Plugin_Port: Puerto que utiliza el plugin y este es un parámetro opcional. El valor predeterminado es 8145</block>
   <block id="5e0c9d9b775ad3565e6649bfa8ec9800" category="list-text">Directorio_de_instalación: Directorio donde se va a implementar el complemento y éste es un parámetro opcional. El valor predeterminado es /opt.</block>
   <block id="6ae7d9f8527d1ed6cd28c1fe9cc17109" category="paragraph">Por ejemplo:<block ref="f2458f3042d087542cd1b232a3f7c978" prefix=" " category="inline-code"></block></block>
-  <block id="1744dd19db9c80afac565572fb28289c" category="paragraph">Si la autenticación basada en claves SSH no está habilitada en el host de Oracle, debe realizar los siguientes pasos manuales para implementar el plugin.</block>
   <block id="b63053825a0c4e3a09fd276fe30a743b" category="list-text">Copie _snapcenter_linux_host_plugin_scs.bin_ a cada uno de los hosts de la base de datos Oracle con scp u otros métodos alternativos.</block>
-  <block id="ad15ac1aed6665420aee6da3d2599843" category="paragraph">El _snapcenter_linux_host_plugin_scs.bin_ debe copiarse a una ubicación a la que el usuario que no sea raíz puede acceder.</block>
-  <block id="1140247d0922f07c1db2936f25736b76" category="list-text">Inicie sesión en el host de la base de datos Oracle utilizando la cuenta de usuario no raíz y ejecute el comando siguiente para habilitar los permisos de ejecución para el binario.<block ref="4cd88a831fa940d7f40686837061308c" prefix=" " category="inline-code"></block></block>
-  <block id="448fb639b2dbccf2171b5c8f9a70a09a" category="list-text">Implemente el plugin de Oracle como usuario sudo que no sea raíz.<block ref="a9b0283be469b80a16d7090f132ac831" prefix=" " category="inline-code"></block></block>
   <block id="e83ebe810e7607148882f52b5e3b71fd" category="list-text">Copie _certificate.p12_ de _&lt;base_mount_path&gt;/client/certificate/_ la ruta del conector VM a _/var/opt/snapcenter/spl/etc/_ en el host del plugin.</block>
   <block id="7550e76395e0f500b3d970b6fa0ec73f" category="list-text">Desplácese hasta _/var/opt/snapcenter/spl/etc_ y ejecute el comando keytool para importar el certificado.<block ref="0d48a0d1a6daee261d59f76e1ce65f98" prefix=" " category="inline-code"></block></block>
-  <block id="af7f8976f175216d1e12ff5be8b68be4" category="section-title">Añadir host</block>
-  <block id="c45737224c5ab40ea9affadd8962c6e7" category="paragraph">Debe añadir el host y detectar las bases de datos de Oracle.</block>
   <block id="e4bed981c8dc4fe15a706f0b93160836" category="list-text">En la interfaz de usuario de BlueXP, haga clic en *Protección* &gt; *copia de seguridad y recuperación* &gt; *aplicaciones*.</block>
   <block id="fe4137061bd2c33fe1c02ad6b9570b0e" category="list-text">Haga clic en detectar aplicaciones.</block>
   <block id="d20aa4d7347d2818451332f0d49b2253" category="list-text">Seleccione *nativo de la nube* y haga clic en *Siguiente*.</block>
   <block id="63000a0fa2dbdc9bced04917b9fb5014" category="paragraph">Se crea una cuenta de servicio con el rol _SnapCenter System_ para realizar operaciones de protección de datos programadas para todos los usuarios de esta cuenta.</block>
   <block id="2f1527fabf6b15b2c246b08aca9ef8a4" category="list-text">Haga clic en *cuenta* &gt; *Administrar cuenta* &gt; *Miembros* para ver la cuenta de servicio.</block>
   <block id="0e0ba396f0687ce7517d861db155fb10" category="admonition">La cuenta de servicio (_SnapCenter-account-&lt;accountid&gt;_) se utiliza para ejecutar las operaciones de backup programadas. Nunca debe eliminar la cuenta de servicio.</block>
-  <block id="254d235472af71154481e0a6f56b2535" category="list-text">En la página Add Host, realice una de las siguientes acciones:</block>
-  <block id="2958f19f58f0ca8d9d63b20360a0d39d" category="paragraph">Ya haya implementado el plugin <block ref="71f9c0626648fc2ad6935845122647e8" category="inline-xref-macro-rx"></block> o. <block ref="d5731cdfa534d1a5d7ccf2070fa3f2fc" category="inline-xref-macro-rx"></block></block>
   <block id="f56876c150285cea7b724cbb95594046" category="list-text">Seleccione *Manual*.</block>
   <block id="96d18284484330f0461bebeeedf28b93" category="list-text">Especifique el FQDN o la dirección IP del host donde se implementó el plugin.</block>
   <block id="4b9c5e10e240cdb44f786ad97e92d363" category="paragraph">Asegúrese de que con el FQDN o la dirección IP, el conector puede comunicarse con el host de la base de datos.</block>
@@ -2790,11 +2745,8 @@
   <block id="acb4159eef3e5ecd5b233216c18d4d45" category="paragraph">El puerto predeterminado es 8145.</block>
   <block id="91128bbc82eb724ccb4b4532f152c3da" category="list-text">Seleccione el conector.</block>
   <block id="74a99b6dc2ef8f1a612ef62e0fbae84d" category="list-text">Seleccione la casilla de comprobación para confirmar que el plugin está instalado en el host</block>
-  <block id="8443ac4c22417245b61f0c033b4ea3d2" category="paragraph">Desea poner en marcha el plugin de forma automática</block>
   <block id="044408c01f4556451a3907257fc21382" category="list-text">Seleccione *usando SSH*.</block>
   <block id="21c7549ba6f4014b1d2c113aff7f95aa" category="list-text">Especifique el FQDN o la dirección IP del host en el que desea instalar el plugin.</block>
-  <block id="067a9635a80c1edff88c622203fa7ce1" category="inline-xref">usuario no raíz</block>
-  <block id="0b2581c6c2b040b10360f2182f95a26e" category="list-text">Especifique el nombre de usuario (<block ref="b860729b45208ea0c8184e39fd0d4fa7" category="inline-xref-macro-rx"></block>) mediante el cual se copiará el paquete de plugins en el host.</block>
   <block id="791d63ac899b8ad7fc56dc931d1fd29a" category="list-text">Especifique el SSH y el puerto del plugin.</block>
   <block id="505ce6fed4446b13324d0562a28bb6ba" category="paragraph">El puerto SSH predeterminado es 22 y el puerto del plugin es 8145.</block>
   <block id="11f3ace264fde67c71154e15a9b49b51" category="paragraph">Puede cerrar el puerto SSH en el host de la aplicación después de instalar el plugin. El puerto SSH no es necesario para ninguna otra operación de plugin.</block>
@@ -3510,4 +3462,63 @@
   <block id="879701946bb2bc7241d0f85fd843455a" category="paragraph">endif::azure[]</block>
   <block id="6e1e9c83b80f4d22d34cbdf60a71383b" category="paragraph">ifdef::gcp[]</block>
   <block id="310c228207a0f8446bbe4c5d16978cb7" category="paragraph">endif::gcp[]</block>
+  <block id="f990e553cdc4c29c2efffba33e08a8c7" category="inline-link-macro">Leer más.</block>
+  <block id="c0efb50e50bd832fe33303fe8a025710" category="list-text">(Opcional) especifique los scripts. <block ref="64f80f18cd8436040cdc180731adb1df" category="inline-link-macro-rx"></block></block>
+  <block id="898f472703342efc6d5adc298a7628c8" category="paragraph">Es posible proporcionar scripts previos, posteriores y de salida mientras se crea una política. Estos scripts se ejecutan en el host HANA durante la operación de protección de datos.</block>
+  <block id="c5b751b6877453fd04eb6340347e4511" category="paragraph">El script previo y el script posterior deben ser registrados por el administrador del host en<block ref="91d372f85b001dba79ebc4129e5acd32" prefix=" " category="inline-code"></block> archivo.</block>
+  <block id="0baab2619f15ec742e2bf8b60e516b39" category="paragraph">Para el flujo de trabajo de backup, las siguientes variables de entorno están disponibles como parte del script previo y posterior.</block>
+  <block id="37b91819addbb5b3ca6a2d78cfe91ff2" category="inline-link-macro">Scripts previos y posteriores</block>
+  <block id="c7436ac5bc62035107d7dd8330e0ce9c" category="paragraph">Para obtener más información, consulte <block ref="e21df236c176ec826d056db82d193773" category="inline-link-macro-rx"></block></block>
+  <block id="edd15fbeb7b2dffa163336ecd4f3e80c" category="section-title">Utilice opciones de soporte automático</block>
+  <block id="d88bacf2a9fdcbbc844edcba97c34e30" category="section-title">Cree un caso con el soporte de NetApp</block>
+  <block id="08d96fdd1a845d80db99e6e1dffb8bc7" category="list-text">En la página *Recursos*, elija una de las opciones disponibles en Soporte técnico:</block>
+  <block id="5be2e1dfe4bf215289731df45ec8157b" category="list-text">Haga clic en *Crear un caso* para abrir una incidencia con un especialista en soporte de NetApp:</block>
+  <block id="32ecc38b872b5f889b952ca26b4c9e01" category="list-text">Sistemas SAP HANA que residen en Azure NetApp Files</block>
+  <block id="25b10c02d41eec413a14409c4612d5d3" category="list-text">Sistema de almacenamiento: Azure NetApp Files</block>
+  <block id="2aebd4a586327a155f5ad3b448f755af" category="doc">Ponga en marcha el plugin de SnapCenter para SAP HANA y añada hosts de base de datos</block>
+  <block id="269c48e37c80fdf85eed155628bc58de" category="inline-link-macro">Configure sudo para el usuario de SnapCenter.</block>
+  <block id="ddaa83445dd7a230c2c58c8306085a19" category="list-text">Debe haber creado el usuario de SnapCenter y configurado sudo para el usuario de SnapCenter. Para obtener más información, consulte <block ref="6178ed5e7702fbe22f507b323e07e08d" category="inline-link-macro-rx"></block></block>
+  <block id="d2112f16a8059fc09554b14c09d4fcfc" category="list-text">Debe haber implementado el plugin de SnapCenter para SAP HANA antes de añadir el host de base de datos.</block>
+  <block id="257b77ad500d8d34d40999c829e11687" category="list-text">El conector debe tener activada la comunicación al puerto SSH (predeterminado: 22) si se utiliza la implementación basada en SSH.</block>
+  <block id="5725f533e015d3bd4b9e8c38eca0144b" category="list-text">El conector debe tener la comunicación activada al puerto del plug-in (valor predeterminado: 8145) para que funcionen las operaciones.</block>
+  <block id="b010a3fdc0e4a30de49959a04a4e75e0" category="section-title">Configure sudo para el usuario de SnapCenter</block>
+  <block id="a07faa3e8d1ee5e05e2477cb22d4aada" category="paragraph">Debe crear un usuario de SnapCenter para implementar el plugin.</block>
+  <block id="d92750f46e700776d748ee9b15b423cc" category="list-text">Cree la cuenta de usuario de SnapCenter, el par de claves privadas y asigne los permisos.</block>
+  <block id="1aadfd10fc57b635454a6d55fa8fc260" category="paragraph">En las líneas anteriores, reemplace &lt;LINUXUSER&gt; por el usuario de SnapCenter que ha creado y guardado en la función visuod.</block>
+  <block id="1fd90cd4e86ccb2a0caebc53978ce238" category="inline-link-macro">Hosts de bases de datos SAP HANA.</block>
+  <block id="d608b8b79f8e38b5355b2621076c03a7" category="paragraph">Después de implementar el plugin, debe añadir el <block ref="92ad6bba296fdb7b03893ff2938b8375" category="inline-link-macro-rx"></block></block>
+  <block id="bd66e9124149884520020da3bbb7fb42" category="list-text">Implemente el complemento SAP HANA como usuario sudo SnapCenter.<block ref="a9b0283be469b80a16d7090f132ac831" prefix=" " category="inline-code"></block></block>
+  <block id="c827c4145f570b61f9ba6a78e5ffdca3" category="list-text">Valide que es posible acceder al plugin desde el conector ejecutando el comando siguiente desde el conector:</block>
+  <block id="196620afd1e2e98d838480028131dc6b" category="paragraph"><block ref="7bab21217ba7da8fb8f176538fe93b9b" prefix="" category="inline-code"></block></block>
+  <block id="ed4c596de80903a7b24e5ada4ad1cb18" category="section-title">Añada volúmenes no Data globales</block>
+  <block id="c85382f11c645139d96d5e2eacdd8985" category="list-text">En la página *Restore System*, introduzca los scripts. <block ref="64f80f18cd8436040cdc180731adb1df" category="inline-link-macro-rx"></block></block>
+  <block id="c2d07a443e1ff7ca3b9a176f2e281fa7" category="paragraph">Debe crear entornos de trabajo de Azure NetApp Files en los que se alojan las bases de datos. Para obtener más información, consulte <block ref="e42252aa263ed60f84feb7fdedc741c2" category="inline-link-macro-rx"></block> y.. <block ref="08189a1662d35a0f6c5c7b20dd7f30c3" category="inline-link-macro-rx"></block>.</block>
+  <block id="86e567c58e1677d6f28f5faf45337dd6" category="paragraph">Un administrador de cuentas debe poner en marcha un conector en Azure NetApp Files que permita a BlueXP gestionar recursos y procesos dentro de su entorno de nube pública.</block>
+  <block id="fcdf1a1b46f3b7e8ad6ff82010438a90" category="list-text">Admite backup y restauración basadas en políticas de bases de datos SAP HANA que residen en Azure NetApp Files</block>
+  <block id="626a739569b9dd0c59a5743d227d6123" category="doc">Ponga en marcha el plugin de SnapCenter para Oracle y añada hosts de base de datos</block>
+  <block id="67d8739c95209190622df34ef33e74cb" category="paragraph">Es necesario implementar el plugin de SnapCenter para Oracle en cada uno de los hosts de la base de datos Oracle, añadir los hosts de la base de datos y detectar las bases de datos en el host para asignar políticas y crear backups.</block>
+  <block id="90830749b6cbde0f0a187f49bb486594" category="list-text">Si SSH está habilitado para el host de base de datos, es posible implementar el plugin mediante uno de los métodos:</block>
+  <block id="8b6b64c474edd30f1a9272ee24a2232f" category="list-text">Implemente el plugin y añada el host de la interfaz de usuario mediante la opción SSH. <block ref="96cf78a1eacf9d4e1d33800a6dba4d36" category="inline-xref-macro-rx"></block>.</block>
+  <block id="3262da317dca873a6393aacedc92711b" category="list-text">Ponga en marcha el plugin mediante script y añada el host desde la interfaz de usuario mediante la opción manual. <block ref="7e15d0c8c67b3cf8713be59b7b4c1b25" category="inline-xref-macro-rx"></block>.</block>
+  <block id="08504e173a088669654aaeccaa2b3a23" category="list-text">Si SSH está deshabilitado, implemente el plugin manualmente y añada el host desde la interfaz de usuario mediante la opción manual. <block ref="5f00e4f7335cd99930cda849266e93c9" category="inline-xref-macro-rx"></block>.</block>
+  <block id="39897a09935775120f58a38650026ddb" category="list-text">Debe haber creado el usuario de SnapCenter y configurado sudo para el usuario de SnapCenter. Para obtener más información, consulte <block ref="5e3b9649d708169ed88a9a242f31b61c" category="inline-xref-macro-rx"></block>.</block>
+  <block id="552cb41f77557f24afc949caef89280f" category="list-text">Asegúrese de que el conector tiene activada la comunicación al puerto SSH (valor predeterminado: 22) si se utiliza la implementación basada en SSH.</block>
+  <block id="39f31ccaa29cc339e3980e0da960d750" category="list-text">Asegúrese de que el conector tiene la comunicación habilitada para el puerto del plug-in (valor predeterminado: 8145) para que funcionen las operaciones.</block>
+  <block id="739fcf2b514d944f705042f1e0e00257" category="paragraph">Debe crear un usuario de SnapCenter y configurar sudo para el usuario.</block>
+  <block id="fe689694da98d31a8ecb33f9937bcf2b" category="list-text">Cree la cuenta de usuario de SnapCenter, el par de claves privadas y asigne los permisos. Para obtener más información, consulte<block ref="fda0d36f41d4c9e30e06c472b1bf9e0c" category="inline-link-rx"></block>.</block>
+  <block id="08a9756f760e15ecb833f8a03e820f5c" category="paragraph">En las líneas anteriores, reemplace &lt;LINUXUSER&gt; por el usuario de SnapCenter que ha creado y guarde el archivo en la función visudo.</block>
+  <block id="cf4cb057a8a94a7af35c1f206a490fc7" category="section-title">Implemente el plugin y añada el host desde la interfaz de usuario mediante la opción SSH</block>
+  <block id="c19f3000ecedd6e739c73e513c597e19" category="list-text">En la página Add Host, realice lo siguiente:</block>
+  <block id="ac942bfda2b49411af92bb83a04093ea" category="inline-xref">Usuario sudo SnapCenter</block>
+  <block id="3873a19d99c54075bd878c4755a660d7" category="list-text">Especifique el nombre de usuario (<block ref="0ddbb3d2c437bced333ce4f5ef476df6" category="inline-xref-macro-rx"></block>) mediante el cual se copiará el paquete de plugins en el host.</block>
+  <block id="96e8e4df8b3ca0b4eec3a79081f69a5f" category="section-title">Ponga en marcha el plugin mediante script y añada el host desde la interfaz de usuario mediante la opción manual</block>
+  <block id="91eb61d109e3007a8e969ba3cba1c154" category="paragraph">Si la autenticación basada en claves SSH está habilitada en el host de Oracle para el usuario de SnapCenter, puede realizar los siguientes pasos para implementar el plugin. Antes de realizar los pasos, asegúrese de que la conexión SSH al conector está activada.</block>
+  <block id="10e01a340c84380e027a73fec4302231" category="list-text">ssh_key_file es la clave SSH del usuario SnapCenter y se utiliza para conectarse al host Oracle. Este es un parámetro obligatorio.</block>
+  <block id="2a8cccba41dd7585d3e688efa551f3ca" category="list-text">User_name: Usuario de SnapCenter con privilegios SSH en el host de Oracle y este es un parámetro opcional. El valor predeterminado es ec2-user.</block>
+  <block id="dc9d1d5a9daee6a922e8ca3b643f951f" category="section-title">Implemente el plugin manualmente y añada el host desde la interfaz de usuario mediante la opción manual</block>
+  <block id="6536d8bd829629536e41a1e31830f5df" category="paragraph">Si la autenticación basada en claves SSH no está habilitada en el host de la base de datos de Oracle, debe realizar los siguientes pasos manuales para poner en marcha el plugin y luego añadir el host desde la interfaz de usuario con la opción manual.</block>
+  <block id="59498123f173f525c8ccd6041aad0090" category="paragraph">El _snapcenter_linux_host_plugin_scs.bin_ debe copiarse a una ubicación a la que el usuario de SnapCenter puede acceder.</block>
+  <block id="9fccb7bf2ea38fc2199a167bbe2d87fd" category="list-text">Inicie sesión en el host de la base de datos Oracle utilizando la cuenta de usuario de SnapCenter y ejecute el siguiente comando para habilitar los permisos de ejecución para el archivo binario.<block ref="4cd88a831fa940d7f40686837061308c" prefix=" " category="inline-code"></block></block>
+  <block id="2fe3c4ca1597e6bdf865a7367c7a7a08" category="list-text">Implemente el plugin de Oracle como usuario sudo SnapCenter.<block ref="d0ac17823bdcaade630c1553c4540054" prefix=" " category="inline-code"></block></block>
+  <block id="f55cf31361d600683e03e25c6f1109e3" category="list-text">Valide que es posible acceder al plugin desde el conector ejecutando el comando siguiente desde el conector.<block ref="7bab21217ba7da8fb8f176538fe93b9b" prefix=" " category="inline-code"></block></block>
 </blocks>

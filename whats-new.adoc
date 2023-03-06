@@ -110,7 +110,7 @@ Después de filtrar la página Supervisión de trabajos para mostrar los trabajo
 
 * Bases de datos SAP HANA
 +
-** Admite backup y restauración basadas en políticas de bases de datos SAP HANA que residen en Azure NetApp Files (ANF).
+** Admite backup y restauración basadas en políticas de bases de datos SAP HANA que residen en Azure NetApp Files
 ** Admite directivas personalizadas
 
 

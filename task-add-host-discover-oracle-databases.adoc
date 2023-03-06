@@ -4,7 +4,7 @@ permalink: task-add-host-discover-oracle-databases.html
 keywords: Cloud Manager, BlueXP, SnapCenter Plug-in for Oracle, Oracle, database, host, deploy, add host, discover 
 summary: Implemente el plugin de SnapCenter para Oracle en cada uno de los hosts de bases de datos Oracle. 
 ---
-= Añadir host y detectar bases de datos de Oracle
+= Ponga en marcha el plugin de SnapCenter para Oracle y añada hosts de base de datos
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,16 @@ summary: Implemente el plugin de SnapCenter para Oracle en cada uno de los hosts
 
 
 [role="lead"]
-Debe añadir el host y detectar las bases de datos en el host para asignar políticas y crear backups. Es posible añadir el host manualmente cuando ya ha implementado el plugin o añadir el host mediante SSH.
+Es necesario implementar el plugin de SnapCenter para Oracle en cada uno de los hosts de la base de datos Oracle, añadir los hosts de la base de datos y detectar las bases de datos en el host para asignar políticas y crear backups.
+
+* Si SSH está habilitado para el host de base de datos, es posible implementar el plugin mediante uno de los métodos:
++
+** Implemente el plugin y añada el host de la interfaz de usuario mediante la opción SSH. <<Implemente el plugin y añada el host desde la interfaz de usuario mediante la opción SSH,Leer más>>.
+** Ponga en marcha el plugin mediante script y añada el host desde la interfaz de usuario mediante la opción manual. <<Ponga en marcha el plugin mediante script y añada el host desde la interfaz de usuario mediante la opción manual,Leer más>>.
+
+
+* Si SSH está deshabilitado, implemente el plugin manualmente y añada el host desde la interfaz de usuario mediante la opción manual. <<Implemente el plugin manualmente y añada el host desde la interfaz de usuario mediante la opción manual,Leer más>>.
+
 
 
 
@@ -26,18 +35,16 @@ Antes de añadir el host, debe asegurarse de que se cumplan los requisitos previ
 * Asegúrese de que el conector tiene conectividad con el entorno de trabajo y los hosts de bases de datos Oracle.
 * Asegúrese de que el usuario de BlueXP tiene la función “Administrador de cuentas”.
 * Asegúrese de que Java 11 (64 bits) Oracle Java u OpenJDK estén instalados en cada uno de los hosts de la base de datos de Oracle y QUE LA variable JAVA_HOME esté configurada correctamente.
-* Debe haber creado el usuario que no es raíz. Para obtener más información, consulte <<Configurar un usuario que no sea raíz>>.
-* Si desea añadir el host manualmente, primero debe implementar el plugin. Puede implementar el plugin <<Implemente el plugin manualmente,manualmente>> o. <<Implemente el plugin mediante script,con el script>>.
-+
-Debe implementar el plugin en cada uno de los hosts de las bases de datos de Oracle.
+* Debe haber creado el usuario de SnapCenter y configurado sudo para el usuario de SnapCenter. Para obtener más información, consulte <<Configure sudo para el usuario de SnapCenter>>.
+* Asegúrese de que el conector tiene activada la comunicación al puerto SSH (valor predeterminado: 22) si se utiliza la implementación basada en SSH.
+* Asegúrese de que el conector tiene la comunicación habilitada para el puerto del plug-in (valor predeterminado: 8145) para que funcionen las operaciones.
 
 
 
 
+=== Configure sudo para el usuario de SnapCenter
 
-=== Configurar un usuario que no sea raíz
-
-Debe configurar un usuario que no sea raíz para implementar el plugin.
+Debe crear un usuario de SnapCenter y configurar sudo para el usuario.
 
 * Pasos*
 
@@ -49,10 +56,10 @@ Debe configurar un usuario que no sea raíz para implementar el plugin.
 . Copie las líneas 1 a 16 del archivo *oracle_checksum_scs.txt* ubicado en *_base_Mount_path_/_version_/sc-linux-host-plugin/*.
 . Inicie sesión en el host de la base de datos Oracle y realice los siguientes pasos:
 +
-.. Cree la cuenta de usuario que no sea raíz, el par de claves privadas y asigne los permisos. Para obtener más información, consulte https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account["Cree una cuenta de usuario"^].
+.. Cree la cuenta de usuario de SnapCenter, el par de claves privadas y asigne los permisos. Para obtener más información, consulte https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account["Cree una cuenta de usuario"^].
 .. Pegue las líneas copiadas en el paso 4 al archivo _/etc/sudoers_ mediante la función visudo de Linux.
 +
-En las líneas anteriores, reemplace el <LINUXUSER> por el usuario no raíz que ha creado y guarde el archivo en la función visudo.
+En las líneas anteriores, reemplace <LINUXUSER> por el usuario de SnapCenter que ha creado y guarde el archivo en la función visudo.
 
 
 
@@ -60,67 +67,7 @@ En las líneas anteriores, reemplace el <LINUXUSER> por el usuario no raíz que 
 
 
 
-=== Implemente el plugin mediante script
-
-Si la autenticación basada en claves SSH está habilitada en el host de Oracle para el usuario no raíz, puede realizar los siguientes pasos para implementar el plugin. Antes de realizar los pasos, asegúrese de que la conexión SSH al conector está activada.
-
-* Pasos*
-
-. Inicie sesión en el conector VM.
-. Obtenga la ruta de montaje base.
-`sudo docker volume ls | grep scs_cloud_volume | awk {'print $2'} | xargs sudo docker volume inspect | grep Mountpoint`
-. Despliegue el complemento mediante el script de ayuda incluido en el conector.
-`sudo <base_mount_path>/scripts/oracle_plugin_copy_and_install.sh --host <host_name> --sshkey <ssh_key_file> --username <user_name> --port <ssh_port> --pluginport <plugin_port> --installdir <install_dir>`
-+
-** Nombre_host es el nombre del host de Oracle y éste es un parámetro obligatorio.
-** ssh_key_file es la clave SSH del usuario no raíz y se usa para conectarse al host Oracle. Este es un parámetro obligatorio.
-** User_name: Usuario no raíz con privilegios SSH en el host Oracle y este es un parámetro opcional. El valor predeterminado es ec2-user.
-** ssh_Port: Puerto SSH en el host de Oracle y este es un parámetro opcional. El valor predeterminado es 22
-** Plugin_Port: Puerto que utiliza el plugin y este es un parámetro opcional. El valor predeterminado es 8145
-** Directorio_de_instalación: Directorio donde se va a implementar el complemento y éste es un parámetro opcional. El valor predeterminado es /opt.
-
-
-
-
-Por ejemplo:
-`sudo /var/lib/docker/volumes/service-manager-2_cloudmanager_scs_cloud_volume/_data/scripts/oracle_plugin_copy_and_install.sh --host xxx.xx.x.x --sshkey /keys/netapp-ssh.ppk`
-
-
-
-=== Implemente el plugin manualmente
-
-Si la autenticación basada en claves SSH no está habilitada en el host de Oracle, debe realizar los siguientes pasos manuales para implementar el plugin.
-
-* Pasos*
-
-. Inicie sesión en el conector VM.
-. Descargue el binario del plugin del host Linux de SnapCenter.
-`sudo docker exec -it cloudmanager_scs_cloud curl -X GET 'http://127.0.0.1/deploy/downloadLinuxPlugin'`
-. Obtenga la ruta de montaje base.
-`sudo docker volume ls | grep scs_cloud_volume | awk {'print $2'} | xargs sudo docker volume inspect | grep Mountpoint`
-. Obtenga la ruta binaria del plug-in descargado.
-`sudo ls <base_mount_path> $(sudo docker ps|grep -Po "cloudmanager_scs_cloud:.*? "|sed -e 's/ *$//'|cut -f2 -d":")/sc-linux-host-plugin/snapcenter_linux_host_plugin_scs.bin`
-. Copie _snapcenter_linux_host_plugin_scs.bin_ a cada uno de los hosts de la base de datos Oracle con scp u otros métodos alternativos.
-+
-El _snapcenter_linux_host_plugin_scs.bin_ debe copiarse a una ubicación a la que el usuario que no sea raíz puede acceder.
-
-. Inicie sesión en el host de la base de datos Oracle utilizando la cuenta de usuario no raíz y ejecute el comando siguiente para habilitar los permisos de ejecución para el binario.
-`chmod +x snapcenter_linux_host_plugin_scs.bin`
-. Implemente el plugin de Oracle como usuario sudo que no sea raíz.
-`./snapcenter_linux_host_plugin_scs.bin -i silent -DSPL_USER=<non-root-user>`
-. Copie _certificate.p12_ de _<base_mount_path>/client/certificate/_ la ruta del conector VM a _/var/opt/snapcenter/spl/etc/_ en el host del plugin.
-. Desplácese hasta _/var/opt/snapcenter/spl/etc_ y ejecute el comando keytool para importar el certificado.
-`keytool -v -importkeystore -srckeystore certificate.p12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS -srcstorepass snapcenter -deststorepass snapcenter -srcalias agentcert -destalias agentcert -noprompt`
-. Reinicie SPL: `systemctl restart spl`
-
-
-
-
-== Añadir host
-
-Debe añadir el host y detectar las bases de datos de Oracle.
-
-* Pasos*
+== Implemente el plugin y añada el host desde la interfaz de usuario mediante la opción SSH
 
 . En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
 . Haga clic en detectar aplicaciones.
@@ -136,37 +83,11 @@ NOTE: La cuenta de servicio (_SnapCenter-account-<accountid>_) se utiliza para e
 
 
 
-. En la página Add Host, realice una de las siguientes acciones:
+. En la página Add Host, realice lo siguiente:
 +
-|===
-| Si... | Realice lo siguiente... 
-
-
- a| 
-Ya haya implementado el plugin <<Implemente el plugin manualmente,manualmente>> o. <<Implemente el plugin mediante script,con el script>>
- a| 
-.. Seleccione *Manual*.
-.. Especifique el FQDN o la dirección IP del host donde se implementó el plugin.
-+
-Asegúrese de que con el FQDN o la dirección IP, el conector puede comunicarse con el host de la base de datos.
-
-.. Especifique el puerto del plugin.
-+
-El puerto predeterminado es 8145.
-
-.. Seleccione el conector.
-.. Seleccione la casilla de comprobación para confirmar que el plugin está instalado en el host
-.. Haga clic en *detectar aplicaciones*.
-
-
-
-
- a| 
-Desea poner en marcha el plugin de forma automática
- a| 
 .. Seleccione *usando SSH*.
 .. Especifique el FQDN o la dirección IP del host en el que desea instalar el plugin.
-.. Especifique el nombre de usuario (<<Configurar un usuario que no sea raíz,usuario no raíz>>) mediante el cual se copiará el paquete de plugins en el host.
+.. Especifique el nombre de usuario (<<Configure a sudo for SnapCenter user,Usuario sudo SnapCenter>>) mediante el cual se copiará el paquete de plugins en el host.
 .. Especifique el SSH y el puerto del plugin.
 +
 El puerto SSH predeterminado es 22 y el puerto del plugin es 8145.
@@ -181,17 +102,155 @@ Puede cerrar el puerto SSH en el host de la aplicación después de instalar el 
 NOTE: La clave privada SSH no se almacena en ningún lugar de la aplicación y no se usará en ninguna otra operación.
 
 .. Haga clic en *Siguiente*.
-
-
-|===
 +
-** Muestra todas las bases de datos en el host. Si la autenticación del sistema operativo está desactivada para la base de datos, debe configurar la autenticación de la base de datos haciendo clic en *Configurar*. Para obtener más información, consulte <<Configurar las credenciales de la base de datos de Oracle>>.
-** Haga clic en *Configuración* y seleccione *hosts* para ver todos los hosts. Haga clic en *Eliminar* para eliminar un host de base de datos.
+*** Muestra todas las bases de datos en el host. Si la autenticación del sistema operativo está desactivada para la base de datos, debe configurar la autenticación de la base de datos haciendo clic en *Configurar*. Para obtener más información, consulte <<Configurar las credenciales de la base de datos de Oracle>>.
+*** Haga clic en *Configuración* y seleccione *hosts* para ver todos los hosts. Haga clic en *Eliminar* para eliminar un host de base de datos.
 +
 
 NOTE: El filtro para ver un host específico no funciona. Cuando se especifica un nombre de host en el filtro, se muestran todos los hosts.
 
-** Haga clic en *Configuración* y seleccione *Directivas* para ver las directivas preparadas previamente. Revise las directivas predefinidas y, si desea, puede editarlas para cumplir sus requisitos o crear una nueva directiva.
+*** Haga clic en *Configuración* y seleccione *Directivas* para ver las directivas preparadas previamente. Revise las directivas predefinidas y, si desea, puede editarlas para cumplir sus requisitos o crear una nueva directiva.
+
+
+
+
+
+
+
+
+== Ponga en marcha el plugin mediante script y añada el host desde la interfaz de usuario mediante la opción manual
+
+Si la autenticación basada en claves SSH está habilitada en el host de Oracle para el usuario de SnapCenter, puede realizar los siguientes pasos para implementar el plugin. Antes de realizar los pasos, asegúrese de que la conexión SSH al conector está activada.
+
+* Pasos*
+
+. Inicie sesión en el conector VM.
+. Obtenga la ruta de montaje base.
+`sudo docker volume ls | grep scs_cloud_volume | awk {'print $2'} | xargs sudo docker volume inspect | grep Mountpoint`
+. Despliegue el complemento mediante el script de ayuda incluido en el conector.
+`sudo <base_mount_path>/scripts/oracle_plugin_copy_and_install.sh --host <host_name> --sshkey <ssh_key_file> --username <user_name> --port <ssh_port> --pluginport <plugin_port> --installdir <install_dir>`
++
+** Nombre_host es el nombre del host de Oracle y éste es un parámetro obligatorio.
+** ssh_key_file es la clave SSH del usuario SnapCenter y se utiliza para conectarse al host Oracle. Este es un parámetro obligatorio.
+** User_name: Usuario de SnapCenter con privilegios SSH en el host de Oracle y este es un parámetro opcional. El valor predeterminado es ec2-user.
+** ssh_Port: Puerto SSH en el host de Oracle y este es un parámetro opcional. El valor predeterminado es 22
+** Plugin_Port: Puerto que utiliza el plugin y este es un parámetro opcional. El valor predeterminado es 8145
+** Directorio_de_instalación: Directorio donde se va a implementar el complemento y éste es un parámetro opcional. El valor predeterminado es /opt.
++
+Por ejemplo:
+`sudo /var/lib/docker/volumes/service-manager-2_cloudmanager_scs_cloud_volume/_data/scripts/oracle_plugin_copy_and_install.sh --host xxx.xx.x.x --sshkey /keys/netapp-ssh.ppk`
+
+
+
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en detectar aplicaciones.
+. Seleccione *nativo de la nube* y haga clic en *Siguiente*.
++
+Se crea una cuenta de servicio con el rol _SnapCenter System_ para realizar operaciones de protección de datos programadas para todos los usuarios de esta cuenta.
+
++
+** Haga clic en *cuenta* > *Administrar cuenta* > *Miembros* para ver la cuenta de servicio.
++
+
+NOTE: La cuenta de servicio (_SnapCenter-account-<accountid>_) se utiliza para ejecutar las operaciones de backup programadas. Nunca debe eliminar la cuenta de servicio.
+
+
+
+. En la página Add Host, realice lo siguiente:
++
+.. Seleccione *Manual*.
+.. Especifique el FQDN o la dirección IP del host donde se implementó el plugin.
++
+Asegúrese de que con el FQDN o la dirección IP, el conector puede comunicarse con el host de la base de datos.
+
+.. Especifique el puerto del plugin.
++
+El puerto predeterminado es 8145.
+
+.. Seleccione el conector.
+.. Seleccione la casilla de comprobación para confirmar que el plugin está instalado en el host
+.. Haga clic en *detectar aplicaciones*.
++
+*** Muestra todas las bases de datos en el host. Si la autenticación del sistema operativo está desactivada para la base de datos, debe configurar la autenticación de la base de datos haciendo clic en *Configurar*. Para obtener más información, consulte <<Configurar las credenciales de la base de datos de Oracle>>.
+*** Haga clic en *Configuración* y seleccione *hosts* para ver todos los hosts. Haga clic en *Eliminar* para eliminar un host de base de datos.
++
+
+NOTE: El filtro para ver un host específico no funciona. Cuando se especifica un nombre de host en el filtro, se muestran todos los hosts.
+
+*** Haga clic en *Configuración* y seleccione *Directivas* para ver las directivas preparadas previamente. Revise las directivas predefinidas y, si desea, puede editarlas para cumplir sus requisitos o crear una nueva directiva.
+
+
+
+
+
+
+
+
+== Implemente el plugin manualmente y añada el host desde la interfaz de usuario mediante la opción manual
+
+Si la autenticación basada en claves SSH no está habilitada en el host de la base de datos de Oracle, debe realizar los siguientes pasos manuales para poner en marcha el plugin y luego añadir el host desde la interfaz de usuario con la opción manual.
+
+* Pasos*
+
+. Inicie sesión en el conector VM.
+. Descargue el binario del plugin del host Linux de SnapCenter.
+`sudo docker exec -it cloudmanager_scs_cloud curl -X GET 'http://127.0.0.1/deploy/downloadLinuxPlugin'`
+. Obtenga la ruta de montaje base.
+`sudo docker volume ls | grep scs_cloud_volume | awk {'print $2'} | xargs sudo docker volume inspect | grep Mountpoint`
+. Obtenga la ruta binaria del plug-in descargado.
+`sudo ls <base_mount_path> $(sudo docker ps|grep -Po "cloudmanager_scs_cloud:.*? "|sed -e 's/ *$//'|cut -f2 -d":")/sc-linux-host-plugin/snapcenter_linux_host_plugin_scs.bin`
+. Copie _snapcenter_linux_host_plugin_scs.bin_ a cada uno de los hosts de la base de datos Oracle con scp u otros métodos alternativos.
++
+El _snapcenter_linux_host_plugin_scs.bin_ debe copiarse a una ubicación a la que el usuario de SnapCenter puede acceder.
+
+. Inicie sesión en el host de la base de datos Oracle utilizando la cuenta de usuario de SnapCenter y ejecute el siguiente comando para habilitar los permisos de ejecución para el archivo binario.
+`chmod +x snapcenter_linux_host_plugin_scs.bin`
+. Implemente el plugin de Oracle como usuario sudo SnapCenter.
+`./snapcenter_linux_host_plugin_scs.bin -i silent -DSPL_USER=<snapcenter-user>`
+. Copie _certificate.p12_ de _<base_mount_path>/client/certificate/_ la ruta del conector VM a _/var/opt/snapcenter/spl/etc/_ en el host del plugin.
+. Desplácese hasta _/var/opt/snapcenter/spl/etc_ y ejecute el comando keytool para importar el certificado.
+`keytool -v -importkeystore -srckeystore certificate.p12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS -srcstorepass snapcenter -deststorepass snapcenter -srcalias agentcert -destalias agentcert -noprompt`
+. Reinicie SPL: `systemctl restart spl`
+. Valide que es posible acceder al plugin desde el conector ejecutando el comando siguiente desde el conector.
+`docker exec -it cloudmanager_scs_cloud curl -ik \https://<FQDN or IP of the plug-in host>:<plug-in port>/getVersion --cert /config/client/certificate/certificate.pem --key /config/client/certificate/key.pem`
+. En la interfaz de usuario de BlueXP, haga clic en *Protección* > *copia de seguridad y recuperación* > *aplicaciones*.
+. Haga clic en detectar aplicaciones.
+. Seleccione *nativo de la nube* y haga clic en *Siguiente*.
++
+Se crea una cuenta de servicio con el rol _SnapCenter System_ para realizar operaciones de protección de datos programadas para todos los usuarios de esta cuenta.
+
++
+** Haga clic en *cuenta* > *Administrar cuenta* > *Miembros* para ver la cuenta de servicio.
++
+
+NOTE: La cuenta de servicio (_SnapCenter-account-<accountid>_) se utiliza para ejecutar las operaciones de backup programadas. Nunca debe eliminar la cuenta de servicio.
+
+
+
+. En la página Add Host, realice lo siguiente:
++
+.. Seleccione *Manual*.
+.. Especifique el FQDN o la dirección IP del host donde se implementó el plugin.
++
+Asegúrese de que con el FQDN o la dirección IP, el conector puede comunicarse con el host de la base de datos.
+
+.. Especifique el puerto del plugin.
++
+El puerto predeterminado es 8145.
+
+.. Seleccione el conector.
+.. Seleccione la casilla de comprobación para confirmar que el plugin está instalado en el host
+.. Haga clic en *detectar aplicaciones*.
++
+*** Muestra todas las bases de datos en el host. Si la autenticación del sistema operativo está desactivada para la base de datos, debe configurar la autenticación de la base de datos haciendo clic en *Configurar*. Para obtener más información, consulte <<Configurar las credenciales de la base de datos de Oracle>>.
+*** Haga clic en *Configuración* y seleccione *hosts* para ver todos los hosts. Haga clic en *Eliminar* para eliminar un host de base de datos.
++
+
+NOTE: El filtro para ver un host específico no funciona. Cuando se especifica un nombre de host en el filtro, se muestran todos los hosts.
+
+*** Haga clic en *Configuración* y seleccione *Directivas* para ver las directivas preparadas previamente. Revise las directivas predefinidas y, si desea, puede editarlas para cumplir sus requisitos o crear una nueva directiva.
+
+
 
 
 
