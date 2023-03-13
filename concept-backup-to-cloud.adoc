@@ -22,16 +22,16 @@ https://bluexp.netapp.com/cloud-backup["Más información acerca de Cloud Backup
 
 El backup y la restauración se pueden utilizar para:
 
-* Realice backups y restauraciones de ONTAP Volumes desde sistemas Cloud Volumes ONTAP y ONTAP en las instalaciones. link:concept-ontap-backup-to-cloud.html["Consulte las características detalladas aquí"].
-* Backup y restauración de volúmenes persistentes de Kubernetes. link:concept-kubernetes-backup-to-cloud.html["Consulte las características detalladas aquí"].
-* Realice backups de las snapshots consistentes con la aplicación desde la ONTAP local al cloud con Cloud Backup para aplicaciones. link:concept-protect-app-data-to-cloud.html["Consulte las características detalladas aquí"].
+* Realice backups y restauraciones de datos de volúmenes de ONTAP desde sistemas Cloud Volumes ONTAP y ONTAP en las instalaciones. link:concept-ontap-backup-to-cloud.html["Consulte las características detalladas aquí"].
+* Realice backups y restaure volúmenes persistentes de Kubernetes. link:concept-kubernetes-backup-to-cloud.html["Consulte las características detalladas aquí"].
+* Realice backups de las snapshots consistentes con la aplicación desde sistemas ONTAP en las instalaciones mediante backup en el cloud para aplicaciones. link:concept-protect-app-data-to-cloud.html["Consulte las características detalladas aquí"].
 * Realice backups de almacenes de datos en el cloud y restaure máquinas virtuales a la instancia de vCenter en las instalaciones mediante Cloud Backup para VMware. link:concept-protect-vm-data.html["Consulte las características detalladas aquí"].
 
 
 https://www.youtube.com/watch?v=DF0knrH2a80["Vea una demostración rápida"^]
 
 
-TIP: Cuando BlueXP Connector se pone en marcha en una región gubernamental de la nube, o en un sitio sin acceso a Internet (un sitio oscuro), Cloud Backup solo admite las operaciones de backup y restauración desde sistemas ONTAP. Cuando se utilizan estos métodos de implementación alternativos, Cloud Backup no admite las operaciones de backup y restauración de clústeres, aplicaciones o máquinas virtuales de Kubernetes.
+TIP: Cuando BlueXP Connector se pone en marcha en una región gubernamental de la nube, o en un sitio sin acceso a Internet (un sitio oscuro), Cloud Backup solo admite las operaciones de backup y restauración desde sistemas ONTAP. Cuando se usan estos tipos de métodos de implementación, Cloud Backup no admite las operaciones de backup y restauración de clústeres, aplicaciones o máquinas virtuales de Kubernetes.
 
 
 

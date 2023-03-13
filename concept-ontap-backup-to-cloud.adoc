@@ -93,7 +93,11 @@ Tenga en cuenta que las referencias a "sistemas ONTAP en las instalaciones" incl
 
 === Compatibilidad con sitios sin conectividad a Internet
 
-Cloud Backup se puede utilizar en un sitio sin conectividad a Internet (también conocido como sitio "sin conexión" o "oscuro") para realizar backups de datos de volumen de sistemas ONTAP locales in situ en sistemas StorageGRID de NetApp locales. Esta configuración también admite tanto la restauración de volúmenes como de archivos. En este caso, deberá desplegar el conector BlueXP (versión mínima 3.9.20) en el sitio oscuro. Consulte link:task-backup-onprem-private-cloud.html["Realización de backups de datos de ONTAP en las instalaciones en StorageGRID"] para obtener más detalles.
+Cloud Backup se puede utilizar en un sitio sin conectividad a Internet (también conocido como sitio "sin conexión" o "oscuro") para realizar backups de datos de volumen. Esta configuración también admite tanto la restauración de volúmenes como de archivos. En este caso, deberá desplegar el conector BlueXP en el sitio oscuro.
+
+* Puede realizar backups de datos de sistemas ONTAP locales en las instalaciones en sistemas StorageGRID de NetApp locales. Consulte link:task-backup-onprem-private-cloud.html["Realización de backups de datos de ONTAP en las instalaciones en StorageGRID"] para obtener más detalles.
+* Puede realizar backups de los datos de sistemas Cloud Volumes ONTAP instalados en regiones comerciales de AWS y Azure en Amazon S3 o Azure Blob. Consulte link:task-backup-to-s3.html["Realizar backups de los datos de Cloud Volumes ONTAP en Amazon S3"] y.. link:task-backup-to-azure.html["Realizar backups de los datos de Cloud Volumes ONTAP en Azure Blob"].
+
 
 
 
@@ -430,7 +434,7 @@ Esta operación podría provocar un aumento único en el coste de leer los datos
 * La copia de seguridad de volumen ad-hoc con el botón *Backup Now* no se admite en los volúmenes de protección de datos.
 * No se admiten las configuraciones de SM-BC.
 * ONTAP no admite relaciones de SnapMirror entre fan-out de un único volumen y varios almacenes de objetos; por lo tanto, Cloud Backup no admite esta configuración.
-* El modo WORM y cumplimiento de normativas en un almacén de objetos solo es compatible en Amazon S3 y StorageGRID en este momento. Esto se conoce como función DataLock y debe gestionarse mediante la configuración Cloud Backup, no mediante la interfaz del proveedor de cloud.
+* En este momento, EL modo WORM y cumplimiento de normativas en un almacén de objetos es compatible con Amazon S3, Azure y StorageGRID. Esto se conoce como función DataLock y debe gestionarse mediante la configuración Cloud Backup, no mediante la interfaz del proveedor de cloud.
 
 
 
@@ -441,10 +445,16 @@ Estas limitaciones se aplican tanto a los métodos de restauración de archivos 
 
 * Browse & Restore permite restaurar hasta 100 archivos individuales a la vez.
 * Search & Restore puede restaurar 1 fichero cada vez.
-* Browse & Restore (examinar y restaurar) y Search & Restore (Buscar y restaurar) pueden restaurar 1 carpeta cada vez.
+* Al utilizar ONTAP 9.13.0 o superior, Browse & Restore y Search & Restore pueden restaurar una carpeta junto con todos los archivos y subcarpetas del mismo.
++
+Cuando se utiliza una versión de ONTAP superior a 9.11.1 pero anterior a la 9.13.0, la operación de restauración solo puede restaurar la carpeta seleccionada y los archivos de esa carpeta; no se restauran ninguna subcarpeta ni los archivos de las subcarpetas.
+
++
+Si se utiliza una versión de ONTAP anterior a la 9.11.1, no se admite la restauración de carpetas.
+
 * Actualmente, la restauración de directorio/carpeta no es compatible con los volúmenes de FlexGroup.
-* No se admite la restauración de volúmenes de FlexGroup a volúmenes de FlexVol o volúmenes de FlexVol a volúmenes de FlexGroup.
 * No puede restaurar carpetas individuales si el archivo de backup reside en el almacenamiento de archivado.
+* No se admite la restauración de volúmenes de FlexGroup a volúmenes de FlexVol o volúmenes de FlexVol a volúmenes de FlexGroup.
 * El archivo que se va a restaurar debe estar utilizando el mismo idioma que el del volumen de destino. Recibirá un mensaje de error si los idiomas no son los mismos.
-* La prioridad de restauración _High_ no se admite al restaurar datos de Azure a sistemas StorageGRID.
+* La prioridad de restauración _High_ no se admite al restaurar datos desde el almacenamiento de archivado de Azure a los sistemas StorageGRID.
 

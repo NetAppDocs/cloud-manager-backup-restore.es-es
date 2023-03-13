@@ -30,7 +30,7 @@ Puede ver una lista de todas las operaciones de copia de seguridad y restauraci�
 
 
 
-NOTE: Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad en curso, no se reflejan en la pestaña *Supervisión de trabajos* -- sólo se muestran los trabajos iniciados por el usuario.
+NOTE: Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad en curso, no se reflejan en la pestaña *Supervisión de trabajos* en este momento. Sólo se muestran los trabajos iniciados por el usuario.
 
 .Pasos
 . En el menú BlueXP, seleccione *Protección > copia de seguridad y recuperación*.
@@ -40,30 +40,31 @@ image:screenshot_backup_job_monitor.png["Captura de pantalla que muestra los tra
 
 
 
-Esta captura de pantalla muestra los encabezados de columna/campo predeterminados. Puede hacer clic en image:button_plus_sign_round.png["el botón de signo más"] Para mostrar y ocultar encabezados de columna, o para agregar 2 encabezados adicionales para "Nombre de usuario" y "Tipo".
-
-Si está buscando trabajos específicos, puede:
-
-* utilice el selector de tiempo situado en la parte superior izquierda de la página para ver los trabajos durante un determinado período de tiempo
-* Introduzca una parte del nombre del trabajo en el campo Buscar
-* Haga clic en *Ver trabajos* para ver un estado determinado, por ejemplo, en "error" para ver sólo los trabajos fallidos
-* ordene los resultados mediante el filtro de cada encabezado de columna. Por ejemplo, el filtro para la columna "cargas de trabajo" permite ver trabajos en las siguientes categorías:
-+
-** Volúmenes (Cloud Volumes ONTAP y ONTAP en las instalaciones)
-** Más grandes
-** Equipos virtuales
-** Kubernetes
+Esta captura de pantalla muestra los encabezados de columna/campo predeterminados. Puede hacer clic en image:button_plus_sign_round.png["el botón de signo más"] Para mostrar cuatro columnas adicionales para "entorno de trabajo", "SVM", "Nombre de usuario" y "cargas de trabajo".
 
 
 
+=== Buscar y filtrar la lista de trabajos
 
-Tenga en cuenta que esta página se actualiza automáticamente cada 15 minutos para que siempre vea los resultados del estado de trabajo más recientes. Haga clic en el image:button_refresh.png["Actualice"] para actualizar la página inmediatamente.
+De forma predeterminada, la página Job Monitoring muestra los trabajos de las últimas 24 horas. Puede ordenar los resultados haciendo clic en cada encabezado de columna para ordenar por estado, hora de inicio, nombre del recurso, etc.
+
+Si está buscando trabajos específicos o un grupo específico de trabajos, puede hacer clic en el área *Búsqueda avanzada y filtrado* para abrir el panel Buscar. Este panel le permite realizar una búsqueda de texto libre para cualquier recurso; por ejemplo, "volumen 1" o "aplicación 3". También puede filtrar la lista de trabajos según los elementos de los menús desplegables.
+
+image:screenshot_backup_job_monitor_filters.png["Captura de pantalla de configuración de los filtros para ver sólo los trabajos que coincidan con los criterios del filtro."]
+
+Esta captura de pantalla muestra cómo se buscarán todas las tareas de "volumen" "copia de seguridad" de los volúmenes denominados "volumen_1" en la semana pasada.
+
+La mayoría de los filtros son autoexplicativos. El filtro para "cargas de trabajo" permite ver trabajos de las siguientes categorías:
+
+* Volúmenes (Cloud Volumes ONTAP y ONTAP en las instalaciones)
+* Más grandes
+* Equipos virtuales
+* Kubernetes
 
 
+Puede buscar datos dentro de una "SVM" específica solo si ha seleccionado por primera vez un entorno de trabajo.
 
-=== Descargar resultados de monitorización de trabajos como informe
-
-Si desea descargar el contenido de la página principal Supervisión de trabajos como un informe después de haberlo afinado, haga clic en image:button_download.png["Descargue"] botón. Cloud Backup genera un archivo .CSV que puede revisar y enviar a otros grupos según sea necesario. El archivo .CSV incluye hasta 10,000 filas de datos.
+Tenga en cuenta que esta página se actualiza automáticamente cada 15 minutos para que siempre vea los resultados del estado de trabajo más recientes. Haga clic en el image:button_refresh.png["Actualice"] si necesita actualizar la página inmediatamente.
 
 
 
@@ -75,13 +76,19 @@ image:screenshot_backup_job_monitor_details.png["Captura de pantalla que muestra
 
 
 
+=== Descargar resultados de monitorización de trabajos como informe
+
+Si desea descargar el contenido de la página principal Supervisión de trabajos como un informe después de haberlo afinado, haga clic en image:button_download.png["Descargue"] botón. Cloud Backup genera y descarga un archivo .CSV que puede revisar y enviar a otros grupos según sea necesario. El archivo .CSV incluye hasta 10,000 filas de datos.
+
+
+
 == Utilice el Centro de notificaciones para revisar las alertas de copia de seguridad y restauración
 
 El centro de notificación realiza un seguimiento del progreso de los trabajos de backup y restauración que se han iniciado para comprobar si la operación se ha realizado correctamente o no. Puede mostrar las notificaciones haciendo clic en (image:icon_bell.png["timbre de notificación"]) En la barra de menús de BlueXP. También puede configurar BlueXP para que envíe notificaciones por correo electrónico como alertas, de forma que pueda ser informado de la actividad importante del sistema incluso cuando no haya iniciado sesión en el sistema.
 
-En este momento, hay cuatro eventos que activarán alertas de correo electrónico:
+En este momento, hay cuatro eventos de backup y restauración que activarán alertas de correo electrónico:
 
-* No se pudo activar Cloud Backup en el entorno de trabajo
+* No se pudo activar Cloud Backup en un entorno de trabajo
 * Error en la operación de restauración de backup de cloud
 * Error de backup de volumen ad hoc (bajo demanda)
 * Posible ataque de ransomware detectado en su sistema

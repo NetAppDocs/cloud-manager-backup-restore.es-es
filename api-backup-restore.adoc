@@ -21,7 +21,7 @@ Existen nueve categorías de extremos definidos en Cloud Backup:
 * backup: gestiona las operaciones de backup de los recursos de cloud y en las instalaciones, y recupera los detalles de los datos de backup
 * catálogo: Gestiona la búsqueda de archivos por catálogo indexado basada en una consulta (Buscar y restaurar).
 * Cloud: Recupera información sobre varios recursos de proveedores de nube de BlueXP
-* Trabajos: Gestiona las entradas de detalles del trabajo en la base de datos BlueXP
+* Trabajo: Gestiona las entradas de detalles del trabajo en la base de datos BlueXP
 * Licencia: Recupera la validez de la licencia de los entornos de trabajo de BlueXP
 * ransomware scan: inicia un análisis de ransomware en un archivo de backup específico
 * restore: permite realizar operaciones de restauración de volumen, archivo y nivel de carpeta

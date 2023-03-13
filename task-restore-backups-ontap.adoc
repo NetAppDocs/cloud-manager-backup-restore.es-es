@@ -106,7 +106,7 @@ link:reference-google-backup-tiers.html["Más información sobre cómo restaurar
 endif::gcp[]
 
 
-NOTE: La prioridad alta no es compatible cuando se restauran datos desde Azure a sistemas StorageGRID.
+NOTE: La prioridad alta no es compatible cuando se restauran los datos desde el almacenamiento de archivado de Azure en sistemas StorageGRID.
 
 
 
@@ -267,7 +267,7 @@ Si solo necesita restaurar algunos archivos desde un backup de volumen de ONTAP,
 
 Si selecciona varios archivos, todos los archivos se restauran en el mismo volumen de destino que se elija. Por lo tanto, si desea restaurar archivos en diferentes volúmenes, deberá ejecutar el proceso de restauración varias veces.
 
-En este momento, puede seleccionar y restaurar únicamente una carpeta. Y solo se restauran los archivos de esa carpeta. No se restauran carpetas secundarias ni archivos en subcarpetas.
+Si utiliza ONTAP 9.13.0 o superior, puede restaurar una carpeta junto con todos los archivos y subcarpetas dentro de ella. Cuando se utiliza una versión de ONTAP anterior a la 9.13.0, solo se restauran los archivos de esa carpeta, no se restauran ni las subcarpetas ni los archivos de esas carpetas.
 
 [NOTE]
 ====
@@ -431,6 +431,8 @@ Al restaurar un volumen a partir de un archivo de copia de seguridad, Cloud Back
 
 Es posible restaurar carpetas o archivos en la ubicación del volumen original, a un volumen diferente del mismo entorno de trabajo o a un entorno de trabajo diferente que utilice la misma cuenta de cloud. También puede restaurar carpetas y archivos en un volumen de un sistema ONTAP en las instalaciones.
 
+Si utiliza ONTAP 9.13.0 o superior, puede restaurar una carpeta junto con todos los archivos y subcarpetas dentro de ella. Cuando se utiliza una versión de ONTAP anterior a la 9.13.0, solo se restauran los archivos de esa carpeta, no se restauran ni las subcarpetas ni los archivos de esas carpetas.
+
 Si el archivo de backup del volumen que desea restaurar reside en el almacenamiento de archivado (disponible a partir de ONTAP 9.10.1), la operación de restauración tardará más tiempo y generará costes adicionales. Tenga en cuenta que el clúster de destino también debe ejecutar ONTAP 9.10.1 o superior para la restauración de volúmenes, 9.11.1 para la restauración de archivos y 9.12.1 para Google Archive y StorageGRID.
 
 ifdef::aws[]
@@ -455,7 +457,7 @@ endif::gcp[]
 ====
 * Actualmente, no se admite la restauración a nivel de carpeta si el archivo de backup se configuró con DataLock y Ransomware. En este caso, es posible restaurar todo el volumen desde el archivo de backup y, a continuación, acceder a la carpeta y los archivos necesarios.
 * Actualmente, no se admite la restauración a nivel de carpeta si el archivo de backup reside en el almacenamiento de archivado. En este caso, puede restaurar la carpeta desde un nuevo archivo de copia de seguridad que no se haya archivado o restaurar todo el volumen desde la copia de seguridad archivada y, a continuación, acceder a la carpeta y los archivos que necesite.
-* La prioridad de restauración alta no es compatible cuando se restauran los datos de Azure a los sistemas StorageGRID.
+* La prioridad de restauración alta no es compatible cuando se restauran los datos desde el almacenamiento de archivado de Azure a los sistemas StorageGRID.
 
 
 ====
