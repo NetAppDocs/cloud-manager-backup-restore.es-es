@@ -1588,7 +1588,7 @@
 <p class="page-details">
   
     
-    <time datetime="2023-02-20 14:40:40 +0000">02/20/2023</time>
+    <time datetime="2023-03-13 13:57:08 +0000">03/13/2023</time>
     
   
 
@@ -1622,6 +1622,9 @@
 </li>
 <li>
 <p>Se ha suscrito a <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/netapp.cloud-manager?tab=Overview" target="_blank" rel="noopener">"Oferta de backup de BlueXP Marketplace"</a>, o usted ha comprado <a href="task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license" target="_blank" rel="noopener">"y activado"</a> Una licencia BYOL de Cloud Backup de NetApp.</p>
+</li>
+<li>
+<p>Tiene un conector instalado en Azure. El conector se puede instalar en un sitio con o sin acceso a Internet.</p>
 </li>
 </ul>
 </div>
@@ -1689,7 +1692,7 @@
 <div class="openblock">
 <div class="content">
 <div class="paragraph">
-<p>Para las licencias BYOL de Cloud Backup, necesita el número de serie de NetApp que le permite usar el servicio durante la duración y la capacidad de la licencia. <a href="task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license">"Aprenda a gestionar sus licencias BYOL"</a>.</p>
+<p>Para las licencias BYOL de Cloud Backup, necesita el número de serie de NetApp que le permite usar el servicio durante la duración y la capacidad de la licencia. <a href="task-licensing-cloud-backup.html#use-a-cloud-backup-byol-license">"Aprenda a gestionar sus licencias BYOL"</a>. La licencia de BYOL se debe usar cuando el sistema Connector y Cloud Volumes ONTAP se pongan en marcha en un sitio oscuro.</p>
 </div>
 <div class="paragraph">
 <p>Además, necesita tener una suscripción a Microsoft Azure para el espacio de almacenamiento en el que se ubicará los backups.</p>
@@ -1697,6 +1700,46 @@
 </div>
 </div>
 </dd>
+<dt class="hdlist1">Requisitos del conector</dt>
+<dd>
+<p>El conector se puede instalar en una región de Azure con o sin acceso a Internet. En este momento, solo los sitios comerciales de Azure son compatibles con sitios sin acceso a Internet.</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html" target="_blank" rel="noopener">"Más información sobre conectores"</a></p>
+</li>
+<li>
+<p><a href="https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-creating-connectors-azure.html" target="_blank" rel="noopener">"Implemente un conector en Azure"</a></p>
+</li>
+<li>
+<p><a href="https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-onprem-no-internet.html" target="_blank" rel="noopener">"Instalación del conector en un host Linux en una región de Azure sin acceso a Internet"</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
+</td>
+<td class="content">
+La funcionalidad de copia de seguridad en la nube está integrada en el conector BlueXP. Cuando esté instalado en un sitio sin conectividad a Internet, deberá actualizar periódicamente el software Connector para obtener acceso a nuevas funciones. Compruebe la <a href="whats-new.html">"Novedades sobre el backup en el cloud"</a> Para ver las nuevas funciones en cada versión de Cloud Backup y, a continuación, puede seguir los pasos a. <a href="https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-managing-connectors.html#upgrade-the-connector-on-prem-without-internet-access" target="_blank" rel="noopener">"Actualice el software del conector"</a> cuando desee utilizar nuevas funciones.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Le recomendamos encarecidamente que cree copias de seguridad locales de los datos de configuración de Cloud Backup de forma periódica cuando el conector esté instalado en un sitio sin conectividad a Internet. <a href="reference-backup-cbs-db-in-dark-site.html" target="_blank" rel="noopener">"Descubra cómo realizar backups de datos de Cloud Backup en un sitio oscuro"</a>.</p>
+</div>
+<div class="dlist">
+<dl>
 <dt class="hdlist1">Verifique o agregue permisos al conector</dt>
 <dd>
 <p>Para utilizar la funcionalidad de búsqueda y restauración de Cloud Backup, debe tener permisos específicos en la función del conector para que pueda acceder a la cuenta de almacenamiento de Azure Synapse Workspace y de lago de datos. Consulte los siguientes permisos y siga los pasos si necesita modificar la directiva.</p>
@@ -1916,7 +1959,7 @@ Si desea elegir el nombre del grupo de recursos, <strong>deshabilite</strong> Cl
 <p>De manera opcional, al usar ONTAP 9.12.1 y versiones posteriores, puede optar por proteger sus backups de ataques de eliminación y ransomware configurando una de las configuraciones <em>DataLock y Protección de ransomware</em>. <em>DataLock</em> protege sus archivos de copia de seguridad de ser modificados o eliminados, y <em>Ransomware protection</em> analiza sus archivos de copia de seguridad para buscar evidencia de un ataque de ransomware en sus archivos de copia de seguridad. <a href="concept-cloud-backup-policies.html#datalock-and-ransomware-protection" target="_blank" rel="noopener">"Obtenga más información acerca de los ajustes de DataLock disponibles"</a>.</p>
 </li>
 <li>
-<p>Al usar ONTAP 9.10.1 y versiones posteriores, puede elegir colocar los backups en niveles en el almacenamiento de Azure Archive después de un determinado número de días para optimizar los costes aún más. <a href="reference-azure-backup-tiers.html">"Obtenga más información sobre el uso de niveles de archivado"</a>.</p>
+<p>Al usar ONTAP 9.10.1 y versiones posteriores, puede elegir colocar los backups en niveles en el almacenamiento de Azure Archive después de un determinado número de días para optimizar los costes aún más. Esta función no está disponible cuando se implementa en sitios oscuros. <a href="reference-azure-backup-tiers.html">"Obtenga más información sobre el uso de niveles de archivado"</a>.</p>
 <div class="paragraph">
 <p><span class="image"><img src="./media/screenshot_backup_policy_azure.png" alt="Captura de pantalla que muestra la configuración de Cloud Backup, en la que puede elegir la programación y la retención de la copia de seguridad."></span></p>
 </div>

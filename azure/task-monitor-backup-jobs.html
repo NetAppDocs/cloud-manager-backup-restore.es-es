@@ -1523,7 +1523,7 @@
 <p class="page-details">
   
     
-    <time datetime="2023-02-20 14:40:40 +0000">02/20/2023</time>
+    <time datetime="2023-03-13 13:57:08 +0000">03/13/2023</time>
     
   
 
@@ -1572,7 +1572,7 @@
 <img src="/us-en/cloud-manager-backup-restore/images/note.svg" alt="Nota">
 </td>
 <td class="content">
-Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad en curso, no se reflejan en la pestaña <strong>Supervisión de trabajos</strong>&#8201;&#8212;&#8201;sólo se muestran los trabajos iniciados por el usuario.
+Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad en curso, no se reflejan en la pestaña <strong>Supervisión de trabajos</strong> en este momento. Sólo se muestran los trabajos iniciados por el usuario.
 </td>
 </tr>
 </table>
@@ -1592,24 +1592,25 @@ Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad e
 </ol>
 </div>
 <div class="paragraph">
-<p>Esta captura de pantalla muestra los encabezados de columna/campo predeterminados. Puede hacer clic en <span class="image"><img src="./media/button_plus_sign_round.png" alt="el botón de signo más"></span> Para mostrar y ocultar encabezados de columna, o para agregar 2 encabezados adicionales para "Nombre de usuario" y "Tipo".</p>
+<p>Esta captura de pantalla muestra los encabezados de columna/campo predeterminados. Puede hacer clic en <span class="image"><img src="./media/button_plus_sign_round.png" alt="el botón de signo más"></span> Para mostrar cuatro columnas adicionales para "entorno de trabajo", "SVM", "Nombre de usuario" y "cargas de trabajo".</p>
+</div>
+<div class="sect2">
+<h3 id="buscar-y-filtrar-la-lista-de-trabajos">Buscar y filtrar la lista de trabajos</h3>
+<div class="paragraph">
+<p>De forma predeterminada, la página Job Monitoring muestra los trabajos de las últimas 24 horas. Puede ordenar los resultados haciendo clic en cada encabezado de columna para ordenar por estado, hora de inicio, nombre del recurso, etc.</p>
 </div>
 <div class="paragraph">
-<p>Si está buscando trabajos específicos, puede:</p>
+<p>Si está buscando trabajos específicos o un grupo específico de trabajos, puede hacer clic en el área <strong>Búsqueda avanzada y filtrado</strong> para abrir el panel Buscar. Este panel le permite realizar una búsqueda de texto libre para cualquier recurso; por ejemplo, "volumen 1" o "aplicación 3". También puede filtrar la lista de trabajos según los elementos de los menús desplegables.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>utilice el selector de tiempo situado en la parte superior izquierda de la página para ver los trabajos durante un determinado período de tiempo</p>
-</li>
-<li>
-<p>Introduzca una parte del nombre del trabajo en el campo Buscar</p>
-</li>
-<li>
-<p>Haga clic en <strong>Ver trabajos</strong> para ver un estado determinado, por ejemplo, en "error" para ver sólo los trabajos fallidos</p>
-</li>
-<li>
-<p>ordene los resultados mediante el filtro de cada encabezado de columna. Por ejemplo, el filtro para la columna "cargas de trabajo" permite ver trabajos en las siguientes categorías:</p>
+<div class="paragraph">
+<p><span class="image"><img src="./media/screenshot_backup_job_monitor_filters.png" alt="Captura de pantalla de configuración de los filtros para ver sólo los trabajos que coincidan con los criterios del filtro."></span></p>
+</div>
+<div class="paragraph">
+<p>Esta captura de pantalla muestra cómo se buscarán todas las tareas de "volumen" "copia de seguridad" de los volúmenes denominados "volumen_1" en la semana pasada.</p>
+</div>
+<div class="paragraph">
+<p>La mayoría de los filtros son autoexplicativos. El filtro para "cargas de trabajo" permite ver trabajos de las siguientes categorías:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -1626,16 +1627,11 @@ Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad e
 </li>
 </ul>
 </div>
-</li>
-</ul>
+<div class="paragraph">
+<p>Puede buscar datos dentro de una "SVM" específica solo si ha seleccionado por primera vez un entorno de trabajo.</p>
 </div>
 <div class="paragraph">
-<p>Tenga en cuenta que esta página se actualiza automáticamente cada 15 minutos para que siempre vea los resultados del estado de trabajo más recientes. Haga clic en el <span class="image"><img src="./media/button_refresh.png" alt="Actualice"></span> para actualizar la página inmediatamente.</p>
-</div>
-<div class="sect2">
-<h3 id="descargar-resultados-de-monitorización-de-trabajos-como-informe">Descargar resultados de monitorización de trabajos como informe</h3>
-<div class="paragraph">
-<p>Si desea descargar el contenido de la página principal Supervisión de trabajos como un informe después de haberlo afinado, haga clic en <span class="image"><img src="./media/button_download.png" alt="Descargue"></span> botón. Cloud Backup genera un archivo .CSV que puede revisar y enviar a otros grupos según sea necesario. El archivo .CSV incluye hasta 10,000 filas de datos.</p>
+<p>Tenga en cuenta que esta página se actualiza automáticamente cada 15 minutos para que siempre vea los resultados del estado de trabajo más recientes. Haga clic en el <span class="image"><img src="./media/button_refresh.png" alt="Actualice"></span> si necesita actualizar la página inmediatamente.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1647,6 +1643,12 @@ Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad e
 <p><span class="image"><img src="./media/screenshot_backup_job_monitor_details.png" alt="Captura de pantalla que muestra la página Detalles del trabajo."></span></p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="descargar-resultados-de-monitorización-de-trabajos-como-informe">Descargar resultados de monitorización de trabajos como informe</h3>
+<div class="paragraph">
+<p>Si desea descargar el contenido de la página principal Supervisión de trabajos como un informe después de haberlo afinado, haga clic en <span class="image"><img src="./media/button_download.png" alt="Descargue"></span> botón. Cloud Backup genera y descarga un archivo .CSV que puede revisar y enviar a otros grupos según sea necesario. El archivo .CSV incluye hasta 10,000 filas de datos.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1656,12 +1658,12 @@ Los trabajos iniciados por el sistema, tales operaciones de copia de seguridad e
 <p>El centro de notificación realiza un seguimiento del progreso de los trabajos de backup y restauración que se han iniciado para comprobar si la operación se ha realizado correctamente o no. Puede mostrar las notificaciones haciendo clic en (<span class="image"><img src="./media/icon_bell.png" alt="timbre de notificación"></span>) En la barra de menús de BlueXP. También puede configurar BlueXP para que envíe notificaciones por correo electrónico como alertas, de forma que pueda ser informado de la actividad importante del sistema incluso cuando no haya iniciado sesión en el sistema.</p>
 </div>
 <div class="paragraph">
-<p>En este momento, hay cuatro eventos que activarán alertas de correo electrónico:</p>
+<p>En este momento, hay cuatro eventos de backup y restauración que activarán alertas de correo electrónico:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>No se pudo activar Cloud Backup en el entorno de trabajo</p>
+<p>No se pudo activar Cloud Backup en un entorno de trabajo</p>
 </li>
 <li>
 <p>Error en la operación de restauración de backup de cloud</p>

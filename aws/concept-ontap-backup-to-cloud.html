@@ -1479,7 +1479,7 @@
 <p class="page-details">
   
     
-    <time datetime="2023-02-20 14:40:40 +0000">02/20/2023</time>
+    <time datetime="2023-03-13 13:57:08 +0000">03/13/2023</time>
     
   
 
@@ -1644,7 +1644,17 @@
 <div class="sect2">
 <h3 id="compatibilidad-con-sitios-sin-conectividad-a-internet">Compatibilidad con sitios sin conectividad a Internet</h3>
 <div class="paragraph">
-<p>Cloud Backup se puede utilizar en un sitio sin conectividad a Internet (también conocido como sitio "sin conexión" o "oscuro") para realizar backups de datos de volumen de sistemas ONTAP locales in situ en sistemas StorageGRID de NetApp locales. Esta configuración también admite tanto la restauración de volúmenes como de archivos. En este caso, deberá desplegar el conector BlueXP (versión mínima 3.9.20) en el sitio oscuro. Consulte <a href="task-backup-onprem-private-cloud.html">"Realización de backups de datos de ONTAP en las instalaciones en StorageGRID"</a> para obtener más detalles.</p>
+<p>Cloud Backup se puede utilizar en un sitio sin conectividad a Internet (también conocido como sitio "sin conexión" o "oscuro") para realizar backups de datos de volumen. Esta configuración también admite tanto la restauración de volúmenes como de archivos. En este caso, deberá desplegar el conector BlueXP en el sitio oscuro.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Puede realizar backups de datos de sistemas ONTAP locales en las instalaciones en sistemas StorageGRID de NetApp locales. Consulte <a href="task-backup-onprem-private-cloud.html">"Realización de backups de datos de ONTAP en las instalaciones en StorageGRID"</a> para obtener más detalles.</p>
+</li>
+<li>
+<p>Puede realizar backups de los datos de sistemas Cloud Volumes ONTAP instalados en regiones comerciales de AWS y Azure en Amazon S3 o Azure Blob. Consulte <a href="task-backup-to-s3.html">"Realizar backups de los datos de Cloud Volumes ONTAP en Amazon S3"</a> y.. <a href="task-backup-to-azure.html">"Realizar backups de los datos de Cloud Volumes ONTAP en Azure Blob"</a>.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -2095,7 +2105,7 @@ No se puede habilitar DataLock si se dispone de la organización en niveles de l
 <p>ONTAP no admite relaciones de SnapMirror entre fan-out de un único volumen y varios almacenes de objetos; por lo tanto, Cloud Backup no admite esta configuración.</p>
 </li>
 <li>
-<p>El modo WORM y cumplimiento de normativas en un almacén de objetos solo es compatible en Amazon S3 y StorageGRID en este momento. Esto se conoce como función DataLock y debe gestionarse mediante la configuración Cloud Backup, no mediante la interfaz del proveedor de cloud.</p>
+<p>En este momento, EL modo WORM y cumplimiento de normativas en un almacén de objetos es compatible con Amazon S3, Azure y StorageGRID. Esto se conoce como función DataLock y debe gestionarse mediante la configuración Cloud Backup, no mediante la interfaz del proveedor de cloud.</p>
 </li>
 </ul>
 </div>
@@ -2114,22 +2124,28 @@ No se puede habilitar DataLock si se dispone de la organización en niveles de l
 <p>Search &amp; Restore puede restaurar 1 fichero cada vez.</p>
 </li>
 <li>
-<p>Browse &amp; Restore (examinar y restaurar) y Search &amp; Restore (Buscar y restaurar) pueden restaurar 1 carpeta cada vez.</p>
+<p>Al utilizar ONTAP 9.13.0 o superior, Browse &amp; Restore y Search &amp; Restore pueden restaurar una carpeta junto con todos los archivos y subcarpetas del mismo.</p>
+<div class="paragraph">
+<p>Cuando se utiliza una versión de ONTAP superior a 9.11.1 pero anterior a la 9.13.0, la operación de restauración solo puede restaurar la carpeta seleccionada y los archivos de esa carpeta; no se restauran ninguna subcarpeta ni los archivos de las subcarpetas.</p>
+</div>
+<div class="paragraph">
+<p>Si se utiliza una versión de ONTAP anterior a la 9.11.1, no se admite la restauración de carpetas.</p>
+</div>
 </li>
 <li>
 <p>Actualmente, la restauración de directorio/carpeta no es compatible con los volúmenes de FlexGroup.</p>
 </li>
 <li>
-<p>No se admite la restauración de volúmenes de FlexGroup a volúmenes de FlexVol o volúmenes de FlexVol a volúmenes de FlexGroup.</p>
+<p>No puede restaurar carpetas individuales si el archivo de backup reside en el almacenamiento de archivado.</p>
 </li>
 <li>
-<p>No puede restaurar carpetas individuales si el archivo de backup reside en el almacenamiento de archivado.</p>
+<p>No se admite la restauración de volúmenes de FlexGroup a volúmenes de FlexVol o volúmenes de FlexVol a volúmenes de FlexGroup.</p>
 </li>
 <li>
 <p>El archivo que se va a restaurar debe estar utilizando el mismo idioma que el del volumen de destino. Recibirá un mensaje de error si los idiomas no son los mismos.</p>
 </li>
 <li>
-<p>La prioridad de restauración <em>High</em> no se admite al restaurar datos de Azure a sistemas StorageGRID.</p>
+<p>La prioridad de restauración <em>High</em> no se admite al restaurar datos desde el almacenamiento de archivado de Azure a los sistemas StorageGRID.</p>
 </li>
 </ul>
 </div>

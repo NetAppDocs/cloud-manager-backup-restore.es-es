@@ -1479,7 +1479,7 @@
 <p class="page-details">
   
     
-    <time datetime="2023-02-20 14:40:40 +0000">02/20/2023</time>
+    <time datetime="2023-03-13 13:57:08 +0000">03/13/2023</time>
     
   
 
@@ -1889,10 +1889,95 @@
 <div class="ulist">
 <ul>
 <li>
+<p>Se requiere StorageGRID 11.6.0.3 y superior para una compatibilidad total con las funciones de DataLock</p>
+</li>
+<li>
 <p>El conector debe estar desplegado en sus instalaciones (se puede instalar en un sitio con o sin acceso a Internet)</p>
 </li>
 <li>
-<p>Se requiere StorageGRID 11.6.0.3 y superior para una compatibilidad total con las funciones de DataLock</p>
+<p>Los siguientes permisos S3 deben formar parte del rol IAM que proporciona el conector permisos:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>s3:GetObjectVersionTagging</p>
+</li>
+<li>
+<p>s3:GetBucketObjectLockConfiguration</p>
+</li>
+<li>
+<p>s3:GetObjectVersionAcl</p>
+</li>
+<li>
+<p>s3:PutObjectEtiquetado</p>
+</li>
+<li>
+<p>s3:DeleteObject</p>
+</li>
+<li>
+<p>s3:DeleteObjectTagging</p>
+</li>
+<li>
+<p>s3:GetObjectRetention</p>
+</li>
+<li>
+<p>s3:DeleteObjectVersionTagging</p>
+</li>
+<li>
+<p>s3:PutObject</p>
+</li>
+<li>
+<p>s3:GetObject</p>
+</li>
+<li>
+<p>s3:PutBucketObjectLockConfiguration</p>
+</li>
+<li>
+<p>s3:GetLifecycleConfiguration</p>
+</li>
+<li>
+<p>s3:ListBucketByTags</p>
+</li>
+<li>
+<p>s3:GetBucketTagging</p>
+</li>
+<li>
+<p>s3:DeleteObjectVersion</p>
+</li>
+<li>
+<p>s3:ListBucketVersions</p>
+</li>
+<li>
+<p>s3:ListBucket</p>
+</li>
+<li>
+<p>s3:PutBucketEtiquetado</p>
+</li>
+<li>
+<p>s3:GetObjectTagging</p>
+</li>
+<li>
+<p>s3:PutBucketVersioning</p>
+</li>
+<li>
+<p>s3:PutObjectVersionEtiquetado</p>
+</li>
+<li>
+<p>s3:GetBucketVersioning</p>
+</li>
+<li>
+<p>s3:GetBucketAcl</p>
+</li>
+<li>
+<p>s3:PutObjectRetention</p>
+</li>
+<li>
+<p>s3:GetBucketLocation</p>
+</li>
+<li>
+<p>s3:GetObjectVersion</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
